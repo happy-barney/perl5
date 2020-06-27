@@ -8112,6 +8112,9 @@ END_EXTERN_C
 
 */
 
+#define LHS_LIST 0x2
+#define RHS_LIST 0x1
+
 #endif /* Include guard */
 
 /*

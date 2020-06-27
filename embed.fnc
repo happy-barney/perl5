@@ -1352,6 +1352,7 @@ ApdU	|CV*	|newXS		|NULLOK const char *name|NN XSUBADDR_t subaddr\
 ApMdbR	|AV*	|newAV
 ApR	|OP*	|newAVREF	|NN OP* o
 ApdR	|OP*	|newBINOP	|I32 type|I32 flags|NULLOK OP* first|NULLOK OP* last
+ApdR	|OP*	|newCustomBINOP	|I32 type|I32 flags|NULLOK OP* first|NULLOK OP* last
 ApR	|OP*	|newCVREF	|I32 flags|NULLOK OP* o
 ApdR	|OP*	|newGVOP	|I32 type|I32 flags|NN GV* gv
 Am	|GV*	|newGVgen	|NN const char* pack

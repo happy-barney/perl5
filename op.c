@@ -6830,6 +6830,16 @@ Perl_newMETHOP_named (pTHX_ I32 type, I32 flags, SV* const_meth) {
     return newMETHOP_internal(type, flags, NULL, const_meth);
 }
 
+OP *
+Perl_newCustomBINOP(pTHX_ I32 type, I32 flags, OP *first, OP *last) {
+    if (! (type | LHS_LIST)) first = scalar (first);
+    if (! (type | RHS_LIST)) last  = scalar (last);
+
+    type &= LHS_LIST | RHS_LIST;
+
+    return Perl_newBINOP (aTHX_ type, flags, first, last);
+}
+
 /*
 =for apidoc newBINOP
 

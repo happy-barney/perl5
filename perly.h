@@ -4,10 +4,10 @@
    Any changes made here will be lost!
  */
 
-#define PERL_BISON_VERSION  30003
+#define PERL_BISON_VERSION  30004
 
 #ifdef PERL_CORE
-/* A Bison parser, made by GNU Bison 3.3.2.  */
+/* A Bison parser, made by GNU Bison 3.4.1.  */
 
 /* Bison interface for Yacc-like parsers in C
 
@@ -103,46 +103,48 @@ extern int yydebug;
     FUNC = 302,
     UNIOP = 303,
     LSTOP = 304,
-    MULOP = 305,
-    ADDOP = 306,
-    DOLSHARP = 307,
-    DO = 308,
-    HASHBRACK = 309,
-    NOAMP = 310,
-    LOCAL = 311,
-    MY = 312,
-    REQUIRE = 313,
-    COLONATTR = 314,
-    FORMLBRACK = 315,
-    FORMRBRACK = 316,
-    SUBLEXSTART = 317,
-    SUBLEXEND = 318,
-    PREC_LOW = 319,
-    OROP = 320,
-    DOROP = 321,
-    ANDOP = 322,
-    NOTOP = 323,
-    ASSIGNOP = 324,
-    OROR = 325,
-    DORDOR = 326,
-    ANDAND = 327,
-    BITOROP = 328,
-    BITANDOP = 329,
-    CHEQOP = 330,
-    NCEQOP = 331,
-    CHRELOP = 332,
-    NCRELOP = 333,
-    SHIFTOP = 334,
-    MATCHOP = 335,
-    UMINUS = 336,
-    REFGEN = 337,
-    POWOP = 338,
-    PREINC = 339,
-    PREDEC = 340,
-    POSTINC = 341,
-    POSTDEC = 342,
-    POSTJOIN = 343,
-    ARROW = 344
+    CUSTOM_ADDOP = 305,
+    CUSTOM_MULOP = 306,
+    MULOP = 307,
+    ADDOP = 308,
+    DOLSHARP = 309,
+    DO = 310,
+    HASHBRACK = 311,
+    NOAMP = 312,
+    LOCAL = 313,
+    MY = 314,
+    REQUIRE = 315,
+    COLONATTR = 316,
+    FORMLBRACK = 317,
+    FORMRBRACK = 318,
+    SUBLEXSTART = 319,
+    SUBLEXEND = 320,
+    PREC_LOW = 321,
+    OROP = 322,
+    DOROP = 323,
+    ANDOP = 324,
+    NOTOP = 325,
+    ASSIGNOP = 326,
+    OROR = 327,
+    DORDOR = 328,
+    ANDAND = 329,
+    BITOROP = 330,
+    BITANDOP = 331,
+    CHEQOP = 332,
+    NCEQOP = 333,
+    CHRELOP = 334,
+    NCRELOP = 335,
+    SHIFTOP = 336,
+    MATCHOP = 337,
+    UMINUS = 338,
+    REFGEN = 339,
+    POWOP = 340,
+    PREINC = 341,
+    PREDEC = 342,
+    POSTINC = 343,
+    POSTDEC = 344,
+    POSTJOIN = 345,
+    ARROW = 346
   };
 #endif
 
@@ -172,7 +174,6 @@ S_is_opval_token(int type) {
 #endif /* PERL_IN_TOKE_C */
 #endif /* PERL_CORE */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-
 union YYSTYPE
 {
 
@@ -182,8 +183,8 @@ union YYSTYPE
     OP *opval;
     GV *gvval;
 
-};
 
+};
 typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
@@ -195,6 +196,6 @@ int yyparse (void);
 
 
 /* Generated from:
- * e5b801fdebce5c77dd8e644fc5a489cbea6af33db180e771dd9d669b12bbe0cf perly.y
+ * b05dad8a6c47a4c9b84ecca144ee0c13a5823b93beb89f503386ce74e5bb8051 perly.y
  * 0947213b55d0ed11693554bea04987e886cf285f5c14cf9075fa1e7acc3f4061 regen_perly.pl
  * ex: set ro: */

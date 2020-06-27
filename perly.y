@@ -56,6 +56,8 @@
 %token <ival> GIVEN WHEN DEFAULT
 %token <ival> LOOPEX DOTDOT YADAYADA
 %token <ival> FUNC0 FUNC1 FUNC UNIOP LSTOP
+%token <ival> CUSTOM_ADDOP
+%token <ival> CUSTOM_MULOP
 %token <ival> MULOP ADDOP
 %token <ival> DOLSHARP DO HASHBRACK NOAMP
 %token <ival> LOCAL MY REQUIRE
@@ -103,7 +105,9 @@
 %nonassoc UNIOP UNIOPSUB
 %nonassoc REQUIRE
 %left <ival> SHIFTOP
+%left CUSTOM_ADDOP
 %left ADDOP
+%left CUSTOM_MULOP
 %left MULOP
 %left <ival> MATCHOP
 %right <ival> '!' '~' UMINUS REFGEN
@@ -1025,8 +1029,12 @@ termbinop:	term ASSIGNOP term                     /* $x = $y, $x += $y */
 				scalar($1);
 			    $$ = newBINOP($2, 0, $1, scalar($3));
 			}
+        |       term CUSTOM_MULOP term
+                        { $$ = newCustomBINOP($2, 0, $1, $3); }
 	|	term ADDOP term                        /* $x + $y */
 			{ $$ = newBINOP($2, 0, scalar($1), scalar($3)); }
+        |       term CUSTOM_ADDOP term
+                        { $$ = newCustomBINOP($2, 0, $1, $3); }
 	|	term SHIFTOP term                      /* $x >> $y, $x << $y */
 			{ $$ = newBINOP($2, 0, scalar($1), scalar($3)); }
 	|	termrelop %prec PREC_LOW               /* $x > $y, etc. */

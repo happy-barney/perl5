@@ -8650,6 +8650,14 @@ yyl_try(pTHX_ char *s)
     GV *gv = NULL;
     int tok;
 
+    /*
+      if (custom_operator = PL_operator_plugin_lexer_lookup (aTHX_ s)) {
+          s += custom_operator->length;
+          pl_yylval.ival = custom_operator->operator_code;
+          PL_bufptr=s;
+          REPORT (custom_operator->operator_class);
+      }
+    */
   retry:
     switch (*s) {
     default:

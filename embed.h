@@ -339,6 +339,7 @@
 #define newCONSTSUB(a,b,c)	Perl_newCONSTSUB(aTHX_ a,b,c)
 #define newCONSTSUB_flags(a,b,c,d,e)	Perl_newCONSTSUB_flags(aTHX_ a,b,c,d,e)
 #define newCVREF(a,b)		Perl_newCVREF(aTHX_ a,b)
+#define newCustomBINOP(a,b,c,d)	Perl_newCustomBINOP(aTHX_ a,b,c,d)
 #define newDEFSVOP()		Perl_newDEFSVOP(aTHX)
 #define newFORM(a,b,c)		Perl_newFORM(aTHX_ a,b,c)
 #define newFOROP(a,b,c,d,e)	Perl_newFOROP(aTHX_ a,b,c,d,e)
