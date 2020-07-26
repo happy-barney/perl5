@@ -38,7 +38,7 @@ use strict;
 our $Verbose;
 BEGIN { require './regen/regen_lib.pl'; }
 
-my $bison = 'bison';
+my $bison = $ENV{P5P_BISON} || 'bison';
 
 if (@ARGV >= 2 and $ARGV[0] eq '-b') {
     shift;

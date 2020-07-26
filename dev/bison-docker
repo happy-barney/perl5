@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Setup:
+#   export P5P_BISON=dev/bison-docker"
+# or
+#   perl regen_perly.pl -b dev/bison-docker
+#
+# Motivation:
+#   Bison itself evolves, it can change output, it can deprecate features.
+#   Docker container is "standard" way (nowadays) how to freeze a time for tooling
+#   and not for developers as well
+
+IMAGE="p5p-bison/v3.3.2"
+
+docker                                      \
+    run                                     \
+    --interactive                           \
+    --rm                                    \
+	--tty                                   \
+    --name        "perly-bison-docker-$$"   \
+    --user        $( id -u ):$(id -g)       \
+    --volume      "${PWD}:${PWD}:rw"        \
+    --workdir     "${PWD}"                  \
+    ${IMAGE}                                \
+    "$@"
+
