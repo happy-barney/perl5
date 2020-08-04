@@ -900,13 +900,11 @@ expr	:	expr[lhs] ANDOP[operator] expr[rhs]
 
 /* Expressions are a list of terms joined by commas */
 listexpr:	listexpr[list] PERLY_COMMA
-			{ $$ = $list; }
+		{ $$ = op_append_elem(OP_LIST, $list, NULL); }
 	|	listexpr[list] PERLY_COMMA term
-			{
-			  OP* term = $term;
-			  $$ = op_append_elem(OP_LIST, $list, term);
-			}
+		{ $$ = op_append_elem(OP_LIST, $list, $term); }
 	|	term %prec PREC_LOW
+		{ $$ = op_append_elem(OP_LIST, NULL,  $term); }
 	;
 
 /* List operators */
