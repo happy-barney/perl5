@@ -1297,8 +1297,8 @@ sigsubbody:	remember
 
 
 /* Ordinary expressions; logical combinations */
-expr	:	expr[lhs] ANDOP expr[rhs]
-			{ $$ = newLOGOP(OP_AND, 0, $lhs, $rhs); }
+expr	:	expr[lhs] ANDOP[operator] expr[rhs]
+			{ $$ = newLOGOP($operator, 0, $lhs, $rhs); }
 	|	expr[lhs] PLUGIN_LOGICAL_AND_LOW_OP[op] expr[rhs]
 			{ $$ = build_infix_plugin($lhs, $rhs, $op); }
 	|	expr[lhs] OROP[operator] expr[rhs]
