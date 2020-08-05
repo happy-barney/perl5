@@ -882,8 +882,8 @@ sigsubbody:	remember optsubsignature '{' stmtseq '}'
 
 
 /* Ordinary expressions; logical combinations */
-expr	:	expr[lhs] ANDOP expr[rhs]
-			{ $$ = newLOGOP(OP_AND, 0, $lhs, $rhs); }
+expr	:	expr[lhs] ANDOP[operator] expr[rhs]
+			{ $$ = newLOGOP($operator, 0, $lhs, $rhs); }
 	|	expr[lhs] OROP[operator] expr[rhs]
 			{ $$ = newLOGOP($operator, 0, $lhs, $rhs); }
 	|	listexpr %prec PREC_LOW

@@ -7622,6 +7622,7 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
     case KEY_and:
         if (!PL_lex_allbrackets && PL_lex_fakeeof >= LEX_FAKEEOF_LOWLOGIC)
             return REPORT(0);
+        pl_yylval.ival = OP_AND;
         OPERATOR(ANDOP);
 
     case KEY_atan2:
