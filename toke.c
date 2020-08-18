@@ -327,6 +327,9 @@ enum token_type {
     TOKENTYPE_OPVAL
 };
 
+#define DEBUG_TOKEN(Type, Name)                                         \
+    { Name, TOKENTYPE_##Type, #Name }
+
 static struct debug_tokens {
     const int token;
     enum token_type type;
@@ -382,6 +385,7 @@ static struct debug_tokens {
     { OROP,		TOKENTYPE_IVAL,		"OROP" },
     { OROR,		TOKENTYPE_NONE,		"OROR" },
     { PACKAGE,		TOKENTYPE_NONE,		"PACKAGE" },
+    DEBUG_TOKEN (IVAL, PERLY_BRACE_OPEN),
     { PLUGEXPR,		TOKENTYPE_OPVAL,	"PLUGEXPR" },
     { PLUGSTMT,		TOKENTYPE_OPVAL,	"PLUGSTMT" },
     { PMFUNC,		TOKENTYPE_OPVAL,	"PMFUNC" },
@@ -413,6 +417,8 @@ static struct debug_tokens {
     { YADAYADA,		TOKENTYPE_IVAL,		"YADAYADA" },
     { 0,		TOKENTYPE_NONE,		NULL }
 };
+
+#undef DEBUG_TOKEN
 
 /* dump the returned token in rv, plus any optional arg in pl_yylval */
 
@@ -2055,7 +2061,7 @@ Perl_yyunlex(pTHX)
     if (yyc != YYEMPTY) {
 	if (yyc) {
 	    NEXTVAL_NEXTTOKE = PL_parser->yylval;
-	    if (yyc == '{'/*}*/ || yyc == HASHBRACK || yyc == '['/*]*/) {
+	    if (yyc == PERLY_BRACE_OPEN || yyc == HASHBRACK || yyc == '['/*]*/) {
 		PL_lex_allbrackets--;
 		PL_lex_brackets--;
 		yyc |= (3<<24) | (PL_lex_brackstack[PL_lex_brackets] << 16);
@@ -6174,7 +6180,7 @@ yyl_leftcurly(pTHX_ char *s, const U8 formbrack)
 
     pl_yylval.ival = CopLINE(PL_curcop);
     PL_copline = NOLINE;   /* invalidate current command line number */
-    TOKEN(formbrack ? '=' : '{');
+    TOKEN(formbrack ? '=' : PERLY_BRACE_OPEN);
 }
 
 static int
