@@ -2123,6 +2123,10 @@ case 2:
     
 
 /* Generated from:
+<<<<<<< HEAD
  * b5f97e65294d3076996fb75fc694140f2b0dd79672cc7d5c36c1f54aab37ac72 perly.y
+=======
+ * 84dc72716b3182630dd23f599218a74b13ec0ded4591980753aab36471f40d5f perly.y
+>>>>>>> 79877a4540... Distinguish C- and perly- literals - PERLY_EXCLAMATION_MARK
  * acf1cbfd2545faeaaa58b1cf0cf9d7f98b5be0752eb7a54528ef904a9e2e1ca7 regen_perly.pl
  * ex: set ro: */
