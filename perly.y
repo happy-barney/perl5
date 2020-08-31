@@ -45,7 +45,6 @@
 
 %token <ival> GRAMPROG GRAMEXPR GRAMBLOCK GRAMBARESTMT GRAMFULLSTMT GRAMSTMTSEQ GRAMSUBSIGNATURE
 
-%token <ival> '%'
 %token <ival> PERLY_AMPERSAND
 %token <ival> PERLY_BRACE_OPEN
 %token <ival> PERLY_BRACE_CLOSE
@@ -55,6 +54,7 @@
 %token <ival> PERLY_DOT
 %token <ival> PERLY_EQUAL_SIGN
 %token <ival> PERLY_MINUS
+%token <ival> PERLY_PERCENT_SIGN
 %token <ival> PERLY_PLUS
 %token <ival> PERLY_SEMICOLON
 %token <ival> PERLY_SNAIL
@@ -661,7 +661,7 @@ sigvarname:     /* NULL */
 sigslurpsigil:
                 PERLY_SNAIL
                         { $$ = '@'; }
-        |       '%'
+        |       PERLY_PERCENT_SIGN
                         { $$ = '%'; }
 
 /* @, %, @foo, %foo */
@@ -1247,7 +1247,7 @@ term	:	termbinop
 			{ $$ = newSVREF($1); }
 	|	term ARROW PERLY_SNAIL '*'
 			{ $$ = newAVREF($1); }
-	|	term ARROW '%' '*'
+	|	term ARROW PERLY_PERCENT_SIGN '*'
 			{ $$ = newHVREF($1); }
 	|	term ARROW PERLY_AMPERSAND '*'
 			{ $$ = newUNOP(OP_ENTERSUB, 0,
@@ -1385,7 +1385,7 @@ ary	:	PERLY_SNAIL indirob
 			}
 	;
 
-hsh	:	'%' indirob
+hsh	:	PERLY_PERCENT_SIGN indirob
 			{ $$ = newHVREF($indirob);
 			  if ($$) $$->op_private |= $1;
 			}
@@ -1407,7 +1407,7 @@ sliceme	:	ary
 	;
 
 kvslice	:	hsh
-	|	term ARROW '%'
+	|	term ARROW PERLY_PERCENT_SIGN
 			{ $$ = newHVREF($term); }
 	;
 
