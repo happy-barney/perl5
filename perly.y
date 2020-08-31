@@ -102,7 +102,7 @@
 %nonassoc LSTOP LSTOPSUB
 %left PERLY_COMMA
 %right <ival> ASSIGNOP
-%right <ival> '?' PERLY_COLON
+%right <ival> PERLY_QUESTION_MARK PERLY_COLON
 %nonassoc DOTDOT
 %left <ival> OROR DORDOR
 %left <ival> ANDAND
@@ -1156,7 +1156,7 @@ term	:	termbinop
 	|	termunop
 	|	anonymous
 	|	termdo
-	|	term[condition] '?' term[then] PERLY_COLON term[else]
+	|	term[condition] PERLY_QUESTION_MARK term[then] PERLY_COLON term[else]
 			{ $$ = newCONDOP(0, $condition, $then, $else); }
 	|	REFGEN term                          /* \$x, \@y, \%z */
 			{ $$ = newUNOP(OP_REFGEN, 0, $2); }
