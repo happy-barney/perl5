@@ -143,15 +143,16 @@ extern int yydebug;
     SHIFTOP = 342,
     MATCHOP = 343,
     PERLY_EXCLAMATION_MARK = 344,
-    UMINUS = 345,
-    REFGEN = 346,
-    POWOP = 347,
-    PREINC = 348,
-    PREDEC = 349,
-    POSTINC = 350,
-    POSTDEC = 351,
-    POSTJOIN = 352,
-    ARROW = 353
+    PERLY_TILDE = 345,
+    UMINUS = 346,
+    REFGEN = 347,
+    POWOP = 348,
+    PREINC = 349,
+    PREDEC = 350,
+    POSTINC = 351,
+    POSTDEC = 352,
+    POSTJOIN = 353,
+    ARROW = 354
   };
 #endif
 
@@ -204,10 +205,6 @@ int yyparse (void);
 
 
 /* Generated from:
-<<<<<<< HEAD
- * b5f97e65294d3076996fb75fc694140f2b0dd79672cc7d5c36c1f54aab37ac72 perly.y
-=======
- * 84dc72716b3182630dd23f599218a74b13ec0ded4591980753aab36471f40d5f perly.y
->>>>>>> 79877a4540... Distinguish C- and perly- literals - PERLY_EXCLAMATION_MARK
+ * 25fca473e8ad6cd9bbb44dc89d51b327873627e62986d6d671147f7bbc0945bb perly.y
  * acf1cbfd2545faeaaa58b1cf0cf9d7f98b5be0752eb7a54528ef904a9e2e1ca7 regen_perly.pl
  * ex: set ro: */
