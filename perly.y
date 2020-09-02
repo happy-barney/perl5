@@ -45,7 +45,8 @@
 
 %token <ival> GRAMPROG GRAMEXPR GRAMBLOCK GRAMBARESTMT GRAMFULLSTMT GRAMSTMTSEQ GRAMSUBSIGNATURE
 
-%token <ival> '-' '+' '@' '%' '&'
+%token <ival> '-' '+' '@' '%'
+%token <ival> PERLY_AMPERSAND
 %token <ival> PERLY_BRACE_OPEN
 %token <ival> PERLY_BRACE_CLOSE
 %token <ival> PERLY_BRACKET_OPEN
@@ -1244,7 +1245,7 @@ term	:	termbinop
 			{ $$ = newAVREF($1); }
 	|	term ARROW '%' '*'
 			{ $$ = newHVREF($1); }
-	|	term ARROW '&' '*'
+	|	term ARROW PERLY_AMPERSAND '*'
 			{ $$ = newUNOP(OP_ENTERSUB, 0,
 				       scalar(newCVREF($3,$1))); }
 	|	term ARROW '*' '*'	%prec '('
@@ -1366,7 +1367,7 @@ my_refgen:	MY REFGEN
 	|	REFGEN MY
 	;
 
-amper	:	'&' indirob
+amper	:	PERLY_AMPERSAND indirob
 			{ $$ = newCVREF($1,$indirob); }
 	;
 
