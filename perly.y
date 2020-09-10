@@ -57,6 +57,7 @@
 %token <ival> PERLY_PERCENT_SIGN
 %token <ival> PERLY_PLUS
 %token <ival> PERLY_SEMICOLON
+%token <ival> PERLY_SLASH
 %token <ival> PERLY_SNAIL
 %token <ival> PERLY_STAR
 
@@ -1349,7 +1350,7 @@ optexpr:	/* NULL */
 
 optrepl:	/* NULL */
 			{ $$ = NULL; }
-	|	'/' expr
+	|	PERLY_SLASH expr
 			{ $$ = $expr; }
 	;
 
