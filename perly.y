@@ -217,16 +217,16 @@ grammar	:	GRAMPROG
 
 /* An ordinary block */
 block	:	PERLY_BRACE_OPEN remember stmtseq PERLY_BRACE_CLOSE
-			{ if (parser->copline > (line_t)$1)
-			      parser->copline = (line_t)$1;
+			{ if (parser->copline > (line_t)$PERLY_BRACE_OPEN)
+			      parser->copline = (line_t)$PERLY_BRACE_OPEN;
 			  $$ = block_end($remember, $stmtseq);
 			}
 	;
 
 /* format body */
 formblock:	PERLY_EQUAL_SIGN remember PERLY_SEMICOLON FORMRBRACK formstmtseq PERLY_SEMICOLON PERLY_DOT
-			{ if (parser->copline > (line_t)$1)
-			      parser->copline = (line_t)$1;
+			{ if (parser->copline > (line_t)$PERLY_EQUAL_SIGN)
+			      parser->copline = (line_t)$PERLY_EQUAL_SIGN;
 			  $$ = block_end($remember, $formstmtseq);
 			}
 	;
@@ -237,8 +237,8 @@ remember:	/* NULL */	/* start a full lexical scope */
 	;
 
 mblock	:	PERLY_BRACE_OPEN mremember stmtseq PERLY_BRACE_CLOSE
-			{ if (parser->copline > (line_t)$1)
-			      parser->copline = (line_t)$1;
+			{ if (parser->copline > (line_t)$PERLY_BRACE_OPEN)
+			      parser->copline = (line_t)$PERLY_BRACE_OPEN;
 			  $$ = block_end($mremember, $stmtseq);
 			}
 	;
@@ -477,8 +477,8 @@ barestmt:	PLUGSTMT
 			  /* a block is a loop that happens once */
 			  $$ = newWHILEOP(0, 1, NULL,
 				  NULL, block_end($remember, $stmtseq), NULL, 0);
-			  if (parser->copline > (line_t)$4)
-			      parser->copline = (line_t)$4;
+			  if (parser->copline > (line_t)$PERLY_BRACE_OPEN)
+			      parser->copline = (line_t)$PERLY_BRACE_OPEN;
 			}
 	|	sideff PERLY_SEMICOLON
 			{
@@ -873,8 +873,8 @@ optsubbody:	subbody { $$ = $subbody; }
 /* Subroutine body (without signature) */
 subbody:	remember  PERLY_BRACE_OPEN stmtseq PERLY_BRACE_CLOSE
 			{
-			  if (parser->copline > (line_t)$2)
-			      parser->copline = (line_t)$2;
+			  if (parser->copline > (line_t)$PERLY_BRACE_OPEN)
+			      parser->copline = (line_t)$PERLY_BRACE_OPEN;
 			  $$ = block_end($remember, $stmtseq);
 			}
 	;
@@ -888,8 +888,8 @@ optsigsubbody:	sigsubbody { $$ = $sigsubbody; }
 /* Subroutine body with optional signature */
 sigsubbody:	remember optsubsignature PERLY_BRACE_OPEN stmtseq PERLY_BRACE_CLOSE
 			{
-			  if (parser->copline > (line_t)$3)
-			      parser->copline = (line_t)$3;
+			  if (parser->copline > (line_t)$PERLY_BRACE_OPEN)
+			      parser->copline = (line_t)$PERLY_BRACE_OPEN;
 			  $$ = block_end($remember,
 				op_append_list(OP_LINESEQ, $optsubsignature, $stmtseq));
  			}
@@ -1107,7 +1107,7 @@ termunop : PERLY_MINUS term %prec UMINUS                       /* -$x */
 	|	PERLY_EXCLAMATION_MARK term                               /* !$x */
 			{ $$ = newUNOP(OP_NOT, 0, scalar($term)); }
 	|	PERLY_TILDE term                               /* ~$x */
-			{ $$ = newUNOP($1, 0, scalar($term)); }
+			{ $$ = newUNOP($PERLY_TILDE, 0, scalar($term)); }
 	|	term POSTINC                           /* $x++ */
 			{ $$ = newUNOP(OP_POSTINC, 0,
 					op_lvalue(scalar($term), OP_POSTINC)); }
@@ -1315,7 +1315,7 @@ term	:	termbinop
 
 /* "my" declarations, with optional attributes */
 myattrterm:	MY myterm myattrlist
-			{ $$ = my_attrs($myterm,$myattrlist); }
+			{ $$ = my_attrs($myterm,$myattrlist); /* looks like not covered by tests ? */ }
 	|	MY myterm
 			{ $$ = localize($myterm,1); }
 	|	MY REFGEN myterm myattrlist
@@ -1375,7 +1375,7 @@ my_refgen:	MY REFGEN
 	;
 
 amper	:	PERLY_AMPERSAND indirob
-			{ $$ = newCVREF($1,$indirob); }
+			{ $$ = newCVREF($PERLY_AMPERSAND,$indirob); }
 	;
 
 scalar	:	PERLY_DOLLAR indirob
@@ -1384,13 +1384,13 @@ scalar	:	PERLY_DOLLAR indirob
 
 ary	:	PERLY_SNAIL indirob
 			{ $$ = newAVREF($indirob);
-			  if ($$) $$->op_private |= $1;
+			  if ($$) $$->op_private |= $PERLY_SNAIL;
 			}
 	;
 
 hsh	:	PERLY_PERCENT_SIGN indirob
 			{ $$ = newHVREF($indirob);
-			  if ($$) $$->op_private |= $1;
+			  if ($$) $$->op_private |= $PERLY_PERCENT_SIGN;
 			}
 	;
 
