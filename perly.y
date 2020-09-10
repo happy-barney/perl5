@@ -51,6 +51,7 @@
 %token <ival> PERLY_BRACKET_OPEN
 %token <ival> PERLY_BRACKET_CLOSE
 %token <ival> PERLY_COMMA
+%token <ival> PERLY_DOLLAR
 %token <ival> PERLY_DOT
 %token <ival> PERLY_EQUAL_SIGN
 %token <ival> PERLY_MINUS
@@ -696,7 +697,7 @@ sigdefault:	/* NULL */
 
 /* subroutine signature scalar element: e.g. '$x', '$=', '$x = $default' */
 sigscalarelem:
-                '$' sigvarname sigdefault
+                PERLY_DOLLAR sigvarname sigdefault
                         {
                             OP *var     = $sigvarname;
                             OP *defexpr = $sigdefault;
@@ -1245,7 +1246,7 @@ term	:	termbinop
 			{ $$ = newUNOP(OP_ENTERSUB, OPf_STACKED,
 			    op_append_elem(OP_LIST, $optlistexpr, scalar($subname)));
 			}
-	|	term ARROW '$' PERLY_STAR
+	|	term ARROW PERLY_DOLLAR PERLY_STAR
 			{ $$ = newSVREF($1); }
 	|	term ARROW PERLY_SNAIL PERLY_STAR
 			{ $$ = newAVREF($1); }
@@ -1377,7 +1378,7 @@ amper	:	PERLY_AMPERSAND indirob
 			{ $$ = newCVREF($1,$indirob); }
 	;
 
-scalar	:	'$' indirob
+scalar	:	PERLY_DOLLAR indirob
 			{ $$ = newSVREF($indirob); }
 	;
 
