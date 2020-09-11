@@ -27,6 +27,14 @@
 #include "feature.h"
 #include "keywords.h"
 
+#define COPLINE(Element)                                                \
+	do {                                                                \
+		if (parser->copline > (line_t) (Element))                       \
+			parser->copline = (line_t) (Element);                       \
+	} while (0)
+
+#include "perly-actions.c"
+
 typedef unsigned char yytype_uint8;
 typedef signed char yytype_int8;
 typedef unsigned short int yytype_uint16;

@@ -216,11 +216,9 @@ grammar	:	GRAMPROG
 	;
 
 /* An ordinary block */
-block	:	PERLY_BRACE_OPEN remember stmtseq PERLY_BRACE_CLOSE
-			{ if (parser->copline > (line_t)$PERLY_BRACE_OPEN)
-			      parser->copline = (line_t)$PERLY_BRACE_OPEN;
-			  $$ = block_end($remember, $stmtseq);
-			}
+block
+	:	PERLY_BRACE_OPEN remember stmtseq PERLY_BRACE_CLOSE
+		{ $$ = PERLY_ACTION_BLOCK ($PERLY_BRACE_OPEN, $remember, $stmtseq); }
 	;
 
 /* format body */
