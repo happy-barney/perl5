@@ -53,6 +53,9 @@ struct perly_rule_mblock {
 #define PERLY_ACTION_REMEMBER()                                         \
     perly_action_remember (parser);
 
+#define PERLY_ACTION_MREMEMBER()                                        \
+    perly_action_remember (parser);
+
 PERL_STATIC_INLINE opval
 perly_action_block (yy_parser *parser, struct perly_rule_block rule) {
     COPLINE (rule.PERLY_BRACE_OPEN);
@@ -81,3 +84,12 @@ perly_action_mblock (yy_parser *parser, struct perly_rule_mblock rule) {
 
     return block_end (rule.mremember, rule.stmtseq);
 }
+
+PERL_STATIC_INLINE ival
+perly_action_mremember (yy_parser *parser) {
+    ival retval = block_start (FALSE);
+    parser->parsed_sub = 0;
+
+    return retval;
+}
+

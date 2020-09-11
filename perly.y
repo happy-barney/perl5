@@ -237,9 +237,9 @@ mblock
 		{ $$ = PERLY_ACTION_BLOCK ($PERLY_BRACE_OPEN, $mremember, $stmtseq); }
 	;
 
-mremember:	%empty	/* start a partial lexical scope */
-			{ $$ = block_start(FALSE);
-			  parser->parsed_sub = 0; }
+mremember
+	:	%empty	/* start a partial lexical scope */
+		{ $$ = PERLY_ACTION_REMEMBER() }
 	;
 
 /* A sequence of statements in the program */

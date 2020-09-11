@@ -165,9 +165,8 @@ case 2:
     break;
 
   case 20:
-#line 241 "perly.y"
-    { (yyval.ival) = block_start(FALSE);
-			  parser->parsed_sub = 0; }
+#line 242 "perly.y"
+    { (yyval.ival) = PERLY_ACTION_REMEMBER() }
 
     break;
 
@@ -2113,6 +2112,6 @@ case 2:
     
 
 /* Generated from:
- * dc515034b05d7733ca6a654aa41c65859e8c2a83773b368dbf5843a65fdfe804 perly.y
+ * cbb1a44edfaf63f52ce115c16952324bd80979ba94721d52262fe77fd76649d9 perly.y
  * acf1cbfd2545faeaaa58b1cf0cf9d7f98b5be0752eb7a54528ef904a9e2e1ca7 regen_perly.pl
  * ex: set ro: */
