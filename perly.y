@@ -222,11 +222,9 @@ block
 	;
 
 /* format body */
-formblock:	PERLY_EQUAL_SIGN remember PERLY_SEMICOLON FORMRBRACK formstmtseq PERLY_SEMICOLON PERLY_DOT
-			{ if (parser->copline > (line_t)$PERLY_EQUAL_SIGN)
-			      parser->copline = (line_t)$PERLY_EQUAL_SIGN;
-			  $$ = block_end($remember, $formstmtseq);
-			}
+formblock
+	:	PERLY_EQUAL_SIGN remember PERLY_SEMICOLON FORMRBRACK formstmtseq PERLY_SEMICOLON PERLY_DOT
+		{ $$ = PERLY_ACTION_FORMBLOCK ($PERLY_EQUAL_SIGN, $remember, $formstmtseq); }
 	;
 
 remember:	%empty	/* start a full lexical scope */
