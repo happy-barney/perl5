@@ -14,6 +14,12 @@ struct perly_rule_formblock {
     opval formstmtseq;
 };
 
+struct perly_rule_mblock {
+    ival  PERLY_BRACE_OPEN;
+    ival  mremember;
+    opval stmtseq;
+};
+
 #define PERLY_ACTION_BLOCK(Brace_Open, Remember, Stmtseq)               \
     perly_action_block (                                                \
         parser,                                                         \
@@ -31,6 +37,16 @@ struct perly_rule_formblock {
             .PERLY_EQUAL_SIGN  = (Equal_Sign),                          \
             .remember          = (Remember),                            \
             .formstmtseq       = (Formstmtseq)                          \
+        }                                                               \
+    );
+
+#define PERLY_ACTION_MBLOCK(Brace_Open, Mremember, Stmtseq)             \
+    perly_action_mblock (                                               \
+        parser,                                                         \
+        (struct perly_rule_mblock) {                                    \
+            .PERLY_BRACE_OPEN  = (Brace_Open),                          \
+            .mremember         = (MRemember),                           \
+            .stmtseq           = (Stmtseq)                              \
         }                                                               \
     );
 
@@ -57,4 +73,11 @@ perly_action_remember (yy_parser *parser) {
     parser->parsed_sub = 0;
 
     return retval;
+}
+
+PERL_STATIC_INLINE opval
+perly_action_mblock (yy_parser *parser, struct perly_rule_mblock rule) {
+    COPLINE (rule.PERLY_BRACE_OPEN);
+
+    return block_end (rule.mremember, rule.stmtseq);
 }
