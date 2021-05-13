@@ -8500,7 +8500,7 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
     default:			/* not a keyword */
         return yyl_just_a_word(aTHX_ s, len, orig_keyword, c);
 
-    /* keywords treated as named unary operators */
+    /* keywords treated as named unary operators expected to be followed by expression */
     case KEY_abs:           UNI(OP_ABS);
     case KEY_alarm:         UNI(OP_ALARM);
     case KEY_caller:        UNI(OP_CALLER);
@@ -8572,6 +8572,34 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
     case KEY_untie:         UNI(OP_UNTIE);
     case KEY_values:        UNI(OP_VALUES);
     case KEY_write:         PRELOAD_FORM_FEED; UNI(OP_ENTERWRITE);
+
+    /* keywords treated as named unary operators recognizing slash-slash as defined-or operator */
+    case KEY_getc:
+        UNIDOR(OP_GETC);
+
+    case KEY_pop:
+        UNIDOR(OP_POP);
+
+    case KEY_pos:
+        UNIDOR(OP_POS);
+
+    case KEY_readline:
+        UNIDOR(OP_READLINE);
+
+    case KEY_readpipe:
+        UNIDOR(OP_BACKTICK);
+
+    case KEY_readlink:
+        UNIDOR(OP_READLINK);
+
+    case KEY_shift:
+        UNIDOR(OP_SHIFT);
+
+    case KEY_undef:
+        UNIDOR(OP_UNDEF);
+
+    case KEY_umask:
+        UNIDOR(OP_UMASK);
 
     case KEY___FILE__:
         FUN0OP(newSVOP(OP_CONST, OPpCONST_TOKEN_FILE<<8,
@@ -8828,9 +8856,6 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
     case KEY_goto:
         LOOPX(OP_GOTO);
 
-    case KEY_getc:
-        UNIDOR(OP_GETC);
-
     case KEY_getppid:
         FUN0(OP_GETPPID);
 
@@ -9022,12 +9047,6 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
     case KEY_push:
         LOP(OP_PUSH,XTERM);
 
-    case KEY_pop:
-        UNIDOR(OP_POP);
-
-    case KEY_pos:
-        UNIDOR(OP_POS);
-
     case KEY_pack:
         LOP(OP_PACK,XTERM);
 
@@ -9080,20 +9099,11 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
     case KEY_read:
         LOP(OP_READ,XTERM);
 
-    case KEY_readline:
-        UNIDOR(OP_READLINE);
-
-    case KEY_readpipe:
-        UNIDOR(OP_BACKTICK);
-
     case KEY_recv:
         LOP(OP_RECV,XTERM);
 
     case KEY_reverse:
         LOP(OP_REVERSE,XTERM);
-
-    case KEY_readlink:
-        UNIDOR(OP_READLINK);
 
     case KEY_s:
         s = scan_subst(s);
@@ -9141,9 +9151,6 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
 
     case KEY_setsockopt:
         LOP(OP_SSOCKOPT,XTERM);
-
-    case KEY_shift:
-        UNIDOR(OP_SHIFT);
 
     case KEY_shmctl:
         LOP(OP_SHMCTL,XTERM);
@@ -9251,17 +9258,11 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
     case KEY_unlink:
         LOP(OP_UNLINK,XTERM);
 
-    case KEY_undef:
-        UNIDOR(OP_UNDEF);
-
     case KEY_unpack:
         LOP(OP_UNPACK,XTERM);
 
     case KEY_utime:
         LOP(OP_UTIME,XTERM);
-
-    case KEY_umask:
-        UNIDOR(OP_UMASK);
 
     case KEY_unshift:
         LOP(OP_UNSHIFT,XTERM);
