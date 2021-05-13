@@ -8584,6 +8584,21 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
     case KEY_umask:         UNIDOR(OP_UMASK);
     case KEY_undef:         UNIDOR(OP_UNDEF);
 
+    case KEY_eval:
+        s = skipspace(s);
+        if (*s == '{') { /* block eval */
+            PL_expect = XTERMBLOCK;
+            UNIBRACK(OP_ENTERTRY);
+        }
+        else { /* string eval */
+            PL_expect = XTERM;
+            UNIBRACK(OP_ENTEREVAL);
+        }
+
+    case KEY_evalbytes:
+        PL_expect = XTERM;
+        UNIBRACK(-OP_ENTEREVAL);
+
     case KEY___FILE__:
         FUN0OP(newSVOP(OP_CONST, OPpCONST_TOKEN_FILE<<8,
                 newSVpv(CopFILE(PL_curcop),0)) );
@@ -8755,21 +8770,6 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
         if (!PL_lex_allbrackets && PL_lex_fakeeof >= LEX_FAKEEOF_COMPARE)
             return REPORT(0);
         ChEop(OP_SEQU);
-
-    case KEY_eval:
-        s = skipspace(s);
-        if (*s == '{') { /* block eval */
-            PL_expect = XTERMBLOCK;
-            UNIBRACK(OP_ENTERTRY);
-        }
-        else { /* string eval */
-            PL_expect = XTERM;
-            UNIBRACK(OP_ENTEREVAL);
-        }
-
-    case KEY_evalbytes:
-        PL_expect = XTERM;
-        UNIBRACK(-OP_ENTEREVAL);
 
     case KEY_exec:
         LOP(OP_EXEC,XREF);
