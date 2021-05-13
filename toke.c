@@ -8485,12 +8485,93 @@ yyl_just_a_word(pTHX_ char *s, STRLEN len, I32 orig_keyword, struct code c)
     return yyl_safe_bareword(aTHX_ s, lastchar);
 }
 
+#define PRELOAD_ENV                                                     \
+    (void)gv_fetchpvs("ENV", GV_ADD|GV_NOTQUAL, SVt_PVHV)
+
+/* Make sure $^L is defined. 0x0C is CTRL-L on ASCII platforms, and
+ * we use the same number on EBCDIC */
+#define PRELOAD_FORM_FEED                                               \
+    gv_fetchpvs("\x0C", GV_ADD|GV_NOTQUAL, SVt_PV)
+
 static int
 yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct code c)
 {
     switch (key) {
     default:			/* not a keyword */
         return yyl_just_a_word(aTHX_ s, len, orig_keyword, c);
+
+    /* keywords treated as named unary operators */
+    case KEY_abs:           UNI(OP_ABS);
+    case KEY_alarm:         UNI(OP_ALARM);
+    case KEY_chop:          UNI(OP_CHOP);
+    case KEY_chdir:         PRELOAD_ENV /* may use HOME */; UNI(OP_CHDIR);
+    case KEY_close:         UNI(OP_CLOSE);
+    case KEY_closedir:      UNI(OP_CLOSEDIR);
+    case KEY_caller:        UNI(OP_CALLER);
+    case KEY_chr:           UNI(OP_CHR);
+    case KEY_cos:           UNI(OP_COS);
+    case KEY_chroot:        UNI(OP_CHROOT);
+    case KEY_defined:       UNI(OP_DEFINED);
+    case KEY_delete:        UNI(OP_DELETE);
+    case KEY_dbmclose:      UNI(OP_DBMCLOSE);
+    case KEY_exists:        UNI(OP_EXISTS);
+    case KEY_exit:          UNI(OP_EXIT);
+    case KEY_eof:           UNI(OP_EOF);
+    case KEY_exp:           UNI(OP_EXP);
+    case KEY_each:          UNI(OP_EACH);
+    case KEY_fc:            UNI(OP_FC);
+    case KEY_fileno:        UNI(OP_FILENO);
+    case KEY_gmtime:        UNI(OP_GMTIME);
+    case KEY_getpgrp:       UNI(OP_GETPGRP);
+    case KEY_getprotobyname:UNI(OP_GPBYNAME);
+    case KEY_getpwnam:      UNI(OP_GPWNAM);
+    case KEY_getpwuid:      UNI(OP_GPWUID);
+    case KEY_getpeername:   UNI(OP_GETPEERNAME);
+    case KEY_gethostbyname: UNI(OP_GHBYNAME);
+    case KEY_getnetbyname:  UNI(OP_GNBYNAME);
+    case KEY_getsockname:   UNI(OP_GETSOCKNAME);
+    case KEY_getgrnam:      UNI(OP_GGRNAM);
+    case KEY_getgrgid:      UNI(OP_GGRGID);
+    case KEY_hex:           UNI(OP_HEX);
+    case KEY_int:           UNI(OP_INT);
+    case KEY_keys:          UNI(OP_KEYS);
+    case KEY_lc:            UNI(OP_LC);
+    case KEY_lcfirst:       UNI(OP_LCFIRST);
+    case KEY_length:        UNI(OP_LENGTH);
+    case KEY_localtime:     UNI(OP_LOCALTIME);
+    case KEY_log:           UNI(OP_LOG);
+    case KEY_lock:          UNI(OP_LOCK);
+    case KEY_lstat:         UNI(OP_LSTAT);
+    case KEY_ord:           UNI(OP_ORD);
+    case KEY_oct:           UNI(OP_OCT);
+    case KEY_prototype:     UNI(OP_PROTOTYPE);
+    case KEY_quotemeta:     UNI(OP_QUOTEMETA);
+    case KEY_reset:         UNI(OP_RESET);
+    case KEY_rand:          UNI(OP_RAND);
+    case KEY_rmdir:         UNI(OP_RMDIR);
+    case KEY_readdir:       UNI(OP_READDIR);
+    case KEY_rewinddir:     UNI(OP_REWINDDIR);
+    case KEY_ref:           UNI(OP_REF);
+    case KEY_chomp:         UNI(OP_CHOMP);
+    case KEY_scalar:        UNI(OP_SCALAR);
+    case KEY_sethostent:    UNI(OP_SHOSTENT);
+    case KEY_setnetent:     UNI(OP_SNETENT);
+    case KEY_setservent:    UNI(OP_SSERVENT);
+    case KEY_setprotoent:   UNI(OP_SPROTOENT);
+    case KEY_sin:           UNI(OP_SIN);
+    case KEY_sleep:         UNI(OP_SLEEP);
+    case KEY_sqrt:          UNI(OP_SQRT);
+    case KEY_srand:         UNI(OP_SRAND);
+    case KEY_stat:          UNI(OP_STAT);
+    case KEY_study:         UNI(OP_STUDY);
+    case KEY_tell:          UNI(OP_TELL);
+    case KEY_telldir:       UNI(OP_TELLDIR);
+    case KEY_tied:          UNI(OP_TIED);
+    case KEY_uc:            UNI(OP_UC);
+    case KEY_ucfirst:       UNI(OP_UCFIRST);
+    case KEY_untie:         UNI(OP_UNTIE);
+    case KEY_values:        UNI(OP_VALUES);
+    case KEY_write:         PRELOAD_FORM_FEED; UNI(OP_ENTERWRITE);
 
     case KEY___FILE__:
         FUN0OP(newSVOP(OP_CONST, OPpCONST_TOKEN_FILE<<8,
@@ -8545,12 +8626,6 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
          */
         PHASERBLOCK(KEY_ADJUST);
 
-    case KEY_abs:
-        UNI(OP_ABS);
-
-    case KEY_alarm:
-        UNI(OP_ALARM);
-
     case KEY_accept:
         LOP(OP_ACCEPT,XTERM);
 
@@ -8585,9 +8660,6 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
     case KEY_catch:
         PREBLOCK(KW_CATCH);
 
-    case KEY_chop:
-        UNI(OP_CHOP);
-
     case KEY_class:
         ck_warner_d(packWARN(WARN_EXPERIMENTAL__CLASS), "class is experimental");
 
@@ -8609,24 +8681,10 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
         else
             FUN0(OP_CONTINUE);
 
-    case KEY_chdir:
-        /* may use HOME */
-        (void)gv_fetchpvs("ENV", GV_ADD|GV_NOTQUAL, SVt_PVHV);
-        UNI(OP_CHDIR);
-
-    case KEY_close:
-        UNI(OP_CLOSE);
-
-    case KEY_closedir:
-        UNI(OP_CLOSEDIR);
-
     case KEY_cmp:
         if (!PL_lex_allbrackets && PL_lex_fakeeof >= LEX_FAKEEOF_COMPARE)
             return REPORT(0);
         NCEop(OP_SCMP);
-
-    case KEY_caller:
-        UNI(OP_CALLER);
 
     case KEY_crypt:
 
@@ -8640,15 +8698,6 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
 
     case KEY_connect:
         LOP(OP_CONNECT,XTERM);
-
-    case KEY_chr:
-        UNI(OP_CHR);
-
-    case KEY_cos:
-        UNI(OP_COS);
-
-    case KEY_chroot:
-        UNI(OP_CHROOT);
 
     case KEY_default:
         PREBLOCK(KW_DEFAULT);
@@ -8664,12 +8713,6 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
         PL_hints |= HINT_BLOCK_SCOPE;
         LOP(OP_DIE,XTERM);
 
-    case KEY_defined:
-        UNI(OP_DEFINED);
-
-    case KEY_delete:
-        UNI(OP_DELETE);
-
     case KEY_dbmopen:
         Perl_populate_isa(aTHX_ STR_WITH_LEN("AnyDBM_File::ISA"),
                           STR_WITH_LEN("NDBM_File::"),
@@ -8679,9 +8722,6 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
                           STR_WITH_LEN("ODBM_File::"),
                           NULL);
         LOP(OP_DBMOPEN,XTERM);
-
-    case KEY_dbmclose:
-        UNI(OP_DBMCLOSE);
 
     case KEY_dump:
         LOOPX(OP_DUMP);
@@ -8705,12 +8745,6 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
             return REPORT(0);
         ChEop(OP_SEQU);
 
-    case KEY_exists:
-        UNI(OP_EXISTS);
-
-    case KEY_exit:
-        UNI(OP_EXIT);
-
     case KEY_eval:
         s = skipspace(s);
         if (*s == '{') { /* block eval */
@@ -8725,15 +8759,6 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
     case KEY_evalbytes:
         PL_expect = XTERM;
         UNIBRACK(-OP_ENTEREVAL);
-
-    case KEY_eof:
-        UNI(OP_EOF);
-
-    case KEY_exp:
-        UNI(OP_EXP);
-
-    case KEY_each:
-        UNI(OP_EACH);
 
     case KEY_exec:
         LOP(OP_EXEC,XREF);
@@ -8781,14 +8806,8 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
     case KEY_fork:
         FUN0(OP_FORK);
 
-    case KEY_fc:
-        UNI(OP_FC);
-
     case KEY_fcntl:
         LOP(OP_FCNTL,XTERM);
-
-    case KEY_fileno:
-        UNI(OP_FILENO);
 
     case KEY_flock:
         LOP(OP_FLOCK,XTERM);
@@ -8809,23 +8828,14 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
     case KEY_goto:
         LOOPX(OP_GOTO);
 
-    case KEY_gmtime:
-        UNI(OP_GMTIME);
-
     case KEY_getc:
         UNIDOR(OP_GETC);
 
     case KEY_getppid:
         FUN0(OP_GETPPID);
 
-    case KEY_getpgrp:
-        UNI(OP_GETPGRP);
-
     case KEY_getpriority:
         LOP(OP_GETPRIORITY,XTERM);
-
-    case KEY_getprotobyname:
-        UNI(OP_GPBYNAME);
 
     case KEY_getprotobynumber:
         LOP(OP_GPBYNUMBER,XTERM);
@@ -8836,26 +8846,11 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
     case KEY_getpwent:
         FUN0(OP_GPWENT);
 
-    case KEY_getpwnam:
-        UNI(OP_GPWNAM);
-
-    case KEY_getpwuid:
-        UNI(OP_GPWUID);
-
-    case KEY_getpeername:
-        UNI(OP_GETPEERNAME);
-
-    case KEY_gethostbyname:
-        UNI(OP_GHBYNAME);
-
     case KEY_gethostbyaddr:
         LOP(OP_GHBYADDR,XTERM);
 
     case KEY_gethostent:
         FUN0(OP_GHOSTENT);
-
-    case KEY_getnetbyname:
-        UNI(OP_GNBYNAME);
 
     case KEY_getnetbyaddr:
         LOP(OP_GNBYADDR,XTERM);
@@ -8872,20 +8867,11 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
     case KEY_getservent:
         FUN0(OP_GSERVENT);
 
-    case KEY_getsockname:
-        UNI(OP_GETSOCKNAME);
-
     case KEY_getsockopt:
         LOP(OP_GSOCKOPT,XTERM);
 
     case KEY_getgrent:
         FUN0(OP_GGRENT);
-
-    case KEY_getgrnam:
-        UNI(OP_GGRNAM);
-
-    case KEY_getgrgid:
-        UNI(OP_GGRGID);
 
     case KEY_getlogin:
         FUN0(OP_GETLOGIN);
@@ -8897,9 +8883,6 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
     case KEY_glob:
         LOP( orig_keyword==KEY_glob ? -OP_GLOB : OP_GLOB, XTERM );
 
-    case KEY_hex:
-        UNI(OP_HEX);
-
     case KEY_if:
         if (!PL_lex_allbrackets && PL_lex_fakeeof >= LEX_FAKEEOF_NONEXPR)
             return REPORT(0);
@@ -8908,9 +8891,6 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
 
     case KEY_index:
         LOP(OP_INDEX,XTERM);
-
-    case KEY_int:
-        UNI(OP_INT);
 
     case KEY_ioctl:
         LOP(OP_IOCTL,XTERM);
@@ -8921,26 +8901,14 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
     case KEY_join:
         LOP(OP_JOIN,XTERM);
 
-    case KEY_keys:
-        UNI(OP_KEYS);
-
     case KEY_kill:
         LOP(OP_KILL,XTERM);
 
     case KEY_last:
         LOOPX(OP_LAST);
 
-    case KEY_lc:
-        UNI(OP_LC);
-
-    case KEY_lcfirst:
-        UNI(OP_LCFIRST);
-
     case KEY_local:
         OPERATOR(KW_LOCAL);
-
-    case KEY_length:
-        UNI(OP_LENGTH);
 
     case KEY_lt:
         if (!PL_lex_allbrackets && PL_lex_fakeeof >= LEX_FAKEEOF_COMPARE)
@@ -8952,23 +8920,11 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
             return REPORT(0);
         ChRop(OP_SLE);
 
-    case KEY_localtime:
-        UNI(OP_LOCALTIME);
-
-    case KEY_log:
-        UNI(OP_LOG);
-
     case KEY_link:
         LOP(OP_LINK,XTERM);
 
     case KEY_listen:
         LOP(OP_LISTEN,XTERM);
-
-    case KEY_lock:
-        UNI(OP_LOCK);
-
-    case KEY_lstat:
-        UNI(OP_LSTAT);
 
     case KEY_m:
         s = scan_pat(s,OP_MATCH);
@@ -9052,12 +9008,6 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
         pl_yylval.ival = OP_OR;
         OPERATOR(OROP);
 
-    case KEY_ord:
-        UNI(OP_ORD);
-
-    case KEY_oct:
-        UNI(OP_OCT);
-
     case KEY_opendir:
         LOP(OP_OPEN_DIR,XTERM);
 
@@ -9068,9 +9018,6 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
     case KEY_printf:
         checkcomma(s,PL_tokenbuf,"filehandle");
         LOP(OP_PRTF,XREF);
-
-    case KEY_prototype:
-        UNI(OP_PROTOTYPE);
 
     case KEY_push:
         LOP(OP_PUSH,XTERM);
@@ -9098,9 +9045,6 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
         COPLINE_SET_FROM_MULTI_END;
         TERM(sublex_start());
 
-    case KEY_quotemeta:
-        UNI(OP_QUOTEMETA);
-
     case KEY_qw:
         return yyl_qw(aTHX_ s, len);
 
@@ -9124,20 +9068,11 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
     case KEY_require:
         return yyl_require(aTHX_ s, orig_keyword);
 
-    case KEY_reset:
-        UNI(OP_RESET);
-
     case KEY_redo:
         LOOPX(OP_REDO);
 
     case KEY_rename:
         LOP(OP_RENAME,XTERM);
-
-    case KEY_rand:
-        UNI(OP_RAND);
-
-    case KEY_rmdir:
-        UNI(OP_RMDIR);
 
     case KEY_rindex:
         LOP(OP_RINDEX,XTERM);
@@ -9145,17 +9080,11 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
     case KEY_read:
         LOP(OP_READ,XTERM);
 
-    case KEY_readdir:
-        UNI(OP_READDIR);
-
     case KEY_readline:
         UNIDOR(OP_READLINE);
 
     case KEY_readpipe:
         UNIDOR(OP_BACKTICK);
-
-    case KEY_rewinddir:
-        UNI(OP_REWINDDIR);
 
     case KEY_recv:
         LOP(OP_RECV,XTERM);
@@ -9165,9 +9094,6 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
 
     case KEY_readlink:
         UNIDOR(OP_READLINK);
-
-    case KEY_ref:
-        UNI(OP_REF);
 
     case KEY_s:
         s = scan_subst(s);
@@ -9179,12 +9105,6 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
     case KEY_say:
         checkcomma(s,PL_tokenbuf,"filehandle");
         LOP(OP_SAY,XREF);
-
-    case KEY_chomp:
-        UNI(OP_CHOMP);
-
-    case KEY_scalar:
-        UNI(OP_SCALAR);
 
     case KEY_select:
         LOP(OP_SELECT,XTERM);
@@ -9209,18 +9129,6 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
 
     case KEY_setpriority:
         LOP(OP_SETPRIORITY,XTERM);
-
-    case KEY_sethostent:
-        UNI(OP_SHOSTENT);
-
-    case KEY_setnetent:
-        UNI(OP_SNETENT);
-
-    case KEY_setservent:
-        UNI(OP_SSERVENT);
-
-    case KEY_setprotoent:
-        UNI(OP_SPROTOENT);
 
     case KEY_setpwent:
         FUN0(OP_SPWENT);
@@ -9252,12 +9160,6 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
     case KEY_shutdown:
         LOP(OP_SHUTDOWN,XTERM);
 
-    case KEY_sin:
-        UNI(OP_SIN);
-
-    case KEY_sleep:
-        UNI(OP_SLEEP);
-
     case KEY_socket:
         LOP(OP_SOCKET,XTERM);
 
@@ -9279,18 +9181,6 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
 
     case KEY_splice:
         LOP(OP_SPLICE,XTERM);
-
-    case KEY_sqrt:
-        UNI(OP_SQRT);
-
-    case KEY_srand:
-        UNI(OP_SRAND);
-
-    case KEY_stat:
-        UNI(OP_STAT);
-
-    case KEY_study:
-        UNI(OP_STUDY);
 
     case KEY_substr:
         LOP(OP_SUBSTR,XTERM);
@@ -9330,17 +9220,8 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
         s = scan_trans(s);
         TERM(sublex_start());
 
-    case KEY_tell:
-        UNI(OP_TELL);
-
-    case KEY_telldir:
-        UNI(OP_TELLDIR);
-
     case KEY_tie:
         LOP(OP_TIE,XTERM);
-
-    case KEY_tied:
-        UNI(OP_TIED);
 
     case KEY_time:
         FUN0(OP_TIME);
@@ -9354,15 +9235,6 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
     case KEY_try:
         pl_yylval.ival = CopLINE(PL_curcop);
         PREBLOCK(KW_TRY);
-
-    case KEY_uc:
-        UNI(OP_UC);
-
-    case KEY_ucfirst:
-        UNI(OP_UCFIRST);
-
-    case KEY_untie:
-        UNI(OP_UNTIE);
 
     case KEY_until:
         if (!PL_lex_allbrackets && PL_lex_fakeeof >= LEX_FAKEEOF_NONEXPR)
@@ -9398,9 +9270,6 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
         s = tokenize_use(1, s);
         TOKEN(KW_USE_or_NO);
 
-    case KEY_values:
-        UNI(OP_VALUES);
-
     case KEY_vec:
         LOP(OP_VEC,XTERM);
 
@@ -9428,12 +9297,6 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
 
     case KEY_wantarray:
         FUN0(OP_WANTARRAY);
-
-    case KEY_write:
-        /* Make sure $^L is defined. 0x0C is CTRL-L on ASCII platforms, and
-         * we use the same number on EBCDIC */
-        gv_fetchpvs("\x0C", GV_ADD|GV_NOTQUAL, SVt_PV);
-        UNI(OP_ENTERWRITE);
 
     case KEY_x:
         if (PL_expect == XOPERATOR) {
