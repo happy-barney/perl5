@@ -8574,32 +8574,15 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
     case KEY_write:         PRELOAD_FORM_FEED; UNI(OP_ENTERWRITE);
 
     /* keywords treated as named unary operators recognizing slash-slash as defined-or operator */
-    case KEY_getc:
-        UNIDOR(OP_GETC);
-
-    case KEY_pop:
-        UNIDOR(OP_POP);
-
-    case KEY_pos:
-        UNIDOR(OP_POS);
-
-    case KEY_readline:
-        UNIDOR(OP_READLINE);
-
-    case KEY_readpipe:
-        UNIDOR(OP_BACKTICK);
-
-    case KEY_readlink:
-        UNIDOR(OP_READLINK);
-
-    case KEY_shift:
-        UNIDOR(OP_SHIFT);
-
-    case KEY_undef:
-        UNIDOR(OP_UNDEF);
-
-    case KEY_umask:
-        UNIDOR(OP_UMASK);
+    case KEY_getc:          UNIDOR(OP_GETC);
+    case KEY_pop:           UNIDOR(OP_POP);
+    case KEY_pos:           UNIDOR(OP_POS);
+    case KEY_readline:      UNIDOR(OP_READLINE);
+    case KEY_readlink:      UNIDOR(OP_READLINK);
+    case KEY_readpipe:      UNIDOR(OP_BACKTICK);
+    case KEY_shift:         UNIDOR(OP_SHIFT);
+    case KEY_umask:         UNIDOR(OP_UMASK);
+    case KEY_undef:         UNIDOR(OP_UNDEF);
 
     case KEY___FILE__:
         FUN0OP(newSVOP(OP_CONST, OPpCONST_TOKEN_FILE<<8,
