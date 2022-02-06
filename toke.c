@@ -467,6 +467,7 @@ static struct debug_tokens {
     DEBUG_TOKEN (IVAL, PERLY_BRACKET_OPEN),
     DEBUG_TOKEN (IVAL, PERLY_COLON),
     DEBUG_TOKEN (IVAL, PERLY_COMMA),
+    DEBUG_TOKEN (IVAL, PERLY_COMMA_IMPLICIT),
     DEBUG_TOKEN (IVAL, PERLY_DOT),
     DEBUG_TOKEN (IVAL, PERLY_EQUAL_SIGN),
     DEBUG_TOKEN (IVAL, PERLY_EXCLAMATION_MARK),
@@ -5592,6 +5593,7 @@ static int
 yyl_qw(pTHX_ char *s, STRLEN len)
 {
     OP *words = NULL;
+    int expect_implicit_comma = (PL_expect == XOPERATOR);
 
     s = scan_str(s,FALSE,FALSE,FALSE,NULL);
     if (!s)
@@ -5637,8 +5639,21 @@ yyl_qw(pTHX_ char *s, STRLEN len)
         words = newNULLLIST();
     SvREFCNT_dec_NN(PL_lex_stuff);
     PL_lex_stuff = NULL;
-    PL_expect = XOPERATOR;
-    pl_yylval.opval = sawparens(words);
+
+    /* always generate implicit comma after qw */
+    force_next(PERLY_COMMA_IMPLICIT);
+
+    OP *op_words = sawparens(words);
+    if (expect_implicit_comma) {
+        /* when called when operator is expected, return implicit comma first */
+        NEXTVAL_NEXTTOKE.opval = op_words;
+        force_next(QWLIST);
+
+        OPERATOR(PERLY_COMMA_IMPLICIT);
+    }
+
+    PL_expect = XTERM;
+    pl_yylval.opval = op_words;
     TOKEN(QWLIST);
 }
 

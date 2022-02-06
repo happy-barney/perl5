@@ -51,6 +51,7 @@
 %token <ival> PERLY_BRACKET_OPEN
 %token <ival> PERLY_BRACKET_CLOSE
 %token <ival> PERLY_COMMA
+%token <ival> PERLY_COMMA_IMPLICIT
 %token <ival> PERLY_DOLLAR
 %token <ival> PERLY_DOT
 %token <ival> PERLY_EQUAL_SIGN
@@ -109,7 +110,7 @@
 %left <ival> ANDOP
 %right <ival> NOTOP
 %nonassoc LSTOP LSTOPSUB
-%left PERLY_COMMA
+%left PERLY_COMMA PERLY_COMMA_IMPLICIT
 %right <ival> ASSIGNOP
 %right <ival> PERLY_QUESTION_MARK PERLY_COLON
 %nonassoc DOTDOT
@@ -945,12 +946,22 @@ expr	:	expr[lhs] ANDOP expr[rhs]
 	;
 
 /* Expressions are a list of terms joined by commas */
-listexpr:	listexpr[list] PERLY_COMMA
-			{ $$ = $list; }
+listexpr
+	:	listexpr[list] PERLY_COMMA
+			{
+				$$ = $list;
+			}
+	|	listexpr[list] PERLY_COMMA_IMPLICIT
+			{
+				$$ = $list;
+			}
 	|	listexpr[list] PERLY_COMMA term
 			{
-			  OP* term = $term;
-			  $$ = op_append_elem(OP_LIST, $list, term);
+				$$ = op_append_elem(OP_LIST, $list, $term);
+			}
+	|	listexpr[list] PERLY_COMMA_IMPLICIT term
+			{
+				$$ = op_append_elem(OP_LIST, $list, $term);
 			}
 	|	term %prec PREC_LOW
 	;
