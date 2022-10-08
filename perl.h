@@ -9056,6 +9056,8 @@ END_EXTERN_C
 
 */
 
+#include "perl-warnings.h"
+
 #endif /* Include guard */
 
 /*

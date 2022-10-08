@@ -1729,14 +1729,18 @@ S_not_a_number(pTHX_ SV *const sv)
      pv = sv_display(sv, tmpbuf, sizeof(tmpbuf));
 
     if (PL_op)
-        Perl_warner(aTHX_ packWARN(WARN_NUMERIC),
-                    /* diag_listed_as: Argument "%s" isn't numeric%s */
-                    "Argument \"%s\" isn't numeric in %s", pv,
-                    OP_DESC(PL_op));
+        PERL_WARNING(
+            /* diag_listed_as: Argument "%s" isn't numeric%s */
+            PERL_W_ARGUMENT_NUMERIC_IN,
+            .argument = pv,
+            .location = OP_DESC(PL_op)
+        );
     else
-        Perl_warner(aTHX_ packWARN(WARN_NUMERIC),
-                    /* diag_listed_as: Argument "%s" isn't numeric%s */
-                    "Argument \"%s\" isn't numeric", pv);
+        PERL_WARNING(
+            /* diag_listed_as: Argument "%s" isn't numeric%s */
+            PERL_W_ARGUMENT_NUMERIC,
+            .argument = pv
+        );
 }
 
 STATIC void
