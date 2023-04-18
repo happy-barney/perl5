@@ -5374,6 +5374,8 @@ EXTERN_C char **environ;  /* environment variables supplied via exec */
 
 START_EXTERN_C
 
+#include "perl-messages.h"
+
 /* handy constants */
 EXTCONST char PL_warn_uninit[]
   INIT("Use of uninitialized value%s%s%s");
