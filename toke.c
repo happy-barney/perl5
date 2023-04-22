@@ -3729,7 +3729,7 @@ S_scan_const(pTHX_ char *start)
                 && !isDIGIT(s[1]))
             {
                 /* diag_listed_as: \%d better written as $%d */
-                Perl_ck_warner(aTHX_ packWARN(WARN_SYNTAX), "\\%c better written as $%c", *s, *s);
+                Perl_ck_warner(aTHX_ packWARN(WARN_SYNTAX), PERL_WARNING_CHAR_BETTER_WRITTEN, *s, *s);
                 s = bslash;
                 *s = '$';
                 break;

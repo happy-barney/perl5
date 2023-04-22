@@ -28,6 +28,8 @@
 #   define PERL_W1003   "Illegal character after '_' in prototype for %" SVf " : %s"
 #   define PERL_W1004   "Warning: Use of \"%" UTF8f "\" without parentheses is ambiguous"
 #   define PERL_W1005   "Possible unintended interpolation of $\\ in regex"
+    /* diag_listed_as: \%d better written as $%d */
+#   define PERL_W1006   "\\%c better written as $%c"
 
     /* Experimental warnings catalogue */
 
@@ -46,6 +48,7 @@
 #   define PERL_WARNING_PROTO_UNDERSCORE        PERL_WARNING_MESSAGE (1003)
 #   define PERL_WARNING_AMBIGUOS_UNIOP          PERL_WARNING_MESSAGE (1004)
 #   define PERL_WARNING_INTERPOLATE_ORS         PERL_WARNING_MESSAGE (1005)
+#   define PERL_WARNING_CHAR_BETTER_WRITTEN     PERL_WARNING_MESSAGE (1006)
 
     /* Supporting macros */
 
