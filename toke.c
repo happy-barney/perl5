@@ -860,7 +860,7 @@ Perl_lex_start(pTHX_ SV *line, PerlIO *rsfp, U32 flags)
     yy_parser *parser, *oparser;
 
     if (flags && flags & ~LEX_START_FLAGS)
-        Perl_croak(aTHX_ "Lexing code internal error (%s)", "lex_start");
+        Perl_croak(aTHX_ PERL_ERROR_LEXER_INTERNAL_ERROR, "lex_start");
 
     /* create and initialise a parser */
 
@@ -1173,7 +1173,7 @@ Perl_lex_stuff_pvn(pTHX_ const char *pv, STRLEN len, U32 flags)
     char *bufptr;
     PERL_ARGS_ASSERT_LEX_STUFF_PVN;
     if (flags & ~(LEX_STUFF_UTF8))
-        Perl_croak(aTHX_ "Lexing code internal error (%s)", "lex_stuff_pvn");
+        Perl_croak(aTHX_ PERL_ERROR_LEXER_INTERNAL_ERROR, "lex_stuff_pvn");
     if (UTF) {
         if (flags & LEX_STUFF_UTF8) {
             goto plain_copy;
@@ -1295,7 +1295,7 @@ Perl_lex_stuff_sv(pTHX_ SV *sv, U32 flags)
     STRLEN len;
     PERL_ARGS_ASSERT_LEX_STUFF_SV;
     if (flags)
-        Perl_croak(aTHX_ "Lexing code internal error (%s)", "lex_stuff_sv");
+        Perl_croak(aTHX_ PERL_ERROR_LEXER_INTERNAL_ERROR, "lex_stuff_sv");
     pv = SvPV(sv, len);
     lex_stuff_pvn(pv, len, flags | (SvUTF8(sv) ? LEX_STUFF_UTF8 : 0));
 }
@@ -1322,12 +1322,12 @@ Perl_lex_unstuff(pTHX_ char *ptr)
     PERL_ARGS_ASSERT_LEX_UNSTUFF;
     buf = PL_parser->bufptr;
     if (ptr < buf)
-        Perl_croak(aTHX_ "Lexing code internal error (%s)", "lex_unstuff");
+        Perl_croak(aTHX_ PERL_ERROR_LEXER_INTERNAL_ERROR, "lex_unstuff");
     if (ptr == buf)
         return;
     bufend = PL_parser->bufend;
     if (ptr > bufend)
-        Perl_croak(aTHX_ "Lexing code internal error (%s)", "lex_unstuff");
+        Perl_croak(aTHX_ PERL_ERROR_LEXER_INTERNAL_ERROR, "lex_unstuff");
     unstuff_len = ptr - buf;
     Move(ptr, buf, bufend+1-ptr, char);
     SvCUR_set(PL_parser->linestr, SvCUR(PL_parser->linestr) - unstuff_len);
@@ -1356,7 +1356,7 @@ Perl_lex_read_to(pTHX_ char *ptr)
     PERL_ARGS_ASSERT_LEX_READ_TO;
     s = PL_parser->bufptr;
     if (ptr < s || ptr > PL_parser->bufend)
-        Perl_croak(aTHX_ "Lexing code internal error (%s)", "lex_read_to");
+        Perl_croak(aTHX_ PERL_ERROR_LEXER_INTERNAL_ERROR, "lex_read_to");
     for (; s != ptr; s++)
         if (*s == '\n') {
             COPLINE_INC_WITH_HERELINES;
@@ -1393,11 +1393,11 @@ Perl_lex_discard_to(pTHX_ char *ptr)
     PERL_ARGS_ASSERT_LEX_DISCARD_TO;
     buf = SvPVX(PL_parser->linestr);
     if (ptr < buf)
-        Perl_croak(aTHX_ "Lexing code internal error (%s)", "lex_discard_to");
+        Perl_croak(aTHX_ PERL_ERROR_LEXER_INTERNAL_ERROR, "lex_discard_to");
     if (ptr == buf)
         return;
     if (ptr > PL_parser->bufptr)
-        Perl_croak(aTHX_ "Lexing code internal error (%s)", "lex_discard_to");
+        Perl_croak(aTHX_ PERL_ERROR_LEXER_INTERNAL_ERROR, "lex_discard_to");
     discard_len = ptr - buf;
     if (PL_parser->oldbufptr < ptr)
         PL_parser->oldbufptr = ptr;
@@ -1476,7 +1476,7 @@ Perl_lex_next_chunk(pTHX_ U32 flags)
     bool got_some;
 
     if (flags & ~(LEX_KEEP_PREVIOUS|LEX_FAKE_EOF|LEX_NO_TERM))
-        Perl_croak(aTHX_ "Lexing code internal error (%s)", "lex_next_chunk");
+        Perl_croak(aTHX_ PERL_ERROR_LEXER_INTERNAL_ERROR, "lex_next_chunk");
     if (!(flags & LEX_NO_TERM) && PL_lex_inwhat)
         return FALSE;
     linestr = PL_parser->linestr;
@@ -1603,7 +1603,7 @@ Perl_lex_peek_unichar(pTHX_ U32 flags)
 {
     char *s, *bufend;
     if (flags & ~(LEX_KEEP_PREVIOUS))
-        Perl_croak(aTHX_ "Lexing code internal error (%s)", "lex_peek_unichar");
+        Perl_croak(aTHX_ PERL_ERROR_LEXER_INTERNAL_ERROR, "lex_peek_unichar");
     s = PL_parser->bufptr;
     bufend = PL_parser->bufend;
     if (UTF) {
@@ -1672,7 +1672,7 @@ Perl_lex_read_unichar(pTHX_ U32 flags)
 {
     I32 c;
     if (flags & ~(LEX_KEEP_PREVIOUS))
-        Perl_croak(aTHX_ "Lexing code internal error (%s)", "lex_read_unichar");
+        Perl_croak(aTHX_ PERL_ERROR_LEXER_INTERNAL_ERROR, "lex_read_unichar");
     c = lex_peek_unichar(flags);
     if (c != -1) {
         if (c == '\n')
@@ -1712,7 +1712,7 @@ Perl_lex_read_space(pTHX_ U32 flags)
     const bool can_incline = !(flags & LEX_NO_INCLINE);
     bool need_incline = 0;
     if (flags & ~(LEX_KEEP_PREVIOUS|LEX_NO_NEXT_CHUNK|LEX_NO_INCLINE))
-        Perl_croak(aTHX_ "Lexing code internal error (%s)", "lex_read_space");
+        Perl_croak(aTHX_ PERL_ERROR_LEXER_INTERNAL_ERROR, "lex_read_space");
     s = PL_parser->bufptr;
     bufend = PL_parser->bufend;
     while (1) {
