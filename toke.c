@@ -2088,7 +2088,7 @@ S_check_uni(pTHX)
         return;
 
     Perl_ck_warner_d(aTHX_ packWARN(WARN_AMBIGUOUS),
-                     "Warning: Use of \"%" UTF8f "\" without parentheses is ambiguous",
+                     PERL_WARNING_AMBIGUOS_UNIOP,
                      UTF8fARG(UTF, (int)(s - PL_last_uni), PL_last_uni));
 }
 
