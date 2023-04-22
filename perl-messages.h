@@ -18,6 +18,7 @@
 #   define PERL_W1000   "Prototype after '%c' for %" SVf " : %s"
 #   define PERL_W1001   "Missing ']' in prototype for %" SVf " : %s"
 #   define PERL_W1002   "Illegal character in prototype for %" SVf " : %s"
+#   define PERL_W1003   "Illegal character after '_' in prototype for %" SVf " : %s"
 
     /* Experimental warnings catalogue */
 
@@ -29,6 +30,7 @@
 #   define PERL_WARNING_PROTO_AFTER_GREEDY      PERL_WARNING_MESSAGE (1000)
 #   define PERL_WARNING_PROTO_MISSING_RBRACKET  PERL_WARNING_MESSAGE (1001)
 #   define PERL_WARNING_PROTO_ILLEGAL           PERL_WARNING_MESSAGE (1002)
+#   define PERL_WARNING_PROTO_UNDERSCORE        PERL_WARNING_MESSAGE (1003)
 
     /* Supporting macros */
 

@@ -1861,7 +1861,7 @@ Perl_validate_proto(pTHX_ SV *name, SV *proto, bool warn, bool curstash)
                         SVfARG(name), p);
         if (bad_proto_after_underscore)
             Perl_warner(aTHX_ packWARN(WARN_ILLEGALPROTO),
-                        "Illegal character after '_' in prototype for %" SVf " : %s",
+                        PERL_WARNING_PROTO_UNDERSCORE,
                         SVfARG(name), p);
     }
 
