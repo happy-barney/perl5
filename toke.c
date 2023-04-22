@@ -1857,7 +1857,7 @@ Perl_validate_proto(pTHX_ SV *name, SV *proto, bool warn, bool curstash)
                         SVfARG(name), p);
         if (bad_proto)
             Perl_warner(aTHX_ packWARN(WARN_ILLEGALPROTO),
-                        "Illegal character in prototype for %" SVf " : %s",
+                        PERL_WARNING_PROTO_ILLEGAL,
                         SVfARG(name), p);
         if (bad_proto_after_underscore)
             Perl_warner(aTHX_ packWARN(WARN_ILLEGALPROTO),
