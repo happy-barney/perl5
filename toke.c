@@ -3382,23 +3382,21 @@ S_scan_const(pTHX_ char *start)
                      * of them */
                     if (isPRINT_A(range_min) && isPRINT_A(range_max)) {
                         Perl_croak(aTHX_
-                         "Invalid range \"%c-%c\" in transliteration operator",
+                         PERL_ERROR_TR_INVALID_RANGE,
                          (char)range_min, (char)range_max);
                     }
 #ifdef EBCDIC
                     else if (convert_unicode) {
         /* diag_listed_as: Invalid range "%s" in transliteration operator */
                         Perl_croak(aTHX_
-                           "Invalid range \"\\N{U+%04" UVXf "}-\\N{U+%04"
-                           UVXf "}\" in transliteration operator",
+                           PERL_ERROR_TR_INVALID_RANGE_UTF8,
                            range_min, range_max);
                     }
 #endif
                     else {
         /* diag_listed_as: Invalid range "%s" in transliteration operator */
                         Perl_croak(aTHX_
-                           "Invalid range \"\\x{%04" UVXf "}-\\x{%04" UVXf "}\""
-                           " in transliteration operator",
+                           PERL_ERROR_TR_INVALID_RANGE_HEX,
                            range_min, range_max);
                     }
                 }
