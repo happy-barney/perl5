@@ -1853,7 +1853,7 @@ Perl_validate_proto(pTHX_ SV *name, SV *proto, bool warn, bool curstash)
                         greedy_proto, SVfARG(name), p);
         if (in_brackets)
             Perl_warner(aTHX_ packWARN(WARN_ILLEGALPROTO),
-                        "Missing ']' in prototype for %" SVf " : %s",
+                        PERL_WARNING_PROTO_MISSING_RBRACKET,
                         SVfARG(name), p);
         if (bad_proto)
             Perl_warner(aTHX_ packWARN(WARN_ILLEGALPROTO),

@@ -16,6 +16,7 @@
 
     /* Warnings catalogue */
 #   define PERL_W1000   "Prototype after '%c' for %" SVf " : %s"
+#   define PERL_W1001   "Missing ']' in prototype for %" SVf " : %s"
 
     /* Experimental warnings catalogue */
 
@@ -25,6 +26,7 @@
 #   define PERL_ERROR_LEXER_MIX_ENCODING        PERL_ERROR_MESSAGE (1002)
 
 #   define PERL_WARNING_PROTO_AFTER_GREEDY      PERL_WARNING_MESSAGE (1000)
+#   define PERL_WARNING_PROTO_MISSING_RBRACKET  PERL_WARNING_MESSAGE (1001)
 
     /* Supporting macros */
 
