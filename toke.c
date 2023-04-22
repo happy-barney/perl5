@@ -3265,8 +3265,7 @@ S_scan_const(pTHX_ char *start)
                 }
                 else {  /* Is a '-' in the context where it means a range */
                     if (didrange) { /* Something like y/A-C-Z// */
-                        Perl_croak(aTHX_ "Ambiguous range in transliteration"
-                                         " operator");
+                        Perl_croak(aTHX_ PERL_ERROR_TR_AMBIGUOUS_RANGE);
                     }
 
                     dorange = TRUE;
