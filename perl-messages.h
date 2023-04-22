@@ -12,6 +12,7 @@
     /* Errors catalogue */
 #   define PERL_E1000   "Can't find string terminator %c%" UTF8f "%c anywhere before EOF"
 #   define PERL_E1001   "Lexing code internal error (%s)"
+#   define PERL_E1002   "Lexing code attempted to stuff non-Latin-1 character into Latin-1 input"
 
     /* Warnings catalogue */
 
@@ -20,6 +21,7 @@
     /* Human readable macros */
 #   define PERL_ERROR_STRING_TERMINATOR_EOF     PERL_ERROR_MESSAGE (1000)
 #   define PERL_ERROR_LEXER_INTERNAL_ERROR      PERL_ERROR_MESSAGE (1001)
+#   define PERL_ERROR_LEXER_MIX_ENCODING        PERL_ERROR_MESSAGE (1002)
 
     /* Supporting macros */
 

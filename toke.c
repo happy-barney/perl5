@@ -1200,8 +1200,7 @@ Perl_lex_stuff_pvn(pTHX_ const char *pv, STRLEN len, U32 flags)
             for (p = pv; p != e; p++) {
                 U8 c = (U8)*p;
                 if (UTF8_IS_ABOVE_LATIN1(c)) {
-                    Perl_croak(aTHX_ "Lexing code attempted to stuff "
-                                "non-Latin-1 character into Latin-1 input");
+                    Perl_croak(aTHX_ PERL_ERROR_LEXER_MIX_ENCODING);
                 } else if (UTF8_IS_NEXT_CHAR_DOWNGRADEABLE(p, e)) {
                     p++;
                     highhalf++;
