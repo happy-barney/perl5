@@ -1849,7 +1849,7 @@ Perl_validate_proto(pTHX_ SV *name, SV *proto, bool warn, bool curstash)
 
         if (proto_after_greedy_proto)
             Perl_warner(aTHX_ packWARN(WARN_ILLEGALPROTO),
-                        "Prototype after '%c' for %" SVf " : %s",
+                        PERL_WARNING_PROTO_AFTER_GREEDY,
                         greedy_proto, SVfARG(name), p);
         if (in_brackets)
             Perl_warner(aTHX_ packWARN(WARN_ILLEGALPROTO),
