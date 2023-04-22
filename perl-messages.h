@@ -27,6 +27,7 @@
 #   define PERL_W1002   "Illegal character in prototype for %" SVf " : %s"
 #   define PERL_W1003   "Illegal character after '_' in prototype for %" SVf " : %s"
 #   define PERL_W1004   "Warning: Use of \"%" UTF8f "\" without parentheses is ambiguous"
+#   define PERL_W1005   "Possible unintended interpolation of $\\ in regex"
 
     /* Experimental warnings catalogue */
 
@@ -44,6 +45,7 @@
 #   define PERL_WARNING_PROTO_ILLEGAL           PERL_WARNING_MESSAGE (1002)
 #   define PERL_WARNING_PROTO_UNDERSCORE        PERL_WARNING_MESSAGE (1003)
 #   define PERL_WARNING_AMBIGUOS_UNIOP          PERL_WARNING_MESSAGE (1004)
+#   define PERL_WARNING_INTERPOLATE_ORS         PERL_WARNING_MESSAGE (1005)
 
     /* Supporting macros */
 

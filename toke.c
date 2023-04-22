@@ -3699,7 +3699,7 @@ S_scan_const(pTHX_ char *start)
             if (s + 1 < send && !memCHRs("()| \r\n\t", s[1])) {
                 if (s[1] == '\\') {
                     Perl_ck_warner(aTHX_ packWARN(WARN_AMBIGUOUS),
-                                   "Possible unintended interpolation of $\\ in regex");
+                                   PERL_WARNING_INTERPOLATE_ORS);
                 }
                 break;		/* in regexp, $ might be tail anchor */
             }
