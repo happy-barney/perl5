@@ -774,8 +774,7 @@ S_missingterm(pTHX_ char *s, STRLEN len)
         s = tmpbuf;
     }
     q = memchr(s, '"', len) ? '\'' : '"';
-    Perl_croak(aTHX_ "Can't find string terminator %c%" UTF8f "%c"
-                     " anywhere before EOF", q, UTF8fARG(uni, len, s), q);
+    Perl_croak(aTHX_ PERL_ERROR_STRING_TERMINATOR_EOF, q, UTF8fARG(uni, len, s), q);
 }
 
 #include "feature.h"

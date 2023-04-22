@@ -10,12 +10,14 @@
 #   define PERL_MESSAGE__H
 
     /* Errors catalogue */
+#   define PERL_E1000   "Can't find string terminator %c%" UTF8f "%c anywhere before EOF"
 
     /* Warnings catalogue */
 
     /* Experimental warnings catalogue */
 
     /* Human readable macros */
+#   define PERL_ERROR_STRING_TERMINATOR_EOF     PERL_ERROR_MESSAGE (1000)
 
     /* Supporting macros */
 
