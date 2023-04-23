@@ -5532,7 +5532,7 @@ yyl_interpcasemod(pTHX_ char *s)
         else if ( PL_bufptr != PL_bufend && PL_bufptr[1] == 'E' ) {
            /* Got an unpaired \E */
            Perl_ck_warner(aTHX_ packWARN(WARN_MISC),
-                    "Useless use of \\E");
+                    PERL_WARNING_USELESS_USE_OF_E);
         }
         if (PL_bufptr != PL_bufend)
             PL_bufptr += 2;

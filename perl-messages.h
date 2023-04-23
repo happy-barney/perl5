@@ -39,6 +39,7 @@
 #   define PERL_W1007   "Unrecognized escape \\%c passed through"
 #   define PERL_W1008   "Multidimensional syntax %" UTF8f " not supported"
 #   define PERL_W1009   "You need to quote \"%" UTF8f "\""
+#   define PERL_W1010   "Useless use of \\E"
 
     /* Experimental warnings catalogue */
 
@@ -66,6 +67,7 @@
 #   define PERL_WARNING_UNRECOGNIZED_ESCAPE     PERL_WARNING_MESSAGE (1007)
 #   define PERL_WARNING_MULTIDIMENSIONAL_SYNTAX PERL_WARNING_MESSAGE (1008)
 #   define PERL_WARNING_NEED_TO_QUOTE           PERL_WARNING_MESSAGE (1009)
+#   define PERL_WARNING_USELESS_USE_OF_E        PERL_WARNING_MESSAGE (1010)
 
     /* Supporting macros */
 
