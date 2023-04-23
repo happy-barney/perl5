@@ -5965,7 +5965,7 @@ yyl_colon(pTHX_ char *s)
         PL_bufptr = s;	/* update in case we back off */
         if (*s == '=') {
             Perl_croak(aTHX_
-                       "Use of := for an empty attribute list is not allowed");
+                       PERL_ERROR_EMPTY_ATTRIBUTE_LIST);
         }
         goto grabattrs;
     case XATTRBLOCK:
