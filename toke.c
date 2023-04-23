@@ -5686,12 +5686,12 @@ yyl_qw(pTHX_ char *s, STRLEN len)
                     for (; !isSPACE(*d) && len; --len, ++d) {
                         if (!warned_comma && *d == ',') {
                             Perl_warner(aTHX_ packWARN(WARN_QW),
-                                "Possible attempt to separate words with commas");
+                                PERL_WARNING_QW_COMMA);
                             ++warned_comma;
                         }
                         else if (!warned_comment && *d == '#') {
                             Perl_warner(aTHX_ packWARN(WARN_QW),
-                                "Possible attempt to put comments in qw() list");
+                                PERL_WARNING_QW_COMMENT);
                             ++warned_comment;
                         }
                     }
