@@ -5655,8 +5655,7 @@ yyl_secondclass_keyword(pTHX_ char *s, STRLEN len, int key, I32 *orig_keyword,
         *pgvp = 0;
         if (hgv && key != KEY_x)	/* never ambiguous */
             Perl_ck_warner(aTHX_ packWARN(WARN_AMBIGUOUS),
-                           "Ambiguous call resolved as CORE::%s(), "
-                           "qualify as such or use &",
+                           PERL_WARNING_AMBIGUOUS_CORE_CALL,
                            GvENAME(hgv));
         return key;
     }

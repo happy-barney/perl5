@@ -41,6 +41,7 @@
 #   define PERL_W1008   "Multidimensional syntax %" UTF8f " not supported"
 #   define PERL_W1009   "You need to quote \"%" UTF8f "\""
 #   define PERL_W1010   "Useless use of \\E"
+#   define PERL_W1011   "Ambiguous call resolved as CORE::%s(), qualify as such or use &"
 
     /* Experimental warnings catalogue */
 
@@ -70,6 +71,7 @@
 #   define PERL_WARNING_MULTIDIMENSIONAL_SYNTAX PERL_WARNING_MESSAGE (1008)
 #   define PERL_WARNING_NEED_TO_QUOTE           PERL_WARNING_MESSAGE (1009)
 #   define PERL_WARNING_USELESS_USE_OF_E        PERL_WARNING_MESSAGE (1010)
+#   define PERL_WARNING_AMBIGUOUS_CORE_CALL     PERL_WARNING_MESSAGE (1011)
 
     /* Supporting macros */
 
