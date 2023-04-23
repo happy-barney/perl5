@@ -5308,7 +5308,7 @@ yyl_dollar(pTHX_ char *s)
                                                             : 0))
                         {
                             Perl_warner(aTHX_ packWARN(WARN_SYNTAX),
-                                "You need to quote \"%" UTF8f "\"",
+                                PERL_WARNING_NEED_TO_QUOTE,
                                     UTF8fARG(UTF, len, tmpbuf));
                         }
                     }
