@@ -28,6 +28,7 @@
 #   define PERL_E1011   "Illegal declaration of subroutine %" SVf
 #   define PERL_E1012   "dump() must be written as CORE::dump() as of Perl 5.30"
 #   define PERL_E1013   "Use of := for an empty attribute list is not allowed"
+#   define PERL_E1014   "Unterminated attribute parameter in attribute list"
 
     /* Warnings catalogue */
 #   define PERL_W1000   "Prototype after '%c' for %" SVf " : %s"
@@ -63,6 +64,7 @@
 #   define PERL_ERROR_SUB_ILLEGAL               PERL_ERROR_MESSAGE (1011)
 #   define PERL_ERROR_DUMP_V5_30                PERL_ERROR_MESSAGE (1012)
 #   define PERL_ERROR_EMPTY_ATTRIBUTE_LIST      PERL_ERROR_MESSAGE (1013)
+#   define PERL_ERROR_ATTRIBUTE_NOT_TERMINATED  PERL_ERROR_MESSAGE (1014)
 
 #   define PERL_WARNING_PROTO_AFTER_GREEDY      PERL_WARNING_MESSAGE (1000)
 #   define PERL_WARNING_PROTO_MISSING_RBRACKET  PERL_WARNING_MESSAGE (1001)

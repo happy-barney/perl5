@@ -6012,7 +6012,7 @@ yyl_colon(pTHX_ char *s)
                         op_free(attrs);
                     ASSUME(sv && SvREFCNT(sv) == 1);
                     SvREFCNT_dec(sv);
-                    Perl_croak(aTHX_ "Unterminated attribute parameter in attribute list");
+                    Perl_croak(aTHX_ PERL_ERROR_ATTRIBUTE_NOT_TERMINATED);
                 }
                 COPLINE_SET_FROM_MULTI_END;
             }
