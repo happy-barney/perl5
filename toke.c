@@ -3768,7 +3768,7 @@ S_scan_const(pTHX_ char *start)
                 {
                     if ((isALPHANUMERIC(*s)))
                         Perl_ck_warner(aTHX_ packWARN(WARN_MISC),
-                                       "Unrecognized escape \\%c passed through",
+                                       PERL_WARNING_UNRECOGNIZED_ESCAPE,
                                        *s);
                     /* default action is to copy the quoted character */
                     goto default_action;

@@ -30,6 +30,7 @@
 #   define PERL_W1005   "Possible unintended interpolation of $\\ in regex"
     /* diag_listed_as: \%d better written as $%d */
 #   define PERL_W1006   "\\%c better written as $%c"
+#   define PERL_W1007   "Unrecognized escape \\%c passed through"
 
     /* Experimental warnings catalogue */
 
@@ -49,6 +50,7 @@
 #   define PERL_WARNING_AMBIGUOS_UNIOP          PERL_WARNING_MESSAGE (1004)
 #   define PERL_WARNING_INTERPOLATE_ORS         PERL_WARNING_MESSAGE (1005)
 #   define PERL_WARNING_CHAR_BETTER_WRITTEN     PERL_WARNING_MESSAGE (1006)
+#   define PERL_WARNING_UNRECOGNIZED_ESCAPE     PERL_WARNING_MESSAGE (1007)
 
     /* Supporting macros */
 
