@@ -5471,9 +5471,9 @@ yyl_sub(pTHX_ char *s, const int key)
                key == KEY_my || key == KEY_state ||
                key == KEY_our);
         if (!have_name)
-            Perl_croak(aTHX_ "Illegal declaration of anonymous subroutine");
+            Perl_croak(aTHX_ PERL_ERROR_SUB_ILLEGAL_ANONYMOUS);
         else if (*s != ';' && *s != '}')
-            Perl_croak(aTHX_ "Illegal declaration of subroutine %" SVf, SVfARG(PL_subname));
+            Perl_croak(aTHX_ PERL_ERROR_SUB_ILLEGAL, SVfARG(PL_subname));
     }
 
     if (have_proto) {
