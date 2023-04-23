@@ -23,6 +23,7 @@
 #   define PERL_E1007   "Source filters apply only to byte streams"
     /* diag_listed_as: Missing name in "%s sub" */
 #   define PERL_E1008   "Missing name in \"%s\""
+#   define PERL_E1009   "Prototype not terminated"
 
     /* Warnings catalogue */
 #   define PERL_W1000   "Prototype after '%c' for %" SVf " : %s"
@@ -49,6 +50,7 @@
 #   define PERL_ERROR_TR_INVALID_RANGE_HEX      PERL_ERROR_MESSAGE (1006)
 #   define PERL_ERROR_SOURCE_FILTER_BYTE        PERL_ERROR_MESSAGE (1007)
 #   define PERL_ERROR_MISSING_NAME_IN_SUB       PERL_ERROR_MESSAGE (1008)
+#   define PERL_ERROR_PROTO_NOT_TERMINATED      PERL_ERROR_MESSAGE (1009)
 
 #   define PERL_WARNING_PROTO_AFTER_GREEDY      PERL_WARNING_MESSAGE (1000)
 #   define PERL_WARNING_PROTO_MISSING_RBRACKET  PERL_WARNING_MESSAGE (1001)

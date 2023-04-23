@@ -5450,7 +5450,7 @@ yyl_sub(pTHX_ char *s, const int key)
     if (*s == '(' && !is_sigsub) {
         s = scan_str(s,FALSE,FALSE,FALSE,NULL);
         if (!s)
-            Perl_croak(aTHX_ "Prototype not terminated");
+            Perl_croak(aTHX_ PERL_ERROR_PROTO_NOT_TERMINATED);
         COPLINE_SET_FROM_MULTI_END;
         (void)validate_proto(PL_subname, PL_lex_stuff,
                              ckWARN(WARN_ILLEGALPROTO), 0);
