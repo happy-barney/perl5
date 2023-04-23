@@ -5649,7 +5649,7 @@ yyl_secondclass_keyword(pTHX_ char *s, STRLEN len, int key, I32 *orig_keyword,
     else {			/* no override */
         key = -key;
         if (key == KEY_dump) {
-            Perl_croak(aTHX_ "dump() must be written as CORE::dump() as of Perl 5.30");
+            Perl_croak(aTHX_ PERL_ERROR_DUMP_V5_30);
         }
         *pgv = NULL;
         *pgvp = 0;
