@@ -32,6 +32,7 @@
     /* diag_listed_as: \%d better written as $%d */
 #   define PERL_W1006   "\\%c better written as $%c"
 #   define PERL_W1007   "Unrecognized escape \\%c passed through"
+#   define PERL_W1008   "Multidimensional syntax %" UTF8f " not supported"
 
     /* Experimental warnings catalogue */
 
@@ -53,6 +54,7 @@
 #   define PERL_WARNING_INTERPOLATE_ORS         PERL_WARNING_MESSAGE (1005)
 #   define PERL_WARNING_CHAR_BETTER_WRITTEN     PERL_WARNING_MESSAGE (1006)
 #   define PERL_WARNING_UNRECOGNIZED_ESCAPE     PERL_WARNING_MESSAGE (1007)
+#   define PERL_WARNING_MULTIDIMENSIONAL_SYNTAX PERL_WARNING_MESSAGE (1008)
 
     /* Supporting macros */
 
