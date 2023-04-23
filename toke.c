@@ -5429,7 +5429,7 @@ yyl_sub(pTHX_ char *s, const int key)
             *d = '\0';
             /* diag_listed_as: Missing name in "%s sub" */
             Perl_croak(aTHX_
-                      "Missing name in \"%s\"", PL_bufptr);
+                      PERL_ERROR_MISSING_NAME_IN_SUB, PL_bufptr);
         }
         PL_expect = XATTRTERM;
         sv_setpvs(PL_subname,"?");

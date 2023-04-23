@@ -21,6 +21,8 @@
     /* diag_listed_as: Invalid range "%s" in transliteration operator */
 #   define PERL_E1006   "Invalid range \"\\x{%04" UVXf "}-\\x{%04" UVXf "}\"" " in transliteration operator"
 #   define PERL_E1007   "Source filters apply only to byte streams"
+    /* diag_listed_as: Missing name in "%s sub" */
+#   define PERL_E1008   "Missing name in \"%s\""
 
     /* Warnings catalogue */
 #   define PERL_W1000   "Prototype after '%c' for %" SVf " : %s"
@@ -46,6 +48,7 @@
 #   define PERL_ERROR_TR_INVALID_RANGE_UTF8     PERL_ERROR_MESSAGE (1005)
 #   define PERL_ERROR_TR_INVALID_RANGE_HEX      PERL_ERROR_MESSAGE (1006)
 #   define PERL_ERROR_SOURCE_FILTER_BYTE        PERL_ERROR_MESSAGE (1007)
+#   define PERL_ERROR_MISSING_NAME_IN_SUB       PERL_ERROR_MESSAGE (1008)
 
 #   define PERL_WARNING_PROTO_AFTER_GREEDY      PERL_WARNING_MESSAGE (1000)
 #   define PERL_WARNING_PROTO_MISSING_RBRACKET  PERL_WARNING_MESSAGE (1001)
