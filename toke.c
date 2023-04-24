@@ -6819,7 +6819,7 @@ static int
 yyl_backslash(pTHX_ char *s)
 {
     if (PL_lex_inwhat == OP_SUBST && PL_lex_repl == PL_linestr && isDIGIT(*s))
-        Perl_ck_warner(aTHX_ packWARN(WARN_SYNTAX),"Can't use \\%c to mean $%c in expression",
+        Perl_ck_warner(aTHX_ packWARN(WARN_SYNTAX),PERL_WARNING_BACKSLASH_NUMBER,
                        *s, *s);
     if (PL_expect == XOPERATOR)
         no_op("Backslash",s);
