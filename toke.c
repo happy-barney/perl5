@@ -7377,7 +7377,7 @@ yyl_fake_eof(pTHX_ U32 fake_eof, bool bof, char *s)
                             const char * const m = d1;
                             while (*d1 && !isSPACE(*d1))
                                 d1++;
-                            Perl_croak(aTHX_ "Too late for \"-%.*s\" option",
+                            Perl_croak(aTHX_ PERL_ERROR_TOO_LATE_FOR_OPTION,
                                   (int)(d1 - m), m);
                         }
                         d1 = moreswitches(d1);
