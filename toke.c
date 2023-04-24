@@ -6068,8 +6068,7 @@ yyl_colon(pTHX_ char *s)
              * handling */
             if (attrs)
                 op_free(attrs);
-            Perl_croak(aTHX_ "Subroutine attributes must come "
-                             "before the signature");
+            Perl_croak(aTHX_ PERL_ERROR_ATTRIBUTES_SIGNATURE);
         }
         if (attrs) {
             NEXTVAL_NEXTTOKE.opval = attrs;
