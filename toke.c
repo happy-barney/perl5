@@ -6498,7 +6498,7 @@ yyl_bang(pTHX_ char *s)
                     && !isWORDCHAR(t[1]))
                 || (*t == 't' && t[1] == 'r' && !isWORDCHAR(t[2])))
                 Perl_warner(aTHX_ packWARN(WARN_SYNTAX),
-                            "!=~ should be !~");
+                            PERL_WARNING_NEGATIVE_BINDING);
         }
 
         if (!PL_lex_allbrackets && PL_lex_fakeeof >= LEX_FAKEEOF_COMPARE) {
