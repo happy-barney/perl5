@@ -56,6 +56,7 @@
 #   define PERL_W1015   "!=~ should be !~"
 #   define PERL_W1016   "Smartmatch is deprecated"
 #   define PERL_W1017   "Can't use \\%c to mean $%c in expression"
+#   define PERL_W1018   "Operator or semicolon missing before %c%" UTF8f
 
     /* Experimental warnings catalogue */
 #   define PERL_T1000   "for my (...) is experimental"
@@ -102,6 +103,7 @@
 #   define PERL_WARNING_NEGATIVE_BINDING        PERL_WARNING_MESSAGE (1015)
 #   define PERL_WARNING_DEPRECATED_SMARTMATCH   PERL_WARNING_MESSAGE (1016)
 #   define PERL_WARNING_BACKSLASH_NUMBER        PERL_WARNING_MESSAGE (1017)
+#   define PERL_WARNING_OPERATOR_OR_SEMICOLON   PERL_WARNING_MESSAGE (1018)
 
 #   define PERL_EXPERIMENT_FOR_MY_LIST          PERL_EXPERIMENT_MESSAGE (1000)
 #   define PERL_EXPERIMENT_DECLARE_REFS         PERL_EXPERIMENT_MESSAGE (1001)

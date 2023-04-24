@@ -7437,7 +7437,7 @@ yyl_safe_bareword(pTHX_ char *s, const char lastchar)
         && PL_parser->saw_infix_sigil)
     {
         Perl_ck_warner_d(aTHX_ packWARN(WARN_AMBIGUOUS),
-                         "Operator or semicolon missing before %c%" UTF8f,
+                         PERL_WARNING_OPERATOR_OR_SEMICOLON,
                          lastchar,
                          UTF8fARG(UTF, strlen(PL_tokenbuf),
                                   PL_tokenbuf));
