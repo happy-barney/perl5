@@ -6917,7 +6917,7 @@ yyl_croak_unrecognised(pTHX_ char *s)
         d = UTF ? (char *) utf8_hop_back((U8 *) s, -UNRECOGNIZED_PRECEDE_COUNT, (U8 *)d) : s - UNRECOGNIZED_PRECEDE_COUNT;
     }
 
-    Perl_croak(aTHX_  "Unrecognized character %s; marked by <-- HERE after %" UTF8f "<-- HERE near column %d", c,
+    Perl_croak(aTHX_  PERL_ERROR_UNRECOGNIZED_CHARACTER, c,
                       UTF8fARG(UTF, (s - d), d),
                      (int) len + 1);
 }
