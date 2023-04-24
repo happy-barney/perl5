@@ -7097,11 +7097,10 @@ yyl_my(pTHX_ char *s, I32 my)
     }
     else if (*s == '\\') {
         if (!FEATURE_MYREF_IS_ENABLED)
-            Perl_croak(aTHX_ "The experimental declared_refs "
-                             "feature is not enabled");
+            Perl_croak(aTHX_ PERL_ERROR_DECLARED_REFS_NOT_ENABLED);
         Perl_ck_warner_d(aTHX_
              packWARN(WARN_EXPERIMENTAL__DECLARED_REFS),
-            "Declaring references is experimental");
+             PERL_EXPERIMENT_DECLARE_REFS);
     }
     OPERATOR(KW_MY);
 }
