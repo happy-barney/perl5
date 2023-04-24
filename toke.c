@@ -7442,7 +7442,7 @@ yyl_safe_bareword(pTHX_ char *s, const char lastchar)
                          UTF8fARG(UTF, strlen(PL_tokenbuf),
                                   PL_tokenbuf));
         Perl_ck_warner_d(aTHX_ packWARN(WARN_AMBIGUOUS),
-                         "Ambiguous use of %c resolved as operator %c",
+                         PERL_WARNING_AMBIGUOUS_OPERATOR,
                          lastchar, lastchar);
     }
     TOKEN(BAREWORD);
