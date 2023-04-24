@@ -7008,7 +7008,7 @@ yyl_foreach(pTHX_ char *s)
             }
         }
         if (saw_core && !core_valid) {
-            Perl_croak(aTHX_ "Missing $ on loop variable");
+            Perl_croak(aTHX_ PERL_ERROR_DOLLAR_ON_LOOP_VARIABLE);
         }
 
         if (maybe_package && !saw_core) {
@@ -7028,7 +7028,7 @@ yyl_foreach(pTHX_ char *s)
         }
         else if (UNLIKELY(*p != '$' && *p != '\\')) {
             /* "for myfoo (" will end up here, but with p pointing at the 'f' */
-            Perl_croak(aTHX_ "Missing $ on loop variable");
+            Perl_croak(aTHX_ PERL_ERROR_DOLLAR_ON_LOOP_VARIABLE);
         }
         /* The buffer may have been reallocated, update s */
         s = SvPVX(PL_linestr) + s_off;
