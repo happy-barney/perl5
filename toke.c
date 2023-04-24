@@ -7350,7 +7350,7 @@ yyl_fake_eof(pTHX_ U32 fake_eof, bool bof, char *s)
                 PERL_FPU_PRE_EXEC
                 PerlProc_execv(ipath, EXEC_ARGV_CAST(newargv));
                 PERL_FPU_POST_EXEC
-                Perl_croak(aTHX_ "Can't exec %s", ipath);
+                Perl_croak(aTHX_ PERL_ERROR_CANT_EXEC, ipath);
             }
             if (d) {
                 while (*d && !isSPACE(*d))

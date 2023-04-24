@@ -33,6 +33,7 @@
 #   define PERL_E1016   "Unrecognized character %s; marked by <-- HERE after %" UTF8f "<-- HERE near column %d"
 #   define PERL_E1017   "Missing $ on loop variable"
 #   define PERL_E1018   "The experimental declared_refs feature is not enabled"
+#   define PERL_E1019   "Can't exec %s"
 
     /* Warnings catalogue */
 #   define PERL_W1000   "Prototype after '%c' for %" SVf " : %s"
@@ -79,6 +80,7 @@
 #   define PERL_ERROR_UNRECOGNIZED_CHARACTER    PERL_ERROR_MESSAGE (1016)
 #   define PERL_ERROR_DOLLAR_ON_LOOP_VARIABLE   PERL_ERROR_MESSAGE (1017)
 #   define PERL_ERROR_DECLARED_REFS_NOT_ENABLED PERL_ERROR_MESSAGE (1018)
+#   define PERL_ERROR_CANT_EXEC                 PERL_ERROR_MESSAGE (1019)
 
 #   define PERL_WARNING_PROTO_AFTER_GREEDY      PERL_WARNING_MESSAGE (1000)
 #   define PERL_WARNING_PROTO_MISSING_RBRACKET  PERL_WARNING_MESSAGE (1001)
