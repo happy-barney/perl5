@@ -49,6 +49,7 @@
 #   define PERL_W1013   "Possible attempt to put comments in qw() list"
 #   define PERL_W1014   "Semicolon seems to be missing"
 #   define PERL_W1015   "!=~ should be !~"
+#   define PERL_W1016   "Smartmatch is deprecated"
 
     /* Experimental warnings catalogue */
 
@@ -86,6 +87,7 @@
 #   define PERL_WARNING_QW_COMMENT              PERL_WARNING_MESSAGE (1013)
 #   define PERL_WARNING_MISSING_SEMICOLON       PERL_WARNING_MESSAGE (1014)
 #   define PERL_WARNING_NEGATIVE_BINDING        PERL_WARNING_MESSAGE (1015)
+#   define PERL_WARNING_DEPRECATED_SMARTMATCH   PERL_WARNING_MESSAGE (1016)
 
     /* Supporting macros */
 

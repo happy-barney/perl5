@@ -6632,7 +6632,7 @@ yyl_tilde(pTHX_ char *s)
         s += 2;
         Perl_ck_warner_d(aTHX_
             packWARN(WARN_DEPRECATED__SMARTMATCH),
-            "Smartmatch is deprecated");
+            PERL_WARNING_DEPRECATED_SMARTMATCH);
         NCEop(OP_SMARTMATCH);
     }
     s++;
