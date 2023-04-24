@@ -6419,7 +6419,7 @@ yyl_ampersand(pTHX_ char *s)
             && isIDFIRST_lazy_if_safe(s, PL_bufend, UTF))
         {
             CopLINE_dec(PL_curcop);
-            Perl_warner(aTHX_ packWARN(WARN_SEMICOLON), "%s", PL_warn_nosemi);
+            Perl_warner(aTHX_ packWARN(WARN_SEMICOLON), PERL_WARNING_MISSING_SEMICOLON);
             CopLINE_inc(PL_curcop);
         }
         d = s;
@@ -7540,7 +7540,7 @@ yyl_just_a_word(pTHX_ char *s, STRLEN len, I32 orig_keyword, struct code c)
     if (PL_expect == XOPERATOR) {
         if (PL_bufptr == PL_linestart) {
             CopLINE_dec(PL_curcop);
-            Perl_warner(aTHX_ packWARN(WARN_SEMICOLON), "%s", PL_warn_nosemi);
+            Perl_warner(aTHX_ packWARN(WARN_SEMICOLON), PERL_WARNING_MISSING_SEMICOLON);
             CopLINE_inc(PL_curcop);
         }
         else

@@ -5382,7 +5382,7 @@ EXTCONST char PL_warn_uninit[]
 EXTCONST char PL_warn_uninit_sv[]
   INIT("Use of uninitialized value%" SVf "%s%s");
 EXTCONST char PL_warn_nosemi[]
-  INIT("Semicolon seems to be missing");
+  INIT(PERL_WARNING_MISSING_SEMICOLON);
 EXTCONST char PL_warn_reserved[]
   INIT("Unquoted string \"%s\" may clash with future reserved word");
 EXTCONST char PL_warn_nl[]
