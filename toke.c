@@ -7024,7 +7024,7 @@ yyl_foreach(pTHX_ char *s)
         if (UNLIKELY(paren_is_valid && *p == '(')) {
             Perl_ck_warner_d(aTHX_
                              packWARN(WARN_EXPERIMENTAL__FOR_LIST),
-                             "for my (...) is experimental");
+                             PERL_EXPERIMENT_FOR_MY_LIST);
         }
         else if (UNLIKELY(*p != '$' && *p != '\\')) {
             /* "for myfoo (" will end up here, but with p pointing at the 'f' */

@@ -55,6 +55,7 @@
 #   define PERL_W1017   "Can't use \\%c to mean $%c in expression"
 
     /* Experimental warnings catalogue */
+#   define PERL_T1000   "for my (...) is experimental"
 
     /* Human readable macros */
 #   define PERL_ERROR_STRING_TERMINATOR_EOF     PERL_ERROR_MESSAGE (1000)
@@ -94,6 +95,8 @@
 #   define PERL_WARNING_NEGATIVE_BINDING        PERL_WARNING_MESSAGE (1015)
 #   define PERL_WARNING_DEPRECATED_SMARTMATCH   PERL_WARNING_MESSAGE (1016)
 #   define PERL_WARNING_BACKSLASH_NUMBER        PERL_WARNING_MESSAGE (1017)
+
+#   define PERL_EXPERIMENT_FOR_MY_LIST          PERL_EXPERIMENT_MESSAGE (1000)
 
     /* Supporting macros */
 
