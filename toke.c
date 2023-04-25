@@ -7518,7 +7518,7 @@ yyl_strictwarn_bareword(pTHX_ const char lastchar)
         if (!*d && !gv_stashpv(PL_tokenbuf, UTF ? SVf_UTF8 : 0)) {
             /* PL_warn_reserved is constant */
             GCC_DIAG_IGNORE_STMT(-Wformat-nonliteral);
-            Perl_warner(aTHX_ packWARN(WARN_RESERVED), PL_warn_reserved,
+            Perl_warner(aTHX_ packWARN(WARN_RESERVED), PERL_WARNING_RESERVED_WORD,
                         PL_tokenbuf);
             GCC_DIAG_RESTORE_STMT;
         }

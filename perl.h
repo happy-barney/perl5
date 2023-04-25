@@ -5384,7 +5384,7 @@ EXTCONST char PL_warn_uninit_sv[]
 EXTCONST char PL_warn_nosemi[]
   INIT(PERL_WARNING_MISSING_SEMICOLON);
 EXTCONST char PL_warn_reserved[]
-  INIT("Unquoted string \"%s\" may clash with future reserved word");
+  INIT(PERL_WARNING_RESERVED_WORD);
 EXTCONST char PL_warn_nl[]
   INIT("Unsuccessful %s on filename containing newline");
 EXTCONST char PL_no_wrongref[]
