@@ -7578,8 +7578,7 @@ yyl_just_a_word(pTHX_ char *s, STRLEN len, I32 orig_keyword, struct code c)
         if (ckWARN(WARN_BAREWORD)
             && ! gv_fetchpvn_flags(PL_tokenbuf, len, UTF ? SVf_UTF8 : 0, SVt_PVHV))
             Perl_warner(aTHX_ packWARN(WARN_BAREWORD),
-                        "Bareword \"%" UTF8f
-                        "\" refers to nonexistent package",
+                        PERL_WARNING_NONEXISTENT_PACKAGE,
                         UTF8fARG(UTF, len, PL_tokenbuf));
         len -= 2;
         PL_tokenbuf[len] = '\0';
