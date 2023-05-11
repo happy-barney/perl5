@@ -7824,7 +7824,7 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
 
     case KEY_ADJUST:
         Perl_ck_warner_d(aTHX_
-            packWARN(WARN_EXPERIMENTAL__CLASS), "ADJUST is experimental");
+            packWARN(WARN_EXPERIMENTAL__CLASS), PERL_EXPERIMENT_ADJUST);
 
         /* The way that KEY_CHECK et.al. are handled currently are nothing
          * short of crazy. We won't copy that model for new phasers, but use

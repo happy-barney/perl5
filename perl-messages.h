@@ -64,6 +64,7 @@
     /* Experimental warnings catalogue */
 #   define PERL_T1000   "for my (...) is experimental"
 #   define PERL_T1001   "Declaring references is experimental"
+#   define PERL_T1002   "ADJUST is experimental"
 
     /* Human readable macros */
 #   define PERL_ERROR_STRING_TERMINATOR_EOF     PERL_ERROR_MESSAGE (1000)
@@ -113,6 +114,7 @@
 
 #   define PERL_EXPERIMENT_FOR_MY_LIST          PERL_EXPERIMENT_MESSAGE (1000)
 #   define PERL_EXPERIMENT_DECLARE_REFS         PERL_EXPERIMENT_MESSAGE (1001)
+#   define PERL_EXPERIMENT_ADJUST               PERL_EXPERIMENT_MESSAGE (1002)
 
     /* Supporting macros */
 
