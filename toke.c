@@ -7871,7 +7871,7 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
 
     case KEY_class:
         Perl_ck_warner_d(aTHX_
-            packWARN(WARN_EXPERIMENTAL__CLASS), "class is experimental");
+            packWARN(WARN_EXPERIMENTAL__CLASS), PERL_EXPERIMENT_CLASS);
 
         s = force_word(s,BAREWORD,FALSE,TRUE);
         s = skipspace(s);
