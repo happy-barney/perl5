@@ -7937,7 +7937,7 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
 
     case KEY_defer:
         Perl_ck_warner_d(aTHX_
-            packWARN(WARN_EXPERIMENTAL__DEFER), "defer is experimental");
+            packWARN(WARN_EXPERIMENTAL__DEFER), PERL_EXPERIMENT_DEFER);
         PREBLOCK(KW_DEFER);
 
     case KEY_do:
