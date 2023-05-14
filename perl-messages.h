@@ -66,6 +66,7 @@
 #   define PERL_T1001   "Declaring references is experimental"
 #   define PERL_T1002   "ADJUST is experimental"
 #   define PERL_T1003   "method is experimental"
+#   define PERL_T1004   "try/catch is experimental"
 
     /* Human readable macros */
 #   define PERL_ERROR_STRING_TERMINATOR_EOF     PERL_ERROR_MESSAGE (1000)
@@ -117,6 +118,7 @@
 #   define PERL_EXPERIMENT_DECLARE_REFS         PERL_EXPERIMENT_MESSAGE (1001)
 #   define PERL_EXPERIMENT_ADJUST               PERL_EXPERIMENT_MESSAGE (1002)
 #   define PERL_EXPERIMENT_METHOD               PERL_EXPERIMENT_MESSAGE (1003)
+#   define PERL_EXPERIMENT_TRY_CATCH            PERL_EXPERIMENT_MESSAGE (1004)
 
     /* Supporting macros */
 
