@@ -8312,7 +8312,7 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
                 && !keyword(s, d-s, 0)
             ) {
                 Perl_warner(aTHX_ packWARN(WARN_PRECEDENCE),
-                   "Precedence problem: open %" UTF8f " should be open(%" UTF8f ")",
+                    PERL_WARNING_PRECEDENCE_OPEN,
                     UTF8fARG(UTF, d-s, s), UTF8fARG(UTF, d-s, s));
             }
         }
