@@ -62,6 +62,7 @@
 #   define PERL_W1021   "Bareword \"%" UTF8f "\" refers to nonexistent package"
 #   define PERL_W1022   "given is deprecated"
 #   define PERL_W1023   "Precedence problem: open %" UTF8f " should be open(%" UTF8f ")"
+#   define PERL_W1024   "when is deprecated"
 
     /* Experimental warnings catalogue */
 #   define PERL_T1000   "for my (...) is experimental"
@@ -121,6 +122,7 @@
 #   define PERL_WARNING_NONEXISTENT_PACKAGE     PERL_WARNING_MESSAGE (1021)
 #   define PERL_WARNING_DEPRECATED_GIVEN        PERL_WARNING_MESSAGE (1022)
 #   define PERL_WARNING_PRECEDENCE_OPEN         PERL_WARNING_MESSAGE (1023)
+#   define PERL_WARNING_DEPRECATED_WHEN         PERL_WARNING_MESSAGE (1024)
 
 #   define PERL_EXPERIMENT_FOR_MY_LIST          PERL_EXPERIMENT_MESSAGE (1000)
 #   define PERL_EXPERIMENT_DECLARE_REFS         PERL_EXPERIMENT_MESSAGE (1001)

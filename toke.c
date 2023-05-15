@@ -8694,7 +8694,7 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
         pl_yylval.ival = CopLINE(PL_curcop);
         Perl_ck_warner_d(aTHX_
             packWARN(WARN_DEPRECATED__SMARTMATCH),
-            "when is deprecated");
+            PERL_WARNING_DEPRECATED_WHEN);
         OPERATOR(KW_WHEN);
 
     case KEY_while:
