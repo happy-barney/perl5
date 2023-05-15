@@ -9662,7 +9662,7 @@ Perl_yylex(pTHX)
             && SvEVALED(PL_lex_repl))
         {
             if (PL_bufptr != PL_bufend)
-                Perl_croak(aTHX_ "Bad evalled substitution pattern");
+                Perl_croak(aTHX_ PERL_ERROR_BAD_SUBST_PATTERN);
             PL_lex_repl = NULL;
         }
         /* Paranoia.  re_eval_start is adjusted when S_scan_heredoc sets
