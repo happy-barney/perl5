@@ -68,6 +68,7 @@
 #   define PERL_W1023   "Precedence problem: open %" UTF8f " should be open(%" UTF8f ")"
 #   define PERL_W1024   "when is deprecated"
 #   define PERL_W1025   "Illegal character \\%03o (carriage return)"
+#   define PERL_W1026   "Reversed %c= operator"
 
     /* Experimental warnings catalogue */
 #   define PERL_T1000   "for my (...) is experimental"
@@ -133,6 +134,7 @@
 #   define PERL_WARNING_PRECEDENCE_OPEN         PERL_WARNING_MESSAGE (1023)
 #   define PERL_WARNING_DEPRECATED_WHEN         PERL_WARNING_MESSAGE (1024)
 #   define PERL_WARNING_ILLEGAL_CR              PERL_WARNING_MESSAGE (1025)
+#   define PERL_WARNING_REVERSED_OPERATOR       PERL_WARNING_MESSAGE (1026)
 
 #   define PERL_EXPERIMENT_FOR_MY_LIST          PERL_EXPERIMENT_MESSAGE (1000)
 #   define PERL_EXPERIMENT_DECLARE_REFS         PERL_EXPERIMENT_MESSAGE (1001)

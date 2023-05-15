@@ -9242,7 +9242,7 @@ yyl_try(pTHX_ char *s)
             if (tmp && isSPACE(*s) && ckWARN(WARN_SYNTAX)
                 && memCHRs("+-*/%.^&|<",tmp))
                 Perl_warner(aTHX_ packWARN(WARN_SYNTAX),
-                            "Reversed %c= operator",(int)tmp);
+                            PERL_WARNING_REVERSED_OPERATOR,(int)tmp);
             s--;
             if (PL_expect == XSTATE
                 && isALPHA(tmp)
