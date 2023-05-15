@@ -35,6 +35,7 @@
 #   define PERL_E1018   "The experimental declared_refs feature is not enabled"
 #   define PERL_E1019   "Can't exec %s"
 #   define PERL_E1020   "Too late for \"-%.*s\" option"
+#   define PERL_E1021   "CORE::%" UTF8f " is not a keyword"
 
     /* Warnings catalogue */
 #   define PERL_W1000   "Prototype after '%c' for %" SVf " : %s"
@@ -97,6 +98,7 @@
 #   define PERL_ERROR_DECLARED_REFS_NOT_ENABLED PERL_ERROR_MESSAGE (1018)
 #   define PERL_ERROR_CANT_EXEC                 PERL_ERROR_MESSAGE (1019)
 #   define PERL_ERROR_TOO_LATE_FOR_OPTION       PERL_ERROR_MESSAGE (1020)
+#   define PERL_ERROR_CORE_IS_NOT_KEYWORD       PERL_ERROR_MESSAGE (1021)
 
 #   define PERL_WARNING_PROTO_AFTER_GREEDY      PERL_WARNING_MESSAGE (1000)
 #   define PERL_WARNING_PROTO_MISSING_RBRACKET  PERL_WARNING_MESSAGE (1001)

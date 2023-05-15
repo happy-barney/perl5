@@ -8758,7 +8758,7 @@ yyl_key_core(pTHX_ char *s, STRLEN len, struct code c)
         return yyl_just_a_word(aTHX_ d, olen, 0, c);
     }
     if (!key)
-        Perl_croak(aTHX_ "CORE::%" UTF8f " is not a keyword",
+        Perl_croak(aTHX_ PERL_ERROR_CORE_IS_NOT_KEYWORD,
                           UTF8fARG(UTF, len, PL_tokenbuf));
     if (key < 0)
         key = -key;
