@@ -8037,7 +8037,7 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
          * `my`, but it's also rather messy because of the `our` conflation
          */
         Perl_ck_warner_d(aTHX_
-            packWARN(WARN_EXPERIMENTAL__CLASS), "field is experimental");
+            packWARN(WARN_EXPERIMENTAL__CLASS), PERL_EXPERIMENT_FIELD);
 
         croak_kw_unless_class("field");
 
