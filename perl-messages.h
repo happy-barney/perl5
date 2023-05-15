@@ -70,6 +70,7 @@
 #   define PERL_T1005   "class is experimental"
 #   define PERL_T1006   "defer is experimental"
 #   define PERL_T1007   "field is experimental"
+#   define PERL_T1008   "try/catch/finally is experimental"
 
     /* Human readable macros */
 #   define PERL_ERROR_STRING_TERMINATOR_EOF     PERL_ERROR_MESSAGE (1000)
@@ -125,6 +126,7 @@
 #   define PERL_EXPERIMENT_CLASS                PERL_EXPERIMENT_MESSAGE (1005)
 #   define PERL_EXPERIMENT_DEFER                PERL_EXPERIMENT_MESSAGE (1006)
 #   define PERL_EXPERIMENT_FIELD                PERL_EXPERIMENT_MESSAGE (1007)
+#   define PERL_EXPERIMENT_FINALLY              PERL_EXPERIMENT_MESSAGE (1008)
 
     /* Supporting macros */
 

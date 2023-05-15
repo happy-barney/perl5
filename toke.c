@@ -8046,7 +8046,7 @@ yyl_word_or_keyword(pTHX_ char *s, STRLEN len, I32 key, I32 orig_keyword, struct
 
     case KEY_finally:
         Perl_ck_warner_d(aTHX_
-            packWARN(WARN_EXPERIMENTAL__TRY), "try/catch/finally is experimental");
+            packWARN(WARN_EXPERIMENTAL__TRY), PERL_EXPERIMENT_FINALLY);
         PREBLOCK(KW_FINALLY);
 
     case KEY_for:
