@@ -38,6 +38,7 @@
 #   define PERL_E1021   "CORE::%" UTF8f " is not a keyword"
 #   define PERL_E1022   "Bad plugin affecting keyword '%s'"
 #   define PERL_E1023   "Bad infix plugin result (%zd) - did not consume entire identifier <%s>\n"
+#   define PERL_E1024   "\t(Maybe you didn't strip carriage returns after a network transfer?)\n"
 
     /* Warnings catalogue */
 #   define PERL_W1000   "Prototype after '%c' for %" SVf " : %s"
@@ -104,6 +105,7 @@
 #   define PERL_ERROR_CORE_IS_NOT_KEYWORD       PERL_ERROR_MESSAGE (1021)
 #   define PERL_ERROR_BAD_PLUGIN_KEYWORD        PERL_ERROR_MESSAGE (1022)
 #   define PERL_ERROR_BAD_PLUGIN_INFIX          PERL_ERROR_MESSAGE (1023)
+#   define PERL_ERROR_STRIP_CR_HINT             PERL_ERROR_MESSAGE (1024)
 
 #   define PERL_WARNING_PROTO_AFTER_GREEDY      PERL_WARNING_MESSAGE (1000)
 #   define PERL_WARNING_PROTO_MISSING_RBRACKET  PERL_WARNING_MESSAGE (1001)
