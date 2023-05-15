@@ -40,6 +40,7 @@
 #   define PERL_E1023   "Bad infix plugin result (%zd) - did not consume entire identifier <%s>\n"
 #   define PERL_E1024   "\t(Maybe you didn't strip carriage returns after a network transfer?)\n"
 #   define PERL_E1025   "Bad evalled substitution pattern"
+#   define PERL_E1026   "Sequence (?{...}) not terminated with ')'"
 
     /* Warnings catalogue */
 #   define PERL_W1000   "Prototype after '%c' for %" SVf " : %s"
@@ -109,6 +110,7 @@
 #   define PERL_ERROR_BAD_PLUGIN_INFIX          PERL_ERROR_MESSAGE (1023)
 #   define PERL_ERROR_STRIP_CR_HINT             PERL_ERROR_MESSAGE (1024)
 #   define PERL_ERROR_BAD_SUBST_PATTERN         PERL_ERROR_MESSAGE (1025)
+#   define PERL_ERROR_RE_UNTERMINATED_CODE      PERL_ERROR_MESSAGE (1026)
 
 #   define PERL_WARNING_PROTO_AFTER_GREEDY      PERL_WARNING_MESSAGE (1000)
 #   define PERL_WARNING_PROTO_MISSING_RBRACKET  PERL_WARNING_MESSAGE (1001)

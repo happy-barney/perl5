@@ -9673,7 +9673,7 @@ Perl_yylex(pTHX)
          || PL_parser->lex_shared->re_eval_str) {
             SV *sv;
             if (*PL_bufptr != ')')
-                Perl_croak(aTHX_ "Sequence (?{...}) not terminated with ')'");
+                Perl_croak(aTHX_ PERL_ERROR_RE_UNTERMINATED_CODE);
             PL_bufptr++;
             /* having compiled a (?{..}) expression, return the original
              * text too, as a const */
