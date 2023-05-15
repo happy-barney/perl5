@@ -8872,7 +8872,7 @@ yyl_keylookup(pTHX_ char *s, GV *gv)
             if (!PL_nexttoke) PL_expect = XOPERATOR;
             return REPORT(PLUGEXPR);
         } else {
-            Perl_croak(aTHX_ "Bad plugin affecting keyword '%s'", PL_tokenbuf);
+            Perl_croak(aTHX_ PERL_ERROR_BAD_PLUGIN_KEYWORD, PL_tokenbuf);
         }
     }
 
