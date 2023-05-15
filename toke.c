@@ -8883,7 +8883,7 @@ yyl_keylookup(pTHX_ char *s, GV *gv)
         result = PL_infix_plugin(aTHX_ PL_tokenbuf, len, &def);
         if(result) {
             if(result != len)
-                Perl_croak(aTHX_ "Bad infix plugin result (%zd) - did not consume entire identifier <%s>\n",
+                Perl_croak(aTHX_ PERL_ERROR_BAD_PLUGIN_INFIX,
                     result, PL_tokenbuf);
             PL_bufptr = s = d;
             struct Perl_custom_infix_result *result;
