@@ -9130,7 +9130,7 @@ yyl_try(pTHX_ char *s)
 
     case '\r':
 #ifdef PERL_STRICT_CR
-        Perl_warn(aTHX_ "Illegal character \\%03o (carriage return)", '\r');
+        Perl_warn(aTHX_ PERL_WARNING_ILLEGAL_CR, '\r');
         Perl_croak(aTHX_
       "\t(Maybe you didn't strip carriage returns after a network transfer?)\n");
 #endif
