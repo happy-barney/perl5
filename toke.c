@@ -10227,7 +10227,7 @@ S_parse_ident(pTHX_ char **s, char **d, char * const e, int allow_package,
         }
         else {
             Perl_warner(aTHX_ packWARN2(WARN_SYNTAX, WARN_DEPRECATED__APOSTROPHE_AS_PACKAGE_SEPARATOR),
-                        "Old package separator \"'\" deprecated");
+                        PERL_WARNING_OLD_PACKAGE_DEPRECATED);
         }
     }
     return;
