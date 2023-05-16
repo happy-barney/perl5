@@ -93,8 +93,6 @@ Individual members of C<PL_parser> have their own documentation.
     (SvTYPE(sv) >= SVt_PVNV \
     && ((XPVIV*)SvANY(sv))->xiv_u.xivu_eval_seen)
 
-static const char ident_var_zero_multi_digit[] = "Numeric variables with more than one digit may not start with '0'";
-
 #  define NEXTVAL_NEXTTOKE PL_nextval[PL_nexttoke]
 
 #define XENUMMASK  0x3f
@@ -10284,7 +10282,7 @@ S_scan_ident(pTHX_ char *s, char *dest, STRLEN destlen, I32 ck_uni)
             *d++ = *s++;
         }
         if (is_zero && d - digit_start > 1)
-            Perl_croak(aTHX_ ident_var_zero_multi_digit);
+            Perl_croak(aTHX_ PERL_ERROR_ZERO_NUMERIC_VARIABLE);
     }
     else {  /* See if it is a "normal" identifier */
         parse_ident(&s, &d, e, 1, is_utf8, FALSE, TRUE);
@@ -10381,7 +10379,7 @@ S_scan_ident(pTHX_ char *s, char *dest, STRLEN destlen, I32 ck_uni)
             *d= *s++;
         }
         if (is_zero && d - digit_start >= 1) /* d points at the last digit */
-            Perl_croak(aTHX_ ident_var_zero_multi_digit);
+            Perl_croak(aTHX_ PERL_ERROR_ZERO_NUMERIC_VARIABLE);
         d[1] = '\0';
     }
 
