@@ -10024,7 +10024,7 @@ S_checkcomma(pTHX_ const char *s, const char *name, const char *what)
                 off = pad_findmy_pvn(tmpbuf, s-w+1, 0);
                 if (off != NOT_IN_PAD) return;
             }
-            Perl_croak(aTHX_ "No comma allowed after %s", what);
+            Perl_croak(aTHX_ PERL_ERROR_COMMA_NOT_ALLOWED, what);
         }
     }
 }
