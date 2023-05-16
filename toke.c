@@ -9992,7 +9992,7 @@ S_checkcomma(pTHX_ const char *s, const char *name, const char *what)
              * Not a very solid hack... */
             if (!*w || !memCHRs(";&/|})]oaiuwef!=", *w))
                 Perl_warner(aTHX_ packWARN(WARN_SYNTAX),
-                            "%s (...) interpreted as function",name);
+                            PERL_WARNING_INTERPRETED_AS_FUNCTION,name);
         }
     }
     while (s < PL_bufend && isSPACE(*s))
