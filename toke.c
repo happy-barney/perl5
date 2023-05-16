@@ -93,7 +93,6 @@ Individual members of C<PL_parser> have their own documentation.
     (SvTYPE(sv) >= SVt_PVNV \
     && ((XPVIV*)SvANY(sv))->xiv_u.xivu_eval_seen)
 
-static const char ident_too_long[] = "Identifier too long";
 static const char ident_var_zero_multi_digit[] = "Numeric variables with more than one digit may not start with '0'";
 
 #  define NEXTVAL_NEXTTOKE PL_nextval[PL_nexttoke]
@@ -10158,7 +10157,7 @@ S_parse_ident(pTHX_ char **s, char **d, char * const e, int allow_package,
 
     while (*s < PL_bufend) {
         if (*d >= e)
-            Perl_croak(aTHX_ "%s", ident_too_long);
+            Perl_croak(aTHX_ PERL_ERROR_IDENTIFIER_TOO_LONG);
         if (is_utf8 && isIDFIRST_utf8_safe(*s, PL_bufend)) {
              /* The UTF-8 case must come first, otherwise things
              * like c\N{COMBINING TILDE} would start failing, as the
@@ -10170,7 +10169,7 @@ S_parse_ident(pTHX_ char **s, char **d, char * const e, int allow_package,
                 t += UTF8SKIP(t);
             }
             if (*d + (t - *s) > e)
-                Perl_croak(aTHX_ "%s", ident_too_long);
+                Perl_croak(aTHX_ PERL_ERROR_IDENTIFIER_TOO_LONG);
             Copy(*s, *d, t - *s, char);
             *d += t - *s;
             *s = t;
@@ -10281,7 +10280,7 @@ S_scan_ident(pTHX_ char *s, char *dest, STRLEN destlen, I32 ck_uni)
         *d++ = *s++;
         while (s < PL_bufend && isDIGIT(*s)) {
             if (d >= e)
-                Perl_croak(aTHX_ "%s", ident_too_long);
+                Perl_croak(aTHX_ PERL_ERROR_IDENTIFIER_TOO_LONG);
             *d++ = *s++;
         }
         if (is_zero && d - digit_start > 1)
@@ -10378,7 +10377,7 @@ S_scan_ident(pTHX_ char *s, char *dest, STRLEN destlen, I32 ck_uni)
         while (s < PL_bufend && isDIGIT(*s)) {
             d++;
             if (d >= e)
-                Perl_croak(aTHX_ "%s", ident_too_long);
+                Perl_croak(aTHX_ PERL_ERROR_IDENTIFIER_TOO_LONG);
             *d= *s++;
         }
         if (is_zero && d - digit_start >= 1) /* d points at the last digit */
@@ -10422,7 +10421,7 @@ S_scan_ident(pTHX_ char *s, char *dest, STRLEN destlen, I32 ck_uni)
                     *d++ = *s++;
                 }
                 if (d >= e)
-                    Perl_croak(aTHX_ "%s", ident_too_long);
+                    Perl_croak(aTHX_ PERL_ERROR_IDENTIFIER_TOO_LONG);
                 *d = '\0';
             }
             tmp_copline = CopLINE(PL_curcop);

@@ -42,6 +42,7 @@
 #   define PERL_E1025   "Bad evalled substitution pattern"
 #   define PERL_E1026   "Sequence (?{...}) not terminated with ')'"
 #   define PERL_E1027   "No comma allowed after %s"
+#   define PERL_E1028   "Identifier too long"
 
     /* Warnings catalogue */
 #   define PERL_W1000   "Prototype after '%c' for %" SVf " : %s"
@@ -115,6 +116,7 @@
 #   define PERL_ERROR_BAD_SUBST_PATTERN         PERL_ERROR_MESSAGE (1025)
 #   define PERL_ERROR_RE_UNTERMINATED_CODE      PERL_ERROR_MESSAGE (1026)
 #   define PERL_ERROR_COMMA_NOT_ALLOWED         PERL_ERROR_MESSAGE (1027)
+#   define PERL_ERROR_IDENTIFIER_TOO_LONG       PERL_ERROR_MESSAGE (1028)
 
 #   define PERL_WARNING_PROTO_AFTER_GREEDY      PERL_WARNING_MESSAGE (1000)
 #   define PERL_WARNING_PROTO_MISSING_RBRACKET  PERL_WARNING_MESSAGE (1001)
