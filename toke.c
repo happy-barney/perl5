@@ -10209,7 +10209,7 @@ S_parse_ident(pTHX_ char **s, char **d, char * const e, int allow_package,
             SAVEFREEPV(this_d);
 
             Perl_warner(aTHX_ packWARN2(WARN_SYNTAX, WARN_DEPRECATED__APOSTROPHE_AS_PACKAGE_SEPARATOR),
-                        "Old package separator used in string");
+                        PERL_WARNING_OLD_PACKAGE_IN_STRING);
             if (olds[-1] == '#')
                 *d2++ = olds[-2];
             *d2++ = olds[-1];
