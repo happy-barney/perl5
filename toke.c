@@ -9948,8 +9948,7 @@ S_pending_ident(pTHX)
         {
             /* Downgraded from fatal to warning 20000522 mjd */
             Perl_warner(aTHX_ packWARN(WARN_AMBIGUOUS),
-                        "Possible unintended interpolation of %" UTF8f
-                        " in string",
+                        PERL_WARNING_UNINTENDED_INTERPOLATE,
                         UTF8fARG(UTF, tokenbuf_len, PL_tokenbuf));
         }
     }
