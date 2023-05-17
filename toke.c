@@ -10918,7 +10918,7 @@ S_scan_heredoc(pTHX_ char *s)
     }
 
     if (d >= PL_tokenbuf + sizeof PL_tokenbuf - 1)
-        Perl_croak(aTHX_ "Delimiter for here document is too long");
+        Perl_croak(aTHX_ PERL_ERROR_HEREDOC_DELIM_TOO_LONG);
 
     *d++ = '\n';
     *d = '\0';
