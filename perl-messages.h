@@ -54,6 +54,7 @@
 #   define PERL_E1037   "Delimiter for here document is too long"
 #   define PERL_E1038   "Indentation on line %d of here-doc doesn't match delimiter"
 #   define PERL_E1039   "Excessively long <> operator"
+#   define PERL_E1040   "Unterminated <> operator"
 
     /* Warnings catalogue */
 #   define PERL_W1000   "Prototype after '%c' for %" SVf " : %s"
@@ -145,6 +146,7 @@
 #   define PERL_ERROR_HEREDOC_DELIM_TOO_LONG    PERL_ERROR_MESSAGE (1037)
 #   define PERL_ERROR_HEREDOC_INDENT_DONT_MATCH PERL_ERROR_MESSAGE (1038)
 #   define PERL_ERROR_DIAMOND_OP_TOO_LONG       PERL_ERROR_MESSAGE (1039)
+#   define PERL_ERROR_DIAMOND_OP_UNTERMINATED   PERL_ERROR_MESSAGE (1040)
 
 #   define PERL_WARNING_PROTO_AFTER_GREEDY      PERL_WARNING_MESSAGE (1000)
 #   define PERL_WARNING_PROTO_MISSING_RBRACKET  PERL_WARNING_MESSAGE (1001)

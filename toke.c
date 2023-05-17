@@ -11343,7 +11343,7 @@ S_scan_inputsymbol(pTHX_ char *start)
     if (len >= (I32)sizeof PL_tokenbuf)
         Perl_croak(aTHX_ PERL_ERROR_DIAMOND_OP_TOO_LONG);
     if (s >= end)
-        Perl_croak(aTHX_ "Unterminated <> operator");
+        Perl_croak(aTHX_ PERL_ERROR_DIAMOND_OP_UNTERMINATED);
 
     s++;
 
