@@ -10903,7 +10903,7 @@ S_scan_heredoc(pTHX_ char *s)
             term = '"';
 
         if (! isWORDCHAR_lazy_if_safe(s, PL_bufend, UTF))
-            Perl_croak(aTHX_ "Use of bare << to mean <<\"\" is forbidden");
+            Perl_croak(aTHX_ PERL_ERROR_BARE_HEREDOC_PROHIBITED);
 
         peek = s;
 
