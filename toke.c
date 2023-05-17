@@ -10730,7 +10730,7 @@ S_scan_subst(pTHX_ char *start)
     }
 
     if ((pm->op_pmflags & PMf_CONTINUE)) {
-        Perl_ck_warner(aTHX_ packWARN(WARN_REGEXP), "Use of /c modifier is meaningless in s///" );
+        Perl_ck_warner(aTHX_ packWARN(WARN_REGEXP), PERL_WARNING_RE_SUBST_USE_OF_C );
     }
 
     if (es) {
