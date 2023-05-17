@@ -79,6 +79,7 @@
 #   define PERL_W1029   "Old package separator used in string"
 #   define PERL_W1030   "Old package separator \"'\" deprecated"
 #   define PERL_W1031   "Ambiguous use of %c{%s%s} resolved to %c%s%s"
+#   define PERL_W1032   "Ambiguous use of %c{%" SVf "} resolved to %c%" SVf
 
     /* Experimental warnings catalogue */
 #   define PERL_T1000   "for my (...) is experimental"
@@ -155,6 +156,7 @@
 #   define PERL_WARNING_OLD_PACKAGE_IN_STRING   PERL_WARNING_MESSAGE (1029)
 #   define PERL_WARNING_OLD_PACKAGE_DEPRECATED  PERL_WARNING_MESSAGE (1030)
 #   define PERL_WARNING_AMBIGUOUS_DEREFERENCE   PERL_WARNING_MESSAGE (1031)
+#   define PERL_WARNING_AMBIGUOUS_DEREFERENCESV PERL_WARNING_MESSAGE (1032)
 
 #   define PERL_EXPERIMENT_FOR_MY_LIST          PERL_EXPERIMENT_MESSAGE (1000)
 #   define PERL_EXPERIMENT_DECLARE_REFS         PERL_EXPERIMENT_MESSAGE (1001)
