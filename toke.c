@@ -10618,7 +10618,7 @@ S_scan_pat(pTHX_ char *start, I32 type)
 
     s = scan_str(start,TRUE,FALSE, (PL_in_eval & EVAL_RE_REPARSING), NULL);
     if (!s)
-        Perl_croak(aTHX_ "Search pattern not terminated");
+        Perl_croak(aTHX_ PERL_ERROR_UNTERMINATED_SEARCH);
 
     pm = (PMOP*)newPMOP(type, 0);
     if (PL_multi_open == '?') {
