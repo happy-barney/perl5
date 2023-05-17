@@ -10672,7 +10672,7 @@ S_scan_pat(pTHX_ char *start, I32 type)
     if ((pm->op_pmflags & PMf_CONTINUE) && !(pm->op_pmflags & PMf_GLOBAL))
     {
         Perl_ck_warner(aTHX_ packWARN(WARN_REGEXP),
-                       "Use of /c modifier is meaningless without /g" );
+                       PERL_WARNING_RE_USELESS_USE_OF_C );
     }
 
     PL_lex_op = (OP*)pm;

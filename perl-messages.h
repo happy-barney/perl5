@@ -81,6 +81,7 @@
 #   define PERL_W1030   "Old package separator \"'\" deprecated"
 #   define PERL_W1031   "Ambiguous use of %c{%s%s} resolved to %c%s%s"
 #   define PERL_W1032   "Ambiguous use of %c{%" SVf "} resolved to %c%" SVf
+#   define PERL_W1033   "Use of /c modifier is meaningless without /g"
 
     /* Experimental warnings catalogue */
 #   define PERL_T1000   "for my (...) is experimental"
@@ -159,6 +160,7 @@
 #   define PERL_WARNING_OLD_PACKAGE_DEPRECATED  PERL_WARNING_MESSAGE (1030)
 #   define PERL_WARNING_AMBIGUOUS_DEREFERENCE   PERL_WARNING_MESSAGE (1031)
 #   define PERL_WARNING_AMBIGUOUS_DEREFERENCESV PERL_WARNING_MESSAGE (1032)
+#   define PERL_WARNING_RE_USELESS_USE_OF_C     PERL_WARNING_MESSAGE (1033)
 
 #   define PERL_EXPERIMENT_FOR_MY_LIST          PERL_EXPERIMENT_MESSAGE (1000)
 #   define PERL_EXPERIMENT_DECLARE_REFS         PERL_EXPERIMENT_MESSAGE (1001)
