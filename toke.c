@@ -10436,7 +10436,7 @@ S_scan_ident(pTHX_ char *s, char *dest, STRLEN destlen, I32 ck_uni)
                     CopLINE_set(PL_curcop, tmp_copline);
    /* diag_listed_as: Ambiguous use of %c{%s[...]} resolved to %c%s[...] */
                     Perl_warner(aTHX_ packWARN(WARN_AMBIGUOUS),
-                        "Ambiguous use of %c{%s%s} resolved to %c%s%s",
+                        PERL_WARNING_AMBIGUOUS_DEREFERENCE,
                         funny, dest, brack, funny, dest, brack);
                     CopLINE_set(PL_curcop, orig_copline);
                 }
