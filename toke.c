@@ -10710,7 +10710,7 @@ S_scan_subst(pTHX_ char *start)
     if (!s) {
         SvREFCNT_dec_NN(PL_lex_stuff);
         PL_lex_stuff = NULL;
-        Perl_croak(aTHX_ "Substitution replacement not terminated");
+        Perl_croak(aTHX_ PERL_ERROR_UNTERMINATED_REPLACEMENT);
     }
     PL_multi_start = first_start;	/* so whole substitution is taken together */
 
