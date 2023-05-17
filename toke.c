@@ -11260,7 +11260,7 @@ S_scan_heredoc(pTHX_ char *s)
             else {
                 Safefree(indent);
                 Perl_croak(aTHX_
-                    "Indentation on line %d of here-doc doesn't match delimiter",
+                    PERL_ERROR_HEREDOC_INDENT_DONT_MATCH,
                     (int)linecount
                 );
             }
