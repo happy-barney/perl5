@@ -10785,7 +10785,7 @@ S_scan_trans(pTHX_ char *start)
 
     s = scan_str(start,FALSE,FALSE,FALSE,&t);
     if (!s)
-        Perl_croak(aTHX_ "Transliteration pattern not terminated");
+        Perl_croak(aTHX_ PERL_ERROR_UNTERMINATED_TRANS);
 
     s = t;
 
