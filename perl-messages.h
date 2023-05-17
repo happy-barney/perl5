@@ -45,6 +45,7 @@
 #   define PERL_E1028   "Identifier too long"
 #   define PERL_E1029   "Numeric variables with more than one digit may not start with '0'"
 #   define PERL_E1030   "Search pattern not terminated"
+#   define PERL_E1031   "Substitution pattern not terminated"
 
     /* Warnings catalogue */
 #   define PERL_W1000   "Prototype after '%c' for %" SVf " : %s"
@@ -126,6 +127,7 @@
 #   define PERL_ERROR_IDENTIFIER_TOO_LONG       PERL_ERROR_MESSAGE (1028)
 #   define PERL_ERROR_ZERO_NUMERIC_VARIABLE     PERL_ERROR_MESSAGE (1029)
 #   define PERL_ERROR_UNTERMINATED_SEARCH       PERL_ERROR_MESSAGE (1030)
+#   define PERL_ERROR_UNTERMINATED_SUBST        PERL_ERROR_MESSAGE (1031)
 
 #   define PERL_WARNING_PROTO_AFTER_GREEDY      PERL_WARNING_MESSAGE (1000)
 #   define PERL_WARNING_PROTO_MISSING_RBRACKET  PERL_WARNING_MESSAGE (1001)

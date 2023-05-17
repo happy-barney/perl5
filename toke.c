@@ -10700,7 +10700,7 @@ S_scan_subst(pTHX_ char *start)
     s = scan_str(start, TRUE, FALSE, FALSE, &t);
 
     if (!s)
-        Perl_croak(aTHX_ "Substitution pattern not terminated");
+        Perl_croak(aTHX_ PERL_ERROR_UNTERMINATED_SUBST);
 
     s = t;
 
