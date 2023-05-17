@@ -11371,7 +11371,7 @@ S_scan_inputsymbol(pTHX_ char *start)
         pl_yylval.ival = OP_GLOB;
         s = scan_str(start,FALSE,FALSE,FALSE,NULL);
         if (!s)
-           Perl_croak(aTHX_ "Glob not terminated");
+           Perl_croak(aTHX_ PERL_ERROR_GLOB_NOT_TERMINATED);
         return s;
     }
     else {
