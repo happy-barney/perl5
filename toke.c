@@ -10891,7 +10891,7 @@ S_scan_heredoc(pTHX_ char *s)
         term = *s++;
         s = delimcpy(d, e, s, PL_bufend, term, &len);
         if (s == PL_bufend)
-            Perl_croak(aTHX_ "Unterminated delimiter for here document");
+            Perl_croak(aTHX_ PERL_ERROR_UNTERMINATED_HEREDOC_DELIM);
         d += len;
         s++;
     }
