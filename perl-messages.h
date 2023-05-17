@@ -48,6 +48,7 @@
 #   define PERL_E1031   "Substitution pattern not terminated"
 #   define PERL_E1032   "Substitution replacement not terminated"
 #   define PERL_E1033   "Transliteration pattern not terminated"
+#   define PERL_E1034   "Transliteration replacement not terminated"
 
     /* Warnings catalogue */
 #   define PERL_W1000   "Prototype after '%c' for %" SVf " : %s"
@@ -133,6 +134,7 @@
 #   define PERL_ERROR_UNTERMINATED_SUBST        PERL_ERROR_MESSAGE (1031)
 #   define PERL_ERROR_UNTERMINATED_REPLACEMENT  PERL_ERROR_MESSAGE (1032)
 #   define PERL_ERROR_UNTERMINATED_TRANS        PERL_ERROR_MESSAGE (1033)
+#   define PERL_ERROR_UNTERMINATED_TRANS_REPL   PERL_ERROR_MESSAGE (1034)
 
 #   define PERL_WARNING_PROTO_AFTER_GREEDY      PERL_WARNING_MESSAGE (1000)
 #   define PERL_WARNING_PROTO_MISSING_RBRACKET  PERL_WARNING_MESSAGE (1001)

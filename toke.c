@@ -10793,7 +10793,7 @@ S_scan_trans(pTHX_ char *start)
     if (!s) {
         SvREFCNT_dec_NN(PL_lex_stuff);
         PL_lex_stuff = NULL;
-        Perl_croak(aTHX_ "Transliteration replacement not terminated");
+        Perl_croak(aTHX_ PERL_ERROR_UNTERMINATED_TRANS_REPL);
     }
 
     complement = del = squash = 0;
