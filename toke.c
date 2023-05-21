@@ -11640,7 +11640,7 @@ Perl_scan_str(pTHX_ char *start, int keep_bracketed_quoted, int keep_delims, int
                    open_delim_str, open_delim_str + delim_byte_len))
         {
             Perl_ck_warner_d(aTHX_ packWARN(WARN_DEPRECATED__DELIMITER_WILL_BE_PAIRED),
-                             "Use of '%" UTF8f "' is deprecated as a string delimiter",
+                             PERL_WARNING_DEPRECATED_STR_DELIM,
                              UTF8fARG(UTF, delim_byte_len, open_delim_str));
         }
 
