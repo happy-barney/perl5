@@ -11861,7 +11861,7 @@ Perl_scan_num(pTHX_ const char *start, YYSTYPE* lvalp)
             if (!warned_about_underscore) { \
                 warned_about_underscore = 1; \
                 Perl_ck_warner(aTHX_ packWARN(WARN_SYNTAX), \
-                               "Misplaced _ in number"); \
+                               PERL_WARNING_MISPLACED_UNDERSCORE); \
             } \
         } while(0)
     /* Hexadecimal floating point.
