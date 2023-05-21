@@ -11624,7 +11624,7 @@ Perl_scan_str(pTHX_ char *start, int keep_bracketed_quoted, int keep_delims, int
         if (! isASCII(open_delim_code)) {
             Perl_ck_warner_d(aTHX_
                              packWARN(WARN_EXPERIMENTAL__EXTRA_PAIRED_DELIMITERS),
-                             "Use of '%" UTF8f "' is experimental as a string delimiter",
+                             PERL_EXPERIMENT_UNI_STRING_DELIM,
                              UTF8fARG(UTF, delim_byte_len, open_delim_str));
         }
 
