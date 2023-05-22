@@ -12017,7 +12017,7 @@ Perl_scan_num(pTHX_ const char *start, YYSTYPE* lvalp)
                             overflowed = TRUE;
                             n = (NV) u;
                             Perl_ck_warner_d(aTHX_ packWARN(WARN_OVERFLOW),
-                                             "Integer overflow in %s number",
+                                             PERL_WARNING_INTEGER_OVERFLOW,
                                              bases[shift]);
                         } else
                             u = x | b;		/* add the digit to the end */
@@ -13252,7 +13252,7 @@ Perl_scan_vstring(pTHX_ const char *s, const char *const e, SV *sv)
                     if (orev > rev)
                         /* diag_listed_as: Integer overflow in %s number */
                         Perl_ck_warner_d(aTHX_ packWARN(WARN_OVERFLOW),
-                                         "Integer overflow in decimal number");
+                                         PERL_WARNING_INTEGER_OVERFLOW, "decimal");
                 }
             }
 

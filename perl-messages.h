@@ -96,6 +96,7 @@
 #   define PERL_W1034   "Use of /c modifier is meaningless in s///"
 #   define PERL_W1035   "Use of '%" UTF8f "' is deprecated as a string delimiter"
 #   define PERL_W1036   "Misplaced _ in number"
+#   define PERL_W1037   "Integer overflow in %s number"
 
     /* Experimental warnings catalogue */
 #   define PERL_T1000   "for my (...) is experimental"
@@ -190,6 +191,7 @@
 #   define PERL_WARNING_RE_SUBST_USE_OF_C       PERL_WARNING_MESSAGE (1034)
 #   define PERL_WARNING_DEPRECATED_STR_DELIM    PERL_WARNING_MESSAGE (1035)
 #   define PERL_WARNING_MISPLACED_UNDERSCORE    PERL_WARNING_MESSAGE (1036)
+#   define PERL_WARNING_INTEGER_OVERFLOW        PERL_WARNING_MESSAGE (1037)
 
 #   define PERL_EXPERIMENT_FOR_MY_LIST          PERL_EXPERIMENT_MESSAGE (1000)
 #   define PERL_EXPERIMENT_DECLARE_REFS         PERL_EXPERIMENT_MESSAGE (1001)
