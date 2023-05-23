@@ -12194,7 +12194,7 @@ Perl_scan_num(pTHX_ const char *start, YYSTYPE* lvalp)
                                      *
                                      * This may or may not be a good thing. */
                                     Perl_ck_warner(aTHX_ packWARN(WARN_OVERFLOW),
-                                                   "Hexadecimal float: exponent underflow");
+                                                   PERL_WARNING_HEX_EXPONENT_UNDERFLOW);
                                     break;
                                 }
 #endif
@@ -12202,7 +12202,7 @@ Perl_scan_num(pTHX_ const char *start, YYSTYPE* lvalp)
                                 if (!negexp
                                     && hexfp_exp > NV_MAX_EXP - 1) {
                                     Perl_ck_warner(aTHX_ packWARN(WARN_OVERFLOW),
-                                                   "Hexadecimal float: exponent overflow");
+                                                   PERL_WARNING_HEX_EXPONENT_OVERFLOW);
                                     break;
                                 }
 #endif
@@ -12464,7 +12464,7 @@ Perl_scan_num(pTHX_ const char *start, YYSTYPE* lvalp)
 #  ifdef NV_MANT_DIG
                 if (significant_bits > NV_MANT_DIG)
                     Perl_ck_warner(aTHX_ packWARN(WARN_OVERFLOW),
-                                   "Hexadecimal float: mantissa overflow");
+                                   PERL_WARNING_HEX_MANTISSA_OVERFLOW);
 #  endif
 #ifdef HEXFP_UQUAD
                 nv = hexfp_uquad * hexfp_mult;
