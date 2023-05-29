@@ -899,7 +899,7 @@ S_pad_check_dup(pTHX_ PADNAME *name, U32 flags, const HV *ourstash)
                 break; /* field of a different class */
             /* diag_listed_as: "%s" variable %s masks earlier declaration in same %s */
             Perl_warner(aTHX_ packWARN(WARN_SHADOW),
-                "\"%s\" %s %" PNf " masks earlier declaration in same %s",
+                PERL_WARNING_EARLIER_DECLARATION,
                 (   is_our                         ? "our"   :
                     PL_parser->in_my == KEY_my     ? "my"    :
                     PL_parser->in_my == KEY_sigvar ? "my"    :
