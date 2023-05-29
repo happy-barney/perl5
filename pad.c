@@ -1512,7 +1512,7 @@ Perl_pad_leavemy(pTHX)
             const PADNAME * const name = svp[off];
             if (name && PadnameLEN(name) && !PadnameOUTER(name))
                 Perl_ck_warner_d(aTHX_ packWARN(WARN_INTERNAL),
-                                      "%" PNf " never introduced",
+                                      PERL_WARNING_NEVER_INTRODUCED,
                                        PNfARG(name));
         }
     }
