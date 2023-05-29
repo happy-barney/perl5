@@ -100,6 +100,7 @@
 #   define PERL_W1038   "Hexadecimal float: exponent underflow"
 #   define PERL_W1039   "Hexadecimal float: exponent overflow"
 #   define PERL_W1040   "Hexadecimal float: mantissa overflow"
+#   define PERL_W1041   "%s number > %s non-portable"
 
     /* Experimental warnings catalogue */
 #   define PERL_T1000   "for my (...) is experimental"
@@ -198,6 +199,7 @@
 #   define PERL_WARNING_HEX_EXPONENT_UNDERFLOW  PERL_WARNING_MESSAGE (1038)
 #   define PERL_WARNING_HEX_EXPONENT_OVERFLOW   PERL_WARNING_MESSAGE (1039)
 #   define PERL_WARNING_HEX_MANTISSA_OVERFLOW   PERL_WARNING_MESSAGE (1040)
+#   define PERL_WARNING_NUMBER_NOT_PORTABLE     PERL_WARNING_MESSAGE (1041)
 
 #   define PERL_EXPERIMENT_FOR_MY_LIST          PERL_EXPERIMENT_MESSAGE (1000)
 #   define PERL_EXPERIMENT_DECLARE_REFS         PERL_EXPERIMENT_MESSAGE (1001)

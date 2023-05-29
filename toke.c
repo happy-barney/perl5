@@ -12239,7 +12239,7 @@ Perl_scan_num(pTHX_ const char *start, YYSTYPE* lvalp)
             if (overflowed) {
                 if (n > 4294967295.0)
                     Perl_ck_warner(aTHX_ packWARN(WARN_PORTABLE),
-                                   "%s number > %s non-portable",
+                                   PERL_WARNING_NUMBER_NOT_PORTABLE,
                                    Bases[shift],
                                    new_octal ? "0o37777777777" : maxima[shift]);
                 sv = newSVnv(n);
@@ -12248,7 +12248,7 @@ Perl_scan_num(pTHX_ const char *start, YYSTYPE* lvalp)
 #if UVSIZE > 4
                 if (u > 0xffffffff)
                     Perl_ck_warner(aTHX_ packWARN(WARN_PORTABLE),
-                                   "%s number > %s non-portable",
+                                   PERL_WARNING_NUMBER_NOT_PORTABLE,
                                    Bases[shift],
                                    new_octal ? "0o37777777777" : maxima[shift]);
 #endif
