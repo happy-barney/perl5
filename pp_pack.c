@@ -257,7 +257,7 @@ utf8_to_byte(pTHX_ const char **s, const char *end, I32 datumtype)
                          ckWARN(WARN_UTF8) ? 0 : UTF8_ALLOW_ANY);
     if (retlen == (STRLEN) -1)
       croak:
-        Perl_croak(aTHX_ "Malformed UTF-8 string in '%c' format in unpack",
+        Perl_croak(aTHX_ PERL_ERROR_UNPACK_MALFORMED_UTF8,
                    (int) TYPE_NO_MODIFIERS(datumtype));
     if (val >= 0x100) {
         Perl_ck_warner(aTHX_ packWARN(WARN_UNPACK),

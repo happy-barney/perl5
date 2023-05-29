@@ -63,6 +63,7 @@
 #   define PERL_E1046   "Unsupported script encoding %s"
 #   define PERL_E1047   "Can't undef active subroutine"
 #   define PERL_E1048   "Constants from lexical variables potentially modified elsewhere are no longer permitted"
+#   define PERL_E1049   "Malformed UTF-8 string in '%c' format in unpack"
 
     /* Warnings catalogue */
 #   define PERL_W1000   "Prototype after '%c' for %" SVf " : %s"
@@ -179,6 +180,7 @@
 #   define PERL_ERROR_UNSUPPORTED_ENCODING      PERL_ERROR_MESSAGE (1046)
 #   define PERL_ERROR_CANNOT_UNDEF_SUB          PERL_ERROR_MESSAGE (1047)
 #   define PERL_ERROR_CONSTANTS_MODIFIED        PERL_ERROR_MESSAGE (1048)
+#   define PERL_ERROR_UNPACK_MALFORMED_UTF8     PERL_ERROR_MESSAGE (1049)
 
 #   define PERL_WARNING_PROTO_AFTER_GREEDY      PERL_WARNING_MESSAGE (1000)
 #   define PERL_WARNING_PROTO_MISSING_RBRACKET  PERL_WARNING_MESSAGE (1001)
