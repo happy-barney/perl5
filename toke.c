@@ -12943,7 +12943,7 @@ S_swallow_bom(pTHX_ U8 *s)
             /* UTF-16 little-endian? (or UTF-32LE?) */
             if (s[2] == 0 && s[3] == 0)  /* UTF-32 little-endian */
                 /* diag_listed_as: Unsupported script encoding %s */
-                Perl_croak(aTHX_ "Unsupported script encoding UTF-32LE");
+                Perl_croak(aTHX_ PERL_ERROR_UNSUPPORTED_ENCODING, "UTF-32LE");
 #ifndef PERL_NO_UTF16_FILTER
 #ifdef DEBUGGING
             if (DEBUG_p_TEST || DEBUG_T_TEST) PerlIO_printf(Perl_debug_log, "UTF-16LE script encoding (BOM)\n");
@@ -12954,7 +12954,7 @@ S_swallow_bom(pTHX_ U8 *s)
             }
 #else
             /* diag_listed_as: Unsupported script encoding %s */
-            Perl_croak(aTHX_ "Unsupported script encoding UTF-16LE");
+            Perl_croak(aTHX_ PERL_ERROR_UNSUPPORTED_ENCODING, "UTF-16LE");
 #endif
         }
         break;
@@ -12970,7 +12970,7 @@ S_swallow_bom(pTHX_ U8 *s)
             }
 #else
             /* diag_listed_as: Unsupported script encoding %s */
-            Perl_croak(aTHX_ "Unsupported script encoding UTF-16BE");
+            Perl_croak(aTHX_ PERL_ERROR_UNSUPPORTED_ENCODING, "UTF-16BE");
 #endif
         }
         break;
@@ -12989,7 +12989,7 @@ S_swallow_bom(pTHX_ U8 *s)
                   if (s[2] == 0xFE && s[3] == 0xFF) {
                        /* UTF-32 big-endian */
                        /* diag_listed_as: Unsupported script encoding %s */
-                       Perl_croak(aTHX_ "Unsupported script encoding UTF-32BE");
+                       Perl_croak(aTHX_ PERL_ERROR_UNSUPPORTED_ENCODING, "UTF-32BE");
                   }
              }
              else if (s[2] == 0 && s[3] != 0) {
@@ -13003,7 +13003,7 @@ S_swallow_bom(pTHX_ U8 *s)
                   s = add_utf16_textfilter(s, FALSE);
 #else
                   /* diag_listed_as: Unsupported script encoding %s */
-                  Perl_croak(aTHX_ "Unsupported script encoding UTF-16BE");
+                  Perl_croak(aTHX_ PERL_ERROR_UNSUPPORTED_ENCODING, "UTF-16BE");
 #endif
              }
         }
@@ -13021,7 +13021,7 @@ S_swallow_bom(pTHX_ U8 *s)
               s = add_utf16_textfilter(s, TRUE);
 #else
               /* diag_listed_as: Unsupported script encoding %s */
-              Perl_croak(aTHX_ "Unsupported script encoding UTF-16LE");
+              Perl_croak(aTHX_ PERL_ERROR_UNSUPPORTED_ENCODING, "UTF-16LE");
 #endif
          }
     }

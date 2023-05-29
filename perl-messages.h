@@ -60,6 +60,7 @@
 #   define PERL_E1043   "%s had compilation errors.\n"
 #   define PERL_E1044   "%" SVf "Execution of %s aborted due to compilation errors.\n"
 #   define PERL_E1045   "Execution of %s aborted due to compilation errors.\n"
+#   define PERL_E1046   "Unsupported script encoding %s"
 
     /* Warnings catalogue */
 #   define PERL_W1000   "Prototype after '%c' for %" SVf " : %s"
@@ -168,6 +169,7 @@
 #   define PERL_ERROR_COMPILATION               PERL_ERROR_MESSAGE (1043)
 #   define PERL_ERROR_EXECUTION_ABORTED_SV      PERL_ERROR_MESSAGE (1044)
 #   define PERL_ERROR_EXECUTION_ABORTED         PERL_ERROR_MESSAGE (1045)
+#   define PERL_ERROR_UNSUPPORTED_ENCODING      PERL_ERROR_MESSAGE (1046)
 
 #   define PERL_WARNING_PROTO_AFTER_GREEDY      PERL_WARNING_MESSAGE (1000)
 #   define PERL_WARNING_PROTO_MISSING_RBRACKET  PERL_WARNING_MESSAGE (1001)
