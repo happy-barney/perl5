@@ -111,6 +111,7 @@
 #   define PERL_W1043   "\"%s\" %s %" PNf " masks earlier declaration in same %s"
 #   define PERL_W1044   "\"our\" variable %" PNf " redeclared"
 #   define PERL_W1045   "%s \"%" PNf "\" is not available"
+#   define PERL_W1046   "%s \"%" UTF8f "\" will not stay shared"
 
     /* Experimental warnings catalogue */
 #   define PERL_T1000   "for my (...) is experimental"
@@ -222,6 +223,7 @@
 #   define PERL_WARNING_EARLIER_DECLARATION     PERL_WARNING_MESSAGE (1043)
 #   define PERL_WARNING_OUR_REDECLARED          PERL_WARNING_MESSAGE (1044)
 #   define PERL_WARNING_SYMBOL_NOT_AVAILABLE    PERL_WARNING_MESSAGE (1045)
+#   define PERL_WARNING_SYMBOL_NOT_SHARED       PERL_WARNING_MESSAGE (1046)
 
 #   define PERL_EXPERIMENT_FOR_MY_LIST          PERL_EXPERIMENT_MESSAGE (1000)
 #   define PERL_EXPERIMENT_DECLARE_REFS         PERL_EXPERIMENT_MESSAGE (1001)

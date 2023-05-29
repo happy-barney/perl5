@@ -1212,7 +1212,7 @@ S_pad_findlex(pTHX_ const char *namepv, STRLEN namelen, U32 flags, const CV* cv,
                         /* diag_listed_as: Variable "%s" will not stay
                                            shared */
                         Perl_warner(aTHX_ packWARN(WARN_CLOSURE),
-                            "%s \"%" UTF8f "\" will not stay shared",
+                            PERL_WARNING_SYMBOL_NOT_SHARED,
                              *namepv == '&' ? "Subroutine" : "Variable",
                              UTF8fARG(1, namelen, namepv));
                     }
