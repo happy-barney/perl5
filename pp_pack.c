@@ -318,7 +318,7 @@ S_utf8_to_bytes(pTHX_ const char **s, const char *end, const char *buf, SSize_t 
         if ((bad & 2))
             Perl_ck_warner(aTHX_ packWARN(datumtype & TYPE_IS_PACK ?
                                        WARN_PACK : WARN_UNPACK),
-                           "Character(s) in '%c' format wrapped in %s",
+                           PERL_WARNING_PACK_CHARS_WRAPPED,
                            (int) TYPE_NO_MODIFIERS(datumtype),
                            datumtype & TYPE_IS_PACK ? "pack" : "unpack");
     }
