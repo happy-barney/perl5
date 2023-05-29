@@ -110,6 +110,7 @@
 #   define PERL_W1042   "Number too long"
 #   define PERL_W1043   "\"%s\" %s %" PNf " masks earlier declaration in same %s"
 #   define PERL_W1044   "\"our\" variable %" PNf " redeclared"
+#   define PERL_W1045   "%s \"%" PNf "\" is not available"
 
     /* Experimental warnings catalogue */
 #   define PERL_T1000   "for my (...) is experimental"
@@ -220,6 +221,7 @@
 #   define PERL_WARNING_NUMBER_TOO_LONG         PERL_WARNING_MESSAGE (1042)
 #   define PERL_WARNING_EARLIER_DECLARATION     PERL_WARNING_MESSAGE (1043)
 #   define PERL_WARNING_OUR_REDECLARED          PERL_WARNING_MESSAGE (1044)
+#   define PERL_WARNING_SYMBOL_NOT_AVAILABLE    PERL_WARNING_MESSAGE (1045)
 
 #   define PERL_EXPERIMENT_FOR_MY_LIST          PERL_EXPERIMENT_MESSAGE (1000)
 #   define PERL_EXPERIMENT_DECLARE_REFS         PERL_EXPERIMENT_MESSAGE (1001)

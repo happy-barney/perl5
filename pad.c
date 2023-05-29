@@ -1088,7 +1088,7 @@ S_unavailable(pTHX_ PADNAME *name)
 {
     /* diag_listed_as: Variable "%s" is not available */
     Perl_ck_warner(aTHX_ packWARN(WARN_CLOSURE),
-                        "%s \"%" PNf "\" is not available",
+                        PERL_WARNING_SYMBOL_NOT_AVAILABLE,
                          *PadnamePV(name) == '&'
                                          ? "Subroutine"
                                          : "Variable",
