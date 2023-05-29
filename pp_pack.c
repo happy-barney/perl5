@@ -261,7 +261,7 @@ utf8_to_byte(pTHX_ const char **s, const char *end, I32 datumtype)
                    (int) TYPE_NO_MODIFIERS(datumtype));
     if (val >= 0x100) {
         Perl_ck_warner(aTHX_ packWARN(WARN_UNPACK),
-                       "Character in '%c' format wrapped in unpack",
+                       PERL_WARNING_UNPACK_CHAR_WRAPPED,
                        (int) TYPE_NO_MODIFIERS(datumtype));
         val = (U8) val;
     }

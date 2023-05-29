@@ -115,6 +115,7 @@
 #   define PERL_W1045   "%s \"%" PNf "\" is not available"
 #   define PERL_W1046   "%s \"%" UTF8f "\" will not stay shared"
 #   define PERL_W1047   "%" PNf " never introduced"
+#   define PERL_W1048   "Character in '%c' format wrapped in unpack"
 
     /* Experimental warnings catalogue */
 #   define PERL_T1000   "for my (...) is experimental"
@@ -230,6 +231,7 @@
 #   define PERL_WARNING_SYMBOL_NOT_AVAILABLE    PERL_WARNING_MESSAGE (1045)
 #   define PERL_WARNING_SYMBOL_NOT_SHARED       PERL_WARNING_MESSAGE (1046)
 #   define PERL_WARNING_NEVER_INTRODUCED        PERL_WARNING_MESSAGE (1047)
+#   define PERL_WARNING_UNPACK_CHAR_WRAPPED     PERL_WARNING_MESSAGE (1048)
 
 #   define PERL_EXPERIMENT_FOR_MY_LIST          PERL_EXPERIMENT_MESSAGE (1000)
 #   define PERL_EXPERIMENT_DECLARE_REFS         PERL_EXPERIMENT_MESSAGE (1001)
