@@ -56,6 +56,8 @@
 #   define PERL_E1039   "Excessively long <> operator"
 #   define PERL_E1040   "Unterminated <> operator"
 #   define PERL_E1041   "Glob not terminated"
+#   define PERL_E1042   "%" SVf "%s had compilation errors.\n"
+#   define PERL_E1043   "%s had compilation errors.\n"
 
     /* Warnings catalogue */
 #   define PERL_W1000   "Prototype after '%c' for %" SVf " : %s"
@@ -160,6 +162,8 @@
 #   define PERL_ERROR_DIAMOND_OP_TOO_LONG       PERL_ERROR_MESSAGE (1039)
 #   define PERL_ERROR_DIAMOND_OP_UNTERMINATED   PERL_ERROR_MESSAGE (1040)
 #   define PERL_ERROR_GLOB_NOT_TERMINATED       PERL_ERROR_MESSAGE (1041)
+#   define PERL_ERROR_COMPILATION_SV            PERL_ERROR_MESSAGE (1042)
+#   define PERL_ERROR_COMPILATION               PERL_ERROR_MESSAGE (1043)
 
 #   define PERL_WARNING_PROTO_AFTER_GREEDY      PERL_WARNING_MESSAGE (1000)
 #   define PERL_WARNING_PROTO_MISSING_RBRACKET  PERL_WARNING_MESSAGE (1001)
