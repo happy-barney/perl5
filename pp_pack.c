@@ -415,7 +415,7 @@ STMT_START {							\
     val = utf8n_to_uvchr((U8 *) str, end-str, &retlen, utf8_flags);	\
     if (retlen == (STRLEN) -1) {			        \
         *cur = '\0';						\
-        Perl_croak(aTHX_ "Malformed UTF-8 string in pack");	\
+        Perl_croak(aTHX_ PERL_ERROR_PACK_MALFORMED_UTF8);	\
     }								\
     str += retlen;						\
 } STMT_END
