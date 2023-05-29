@@ -12795,15 +12795,13 @@ Perl_abort_execution(pTHX_ SV* msg_sv, const char * const name)
         if (PL_minus_c)
             Perl_croak(aTHX_ PERL_ERROR_COMPILATION_SV, SVfARG(msg_sv), name);
         else {
-            Perl_croak(aTHX_
-                    "%" SVf "Execution of %s aborted due to compilation errors.\n", SVfARG(msg_sv), name);
+            Perl_croak(aTHX_ PERL_ERROR_EXECUTION_ABORTED_SV, SVfARG(msg_sv), name);
         }
     } else {
         if (PL_minus_c)
             Perl_croak(aTHX_ PERL_ERROR_COMPILATION, name);
         else {
-            Perl_croak(aTHX_
-                    "Execution of %s aborted due to compilation errors.\n", name);
+            Perl_croak(aTHX_ PERL_ERROR_EXECUTION_ABORTED, name);
         }
     }
 
