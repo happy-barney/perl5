@@ -11853,7 +11853,7 @@ Perl_scan_num(pTHX_ const char *start, YYSTYPE* lvalp)
     SV *sv = NULL;			/* place to put the converted number */
     bool floatit;			/* boolean: int or float? */
     const char *lastub = NULL;		/* position of last underbar */
-    static const char* const number_too_long = "Number too long";
+    static const char* const number_too_long = PERL_WARNING_NUMBER_TOO_LONG;
     bool warned_about_underscore = 0;
     I32 shift; /* shift per digit for hex/oct/bin, hoisted here for fp */
 #define WARN_ABOUT_UNDERSCORE() \
@@ -12314,7 +12314,7 @@ Perl_scan_num(pTHX_ const char *start, YYSTYPE* lvalp)
             else {
                 /* check for end of fixed-length buffer */
                 if (d >= e)
-                    Perl_croak(aTHX_ "%s", number_too_long);
+                    Perl_croak(aTHX_ PERL_WARNING_NUMBER_TOO_LONG);
                 /* if we're ok, copy the character */
                 *d++ = *s++;
             }
@@ -12346,7 +12346,7 @@ Perl_scan_num(pTHX_ const char *start, YYSTYPE* lvalp)
             {
                 /* fixed length buffer check */
                 if (d >= e)
-                    Perl_croak(aTHX_ "%s", number_too_long);
+                    Perl_croak(aTHX_ PERL_WARNING_NUMBER_TOO_LONG);
                 if (*s == '_') {
                    if (lastub && s == lastub + 1)
                         WARN_ABOUT_UNDERSCORE();
@@ -12408,7 +12408,7 @@ Perl_scan_num(pTHX_ const char *start, YYSTYPE* lvalp)
                 if (isDIGIT(*s)) {
                     ++exp_digits;
                     if (d >= e)
-                        Perl_croak(aTHX_ "%s", number_too_long);
+                        Perl_croak(aTHX_ PERL_WARNING_NUMBER_TOO_LONG);
                     *d++ = *s++;
                 }
                 else {
