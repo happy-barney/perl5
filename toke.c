@@ -12678,7 +12678,7 @@ S_apply_builtin_cv_attribute(pTHX_ CV *cv, OP *o)
     else if(memEQs(SvPVX(sv), len, "const")) {
         Perl_ck_warner_d(aTHX_
             packWARN(WARN_EXPERIMENTAL__CONST_ATTR),
-           ":const is experimental"
+           PERL_EXPERIMENT_CONST
         );
         CvANONCONST_on(cv);
         if (!CvANON(cv))
