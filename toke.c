@@ -12682,7 +12682,7 @@ S_apply_builtin_cv_attribute(pTHX_ CV *cv, OP *o)
         );
         CvANONCONST_on(cv);
         if (!CvANON(cv))
-            yyerror(":const is not permitted on named subroutines");
+            yyerror(PERL_EXPERIMENT_CONST_SUB);
     }
     else
         return false;

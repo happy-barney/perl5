@@ -115,6 +115,7 @@
 #   define PERL_T1008   "try/catch/finally is experimental"
 #   define PERL_T1009   "Use of '%" UTF8f "' is experimental as a string delimiter"
 #   define PERL_T1010   ":const is experimental"
+#   define PERL_T1011   ":const is not permitted on named subroutines"
 
     /* Human readable macros */
 #   define PERL_ERROR_STRING_TERMINATOR_EOF     PERL_ERROR_MESSAGE (1000)
@@ -215,6 +216,7 @@
 #   define PERL_EXPERIMENT_FINALLY              PERL_EXPERIMENT_MESSAGE (1008)
 #   define PERL_EXPERIMENT_UNI_STRING_DELIM     PERL_EXPERIMENT_MESSAGE (1009)
 #   define PERL_EXPERIMENT_CONST                PERL_EXPERIMENT_MESSAGE (1010)
+#   define PERL_EXPERIMENT_CONST_SUB            PERL_EXPERIMENT_MESSAGE (1011)
 
     /* Supporting macros */
 
