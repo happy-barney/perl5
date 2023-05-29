@@ -926,7 +926,7 @@ S_pad_check_dup(pTHX_ PADNAME *name, U32 flags, const HV *ourstash)
                 && memEQ(PadnamePV(pn), PadnamePV(name), PadnameLEN(name)))
             {
                 Perl_warner(aTHX_ packWARN(WARN_SHADOW),
-                    "\"our\" variable %" PNf " redeclared", PNfARG(pn));
+                    PERL_WARNING_OUR_REDECLARED, PNfARG(pn));
                 if (off <= PL_comppad_name_floor)
                     Perl_warner(aTHX_ packWARN(WARN_SHADOW),
                         "\t(Did you mean \"local\" instead of \"our\"?)\n");
