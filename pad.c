@@ -2179,9 +2179,7 @@ S_cv_clone_pad(pTHX_ CV *proto, CV *cv, CV *outside, HV *cloned,
                         ) == o
                      && !OpSIBLING(o))
                     {
-                        Perl_croak(aTHX_
-                            "Constants from lexical variables potentially modified "
-                            "elsewhere are no longer permitted");
+                        Perl_croak(aTHX_ PERL_ERROR_CONSTANTS_MODIFIED);
                     }
                     else
                         goto constoff;
