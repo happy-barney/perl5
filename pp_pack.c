@@ -455,7 +455,7 @@ S_measure_struct(pTHX_ tempsym_t* symptr)
             switch(TYPE_NO_ENDIANNESS(symptr->code)) {
             default:
                 /* diag_listed_as: Invalid type '%s' in %s */
-                Perl_croak(aTHX_ "Invalid type '%c' in %s",
+                Perl_croak(aTHX_ PERL_ERROR_PACK_INVALID_TYPE,
                            (int)TYPE_NO_MODIFIERS(symptr->code),
                            _action( symptr ) );
             case '.' | TYPE_IS_SHRIEKING:
@@ -622,7 +622,7 @@ S_next_symbol(pTHX_ tempsym_t* symptr )
           symptr->flags |= FLAG_COMMA;
           /* diag_listed_as: Invalid type '%s' in %s */
           Perl_warner(aTHX_ packWARN(WARN_UNPACK),
-                      "Invalid type ',' in %s", _action( symptr ) );
+                      PERL_WARNING_PACK_INVALID_TYPE, ',', _action( symptr ) );
         }
         continue;
       }

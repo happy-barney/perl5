@@ -66,6 +66,7 @@
 #   define PERL_E1049   "Malformed UTF-8 string in '%c' format in unpack"
 #   define PERL_E1050   "Malformed UTF-8 string in pack"
 #   define PERL_E1051   "Within []-length '%c' not allowed in %s"
+#   define PERL_E1052   "Invalid type '%c' in %s"
 
     /* Warnings catalogue */
 #   define PERL_W1000   "Prototype after '%c' for %" SVf " : %s"
@@ -119,6 +120,7 @@
 #   define PERL_W1047   "%" PNf " never introduced"
 #   define PERL_W1048   "Character in '%c' format wrapped in unpack"
 #   define PERL_W1049   "Character(s) in '%c' format wrapped in %s"
+#   define PERL_W1050   "Invalid type '%c' in %s"
 
     /* Experimental warnings catalogue */
 #   define PERL_T1000   "for my (...) is experimental"
@@ -187,6 +189,7 @@
 #   define PERL_ERROR_UNPACK_MALFORMED_UTF8     PERL_ERROR_MESSAGE (1049)
 #   define PERL_ERROR_PACK_MALFORMED_UTF8       PERL_ERROR_MESSAGE (1050)
 #   define PERL_ERROR_PACK_LENGTH_NOT_ALLOWED   PERL_ERROR_MESSAGE (1051)
+#   define PERL_ERROR_PACK_INVALID_TYPE         PERL_ERROR_MESSAGE (1052)
 
 #   define PERL_WARNING_PROTO_AFTER_GREEDY      PERL_WARNING_MESSAGE (1000)
 #   define PERL_WARNING_PROTO_MISSING_RBRACKET  PERL_WARNING_MESSAGE (1001)
@@ -238,6 +241,7 @@
 #   define PERL_WARNING_NEVER_INTRODUCED        PERL_WARNING_MESSAGE (1047)
 #   define PERL_WARNING_UNPACK_CHAR_WRAPPED     PERL_WARNING_MESSAGE (1048)
 #   define PERL_WARNING_PACK_CHARS_WRAPPED      PERL_WARNING_MESSAGE (1049)
+#   define PERL_WARNING_PACK_INVALID_TYPE       PERL_WARNING_MESSAGE (1050)
 
 #   define PERL_EXPERIMENT_FOR_MY_LIST          PERL_EXPERIMENT_MESSAGE (1000)
 #   define PERL_EXPERIMENT_DECLARE_REFS         PERL_EXPERIMENT_MESSAGE (1001)
