@@ -495,7 +495,7 @@ S_measure_struct(pTHX_ tempsym_t* symptr)
             case 'X':
                 size = -1;
                 if (total < len)
-                    Perl_croak(aTHX_ "'X' outside of string in %s", _action( symptr ) );
+                    Perl_croak(aTHX_ PERL_ERROR_PACK_X_OUTSIDE_OF_STRING, _action( symptr ) );
                 break;
             case 'x' | TYPE_IS_SHRIEKING:
                 if (!len)		/* Avoid division by 0 */
