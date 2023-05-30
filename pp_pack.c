@@ -438,7 +438,8 @@ S_measure_struct(pTHX_ tempsym_t* symptr)
 
         switch (symptr->howlen) {
           case e_star:
-            Perl_croak(aTHX_ "Within []-length '*' not allowed in %s",
+            Perl_croak(aTHX_ PERL_ERROR_PACK_LENGTH_NOT_ALLOWED,
+                       '*',
                         _action( symptr ) );
 
           default:
@@ -465,7 +466,7 @@ S_measure_struct(pTHX_ tempsym_t* symptr)
             case 'U':			/* XXXX Is it correct? */
             case 'w':
             case 'u':
-                Perl_croak(aTHX_ "Within []-length '%c' not allowed in %s",
+                Perl_croak(aTHX_ PERL_ERROR_PACK_LENGTH_NOT_ALLOWED,
                            (int) TYPE_NO_MODIFIERS(symptr->code),
                            _action( symptr ) );
             case '%':

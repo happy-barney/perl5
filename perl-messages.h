@@ -65,6 +65,7 @@
 #   define PERL_E1048   "Constants from lexical variables potentially modified elsewhere are no longer permitted"
 #   define PERL_E1049   "Malformed UTF-8 string in '%c' format in unpack"
 #   define PERL_E1050   "Malformed UTF-8 string in pack"
+#   define PERL_E1051   "Within []-length '%c' not allowed in %s"
 
     /* Warnings catalogue */
 #   define PERL_W1000   "Prototype after '%c' for %" SVf " : %s"
@@ -185,6 +186,7 @@
 #   define PERL_ERROR_CONSTANTS_MODIFIED        PERL_ERROR_MESSAGE (1048)
 #   define PERL_ERROR_UNPACK_MALFORMED_UTF8     PERL_ERROR_MESSAGE (1049)
 #   define PERL_ERROR_PACK_MALFORMED_UTF8       PERL_ERROR_MESSAGE (1050)
+#   define PERL_ERROR_PACK_LENGTH_NOT_ALLOWED   PERL_ERROR_MESSAGE (1051)
 
 #   define PERL_WARNING_PROTO_AFTER_GREEDY      PERL_WARNING_MESSAGE (1000)
 #   define PERL_WARNING_PROTO_MISSING_RBRACKET  PERL_WARNING_MESSAGE (1001)
