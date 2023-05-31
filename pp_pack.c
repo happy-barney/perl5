@@ -630,7 +630,7 @@ S_next_symbol(pTHX_ tempsym_t* symptr )
       /* for '(', skip to ')' */
       if (code == '(') {
         if( isDIGIT(*patptr) || *patptr == '*' || *patptr == '[' )
-          Perl_croak(aTHX_ "()-group starts with a count in %s",
+          Perl_croak(aTHX_ PERL_ERROR_PACK_GROUP_STARTS_COUNT,
                         _action( symptr ) );
         symptr->grpbeg = patptr;
         patptr = 1 + ( symptr->grpend = group_end(patptr, patend, ')') );

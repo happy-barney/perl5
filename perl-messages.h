@@ -71,6 +71,7 @@
 #   define PERL_E1054   "Mismatched brackets in template"
 #   define PERL_E1055   "No group ending character '%c' found in template"
 #   define PERL_E1056   "pack/unpack repeat count overflow"
+#   define PERL_E1057   "()-group starts with a count in %s"
 
     /* Warnings catalogue */
 #   define PERL_W1000   "Prototype after '%c' for %" SVf " : %s"
@@ -198,6 +199,7 @@
 #   define PERL_ERROR_PACK_MISMATCHED_BRACKETS  PERL_ERROR_MESSAGE (1054)
 #   define PERL_ERROR_PACK_NO_GROUP_END_CHAR    PERL_ERROR_MESSAGE (1055)
 #   define PERL_ERROR_REPEAT_COUNT_OVERFLOW     PERL_ERROR_MESSAGE (1056)
+#   define PERL_ERROR_PACK_GROUP_STARTS_COUNT   PERL_ERROR_MESSAGE (1057)
 
 #   define PERL_WARNING_PROTO_AFTER_GREEDY      PERL_WARNING_MESSAGE (1000)
 #   define PERL_WARNING_PROTO_MISSING_RBRACKET  PERL_WARNING_MESSAGE (1001)
