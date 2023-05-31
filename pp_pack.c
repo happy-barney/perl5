@@ -635,7 +635,7 @@ S_next_symbol(pTHX_ tempsym_t* symptr )
         symptr->grpbeg = patptr;
         patptr = 1 + ( symptr->grpend = group_end(patptr, patend, ')') );
         if( symptr->level >= MAX_SUB_TEMPLATE_LEVEL )
-          Perl_croak(aTHX_ "Too deeply nested ()-groups in %s",
+          Perl_croak(aTHX_ PERL_ERROR_PACK_GROUPS_TOO_DEEP,
                         _action( symptr ) );
       }
 
