@@ -581,7 +581,7 @@ S_get_num(pTHX_ const char *patptr, SSize_t *lenptr )
   while (isDIGIT(*patptr)) {
     SSize_t nlen = (len * 10) + (*patptr++ - '0');
     if (nlen < 0 || nlen/10 != len)
-      Perl_croak(aTHX_ "pack/unpack repeat count overflow");
+      Perl_croak(aTHX_ PERL_ERROR_REPEAT_COUNT_OVERFLOW);
     len = nlen;
   }
   *lenptr = len;
