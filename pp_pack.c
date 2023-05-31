@@ -561,7 +561,7 @@ S_group_end(pTHX_ const char *patptr, const char *patend, char ender)
             --opened;
         }
     }
-    Perl_croak(aTHX_ "No group ending character '%c' found in template",
+    Perl_croak(aTHX_ PERL_ERROR_PACK_NO_GROUP_END_CHAR,
                ender);
     NOT_REACHED; /* NOTREACHED */
 }

@@ -69,6 +69,7 @@
 #   define PERL_E1052   "Invalid type '%c' in %s"
 #   define PERL_E1053   "'X' outside of string in %s"
 #   define PERL_E1054   "Mismatched brackets in template"
+#   define PERL_E1055   "No group ending character '%c' found in template"
 
     /* Warnings catalogue */
 #   define PERL_W1000   "Prototype after '%c' for %" SVf " : %s"
@@ -194,6 +195,7 @@
 #   define PERL_ERROR_PACK_INVALID_TYPE         PERL_ERROR_MESSAGE (1052)
 #   define PERL_ERROR_PACK_X_OUTSIDE_OF_STRING  PERL_ERROR_MESSAGE (1053)
 #   define PERL_ERROR_PACK_MISMATCHED_BRACKETS  PERL_ERROR_MESSAGE (1054)
+#   define PERL_ERROR_PACK_NO_GROUP_END_CHAR    PERL_ERROR_MESSAGE (1055)
 
 #   define PERL_WARNING_PROTO_AFTER_GREEDY      PERL_WARNING_MESSAGE (1000)
 #   define PERL_WARNING_PROTO_MISSING_RBRACKET  PERL_WARNING_MESSAGE (1001)
