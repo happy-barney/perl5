@@ -672,7 +672,7 @@ S_next_symbol(pTHX_ tempsym_t* symptr )
           break;
 
         if (!strchr(allowed, TYPE_NO_MODIFIERS(code)))
-          Perl_croak(aTHX_ "'%c' allowed only after types %s in %s", *patptr,
+          Perl_croak(aTHX_ PERL_ERROR_PACK_ALLOWED_ONLY_AFTER, *patptr,
                         allowed, _action( symptr ) );
 
         if (TYPE_ENDIANNESS(code | modifier) == TYPE_ENDIANNESS_MASK)

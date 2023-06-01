@@ -73,6 +73,7 @@
 #   define PERL_E1056   "pack/unpack repeat count overflow"
 #   define PERL_E1057   "()-group starts with a count in %s"
 #   define PERL_E1058   "Too deeply nested ()-groups in %s"
+#   define PERL_E1059   "'%c' allowed only after types %s in %s"
 
     /* Warnings catalogue */
 #   define PERL_W1000   "Prototype after '%c' for %" SVf " : %s"
@@ -202,6 +203,7 @@
 #   define PERL_ERROR_REPEAT_COUNT_OVERFLOW     PERL_ERROR_MESSAGE (1056)
 #   define PERL_ERROR_PACK_GROUP_STARTS_COUNT   PERL_ERROR_MESSAGE (1057)
 #   define PERL_ERROR_PACK_GROUPS_TOO_DEEP      PERL_ERROR_MESSAGE (1058)
+#   define PERL_ERROR_PACK_ALLOWED_ONLY_AFTER   PERL_ERROR_MESSAGE (1059)
 
 #   define PERL_WARNING_PROTO_AFTER_GREEDY      PERL_WARNING_MESSAGE (1000)
 #   define PERL_WARNING_PROTO_MISSING_RBRACKET  PERL_WARNING_MESSAGE (1001)
