@@ -26,4 +26,8 @@
 #   define PERL_SUNPRO_IS_12_2()                                         \
     PERL_SUNPRO_VERSION_GE (0x5110)
 
+#   if PERL_SUNPRO_IS_12_2()
+#       define __attribute__deprecated__ __attribute__((deprecated))
+#   endif
+
 #endif

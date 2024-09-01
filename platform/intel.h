@@ -23,4 +23,11 @@
 #   define PERL_INTEL_VERSION_LT(Version)                               \
     PERL_INTEL_VERSION_CMP (<, Version)
 
+#   define PERL_INTEL_IS_10_0()                                         \
+    PERL_INTEL_VERSION_GE(1000)
+
+#   if PERL_INTEL_IS_10_0()
+#       define __attribute__deprecated__ __attribute__((deprecated))
+#   endif
+
 #endif
