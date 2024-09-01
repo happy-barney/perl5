@@ -6,4 +6,8 @@
 #       define __attribute__deprecated__
 #   endif
 
+#   ifndef PERL_ATOMIC_INCREMENT
+#       define PERL_ATOMIC_INCREMENT(var) (++(var))
+#   endif
+
 #endif

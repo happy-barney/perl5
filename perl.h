@@ -1087,6 +1087,7 @@ violations are fatal.
 #  define PERL_USE_HWM
 #endif
 
+#include "platform.h"
 
 /* HP-UX 10.X CMA (Common Multithreaded Architecture) insists that
    pthread.h must be included before all other header files.
