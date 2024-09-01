@@ -353,23 +353,10 @@ Now a no-op.
           : (REGEXP *)NULL)
 #endif
 
-/* some compilers impersonate gcc */
-#if defined(__GNUC__) && !defined(__clang__) && !defined(__INTEL_COMPILER)
-#  define PERL_IS_GCC 1
-#endif
+#include "platform.h"
 
-#define PERL_GCC_VERSION_GE(major,minor,patch)                              \
-    (((100000 * __GNUC__) + (1000 * __GNUC_MINOR__) + __GNUC_PATCHLEVEL__)  \
-        >= ((100000 * (major)) + (1000 * (minor)) + (patch)))
-#define PERL_GCC_VERSION_GT(major,minor,patch)                              \
-    (((100000 * __GNUC__) + (1000 * __GNUC_MINOR__) + __GNUC_PATCHLEVEL__)  \
-        > ((100000 * (major)) + (1000 * (minor)) + (patch)))
-#define PERL_GCC_VERSION_LE(major,minor,patch)                              \
-    (((100000 * __GNUC__) + (1000 * __GNUC_MINOR__) + __GNUC_PATCHLEVEL__)  \
-        <= ((100000 * (major)) + (1000 * (minor)) + (patch)))
-#define PERL_GCC_VERSION_LT(major,minor,patch)                              \
-    (((100000 * __GNUC__) + (1000 * __GNUC_MINOR__) + __GNUC_PATCHLEVEL__)  \
-        < ((100000 * (major)) + (1000 * (minor)) + (patch)))
+#define PERL_SEMVER(Major, Minor, Patch)                                \
+    ((Path) + 1000 * ((Minor) + 1000 * (Major)))
 
 /* In case Configure was not used (we are using a "canned config"
  * such as Win32, or a cross-compilation setup, for example) try going
