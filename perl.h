@@ -444,9 +444,6 @@ C<static>, and you might as well just type the actual C keyword.
  */
 
 #if defined __GNUC__ && !defined(__INTEL_COMPILER)
-#  if PERL_GCC_VERSION_GE(3,1,0)
-#    define HASATTRIBUTE_DEPRECATED
-#  endif
 #  if PERL_GCC_VERSION_GE(3,0,0)  /* XXX Verify this version */
 #    define HASATTRIBUTE_FORMAT
 #    if defined __MINGW32__
@@ -486,9 +483,6 @@ C<static>, and you might as well just type the actual C keyword.
 #  endif
 #endif
 
-#ifdef HASATTRIBUTE_DEPRECATED
-#  define __attribute__deprecated__         __attribute__((deprecated))
-#endif
 #ifdef HASATTRIBUTE_FORMAT
 #  define __attribute__format__(x,y,z)      __attribute__((format(x,y,z)))
 #endif

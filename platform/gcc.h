@@ -28,4 +28,8 @@
 #   define PERL_GCC_VERSION_LT(Major,Minor,Patch)                       \
     PERL_GCC_VERSION_CMP (<, Major, Minor, Patch)
 
+#   if PERL_GCC_VERSION_GE (3, 1, 0)
+#      define __attribute__deprecated__ __attribute__((deprecated))
+#   endif
+
 #endif

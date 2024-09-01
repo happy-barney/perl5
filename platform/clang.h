@@ -25,4 +25,6 @@
 #   define PERL_CLANG_VERSION_LT(Major,Minor,Patch)                     \
     PERL_CLANG_VERSION_CMP (<, Major, Minor, Patch)
 
+#   define __attribute__deprecated__ __attribute__((deprecated))
+
 #endif

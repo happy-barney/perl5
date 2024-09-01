@@ -26,4 +26,8 @@
 #   define PERL_IBM_XLC_IS_VERSION_10_1()                               \
     PERL_IBM_XLC_VERSION_GT (0x0A01)
 
+#   if PERL_IBM_XLC_IS_VERSION_10_1()
+#       define __attribute__deprecated__ __attribute__((deprecated))
+#   endif
+
 #endif

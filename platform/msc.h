@@ -41,4 +41,8 @@
 #   define PERL_MSC_IS_VS_2022()                                        \
     PERL_MSC_VERSION_GE (1930)
 
+#   if PERL_MSC_IS_VS_2005()
+#       define __attribute__deprecated__ __declspec(deprecated)
+#   endif
+
 #endif
