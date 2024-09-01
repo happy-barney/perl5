@@ -561,7 +561,7 @@ Null HEK pointer.
 #ifndef PERL_USE_LARGE_HV_ALLOC
 /* Default to allocating the correct size - default to assuming that malloc()
    is not broken and is efficient at allocating blocks sized at powers-of-two.
-*/   
+*/
 #  define PERL_HV_ARRAY_ALLOC_BYTES(size) ((size) * sizeof(HE*))
 #else
 #  define MALLOC_OVERHEAD 16
@@ -582,7 +582,8 @@ Null HEK pointer.
 #define sharepvn(pv, len, hash)	     Perl_sharepvn(pv, len, hash)
 
 #define share_hek_hek(hek)						\
-    (++(((struct shared_he *)(((char *)hek)				\
+    (PERL_ATOMIC_INCREMENT(                                             \
+        ((struct shared_he *)(((char *)hek)				\
                               - STRUCT_OFFSET(struct shared_he,		\
                                               shared_he_hek)))		\
         ->shared_he_he.he_valu.hent_refcount),				\
