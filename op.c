@@ -6074,7 +6074,7 @@ Perl_newBINOP(pTHX_ I32 type, I32 flags, OP *first, OP *last)
                                ? 2  /* Otherwise, minimum of 2 hex digits */\
                                : NUM_HEX_CHARS(num)))))))
 
-/* To make evident, Configure with `-DDEBUGGING`, build, run 
+/* To make evident, Configure with `-DDEBUGGING`, build, run
  *  `./perl -Ilib -Dy t/op/tr.t`
  */
 void

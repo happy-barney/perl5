@@ -155,7 +155,7 @@ XS(injected_constructor)
             SV *name = ST(i);
             SV *val  = (i+1 < items) ? ST(i+1) : &PL_sv_undef;
 
-            /* TODO: think about sanity-checking name for being 
+            /* TODO: think about sanity-checking name for being
              *   defined
              *   not ref (but overloaded objects?? boo)
              *   not duplicate
