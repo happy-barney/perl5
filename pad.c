@@ -632,7 +632,7 @@ Perl_pad_add_name_pvn(pTHX_ const char *namepv, STRLEN namelen,
         Perl_croak(aTHX_ "panic: pad_add_name_pvn illegal flag bits 0x%" UVxf,
                    (UV)flags);
 
-    name = newPADNAMEpvn(namepv, namelen);
+    name = new_padname_symbol_pvn (*namepv, namepv + 1, namelen - 1);
 
     if ((flags & (padadd_NO_DUP_CHECK)) == 0) {
         ENTER;
@@ -819,7 +819,7 @@ PADOFFSET
 Perl_pad_add_anon(pTHX_ CV* func, I32 optype)
 {
     PADOFFSET ix;
-    PADNAME * const name = newPADNAMEpvn("&", 1);
+    PADNAME * const name = new_padname_symbol_pvn (Perl_Symbol_Table_Code, "", 0);
 
     PERL_ARGS_ASSERT_PAD_ADD_ANON;
     assert (SvTYPE(func) == SVt_PVCV);
@@ -846,7 +846,7 @@ void
 Perl_pad_add_weakref(pTHX_ CV* func)
 {
     const PADOFFSET ix = pad_alloc(OP_NULL, SVs_PADMY);
-    PADNAME * const name = newPADNAMEpvn("&", 1);
+    PADNAME * const name = new_padname_symbol_pvn (Perl_Symbol_Table_Code, "", 0);
     SV * const rv = newRV_inc((SV *)func);
 
     PERL_ARGS_ASSERT_PAD_ADD_WEAKREF;
@@ -2945,6 +2945,7 @@ Perl_padname_dup(pTHX_ PADNAME *src, CLONE_PARAMS *param)
 
     dst = PadnameOUTER(src)
      ? newPADNAMEouter(padname_dup(PADNAME_FROM_PV(PadnamePV(src)), param))
+        /* TODO: PadnameLEN(src) sometimes evaluates to 0 */
      : newPADNAMEpvn(PadnamePV(src), PadnameLEN(src));
     ptr_table_store(PL_ptr_table, src, dst);
     PadnameLEN(dst) = PadnameLEN(src);
