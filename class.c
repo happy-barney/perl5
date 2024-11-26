@@ -399,10 +399,10 @@ Perl_class_setup_stash(pTHX_ HV *stash)
         /* We don't want to make `$self` visible during the expression but we
          * still need to give it a name. Make it unusable from pure perl
          */
-        PADOFFSET padix = pad_add_name_pvs("$(self)", 0, NULL, NULL);
+        PADOFFSET padix = pad_add_symbol_pvs (Perl_Symbol_Table_Scalar, "(self)", 0, NULL, NULL);
         assert(padix == PADIX_SELF);
 
-        padix = pad_add_name_pvs("%(params)", 0, NULL, NULL);
+        padix = pad_add_symbol_pvs (Perl_Symbol_Table_Hash, "(params)", 0, NULL, NULL);
         assert(padix == PADIX_PARAMS);
 
         PERL_UNUSED_VAR(padix);
@@ -843,7 +843,7 @@ Perl_class_prepare_method_parse(pTHX_ CV *cv)
 
     PADOFFSET padix;
 
-    padix = pad_add_name_pvs("$self", 0, NULL, NULL);
+    padix = pad_add_symbol_pvs (Perl_Symbol_Table_Scalar, "self", 0, NULL, NULL);
     assert(padix == PADIX_SELF);
     PERL_UNUSED_VAR(padix);
 
@@ -991,7 +991,7 @@ apply_field_attribute_reader(pTHX_ PADNAME *pn, SV *value)
 
     PADOFFSET padix;
 
-    padix = pad_add_name_pvs("$self", 0, NULL, NULL);
+    padix = pad_add_symbol_pvs (Perl_Symbol_Table_Scalar, "self", 0, NULL, NULL);
     assert(padix == PADIX_SELF);
 
     padix = pad_add_symbol_pvn (
