@@ -714,6 +714,20 @@ instead of a string/length pair.
     EXPAND_CALL (pad_add_name_pvn, (STR_WITH_LEN(name), flags, typestash, ourstash))
 
 /*
+=for apidoc Am|PADOFFSET|pad_add_symbol_pvs|symbol_table|"name"|U32 flags|HV *typestash|HV *ourstash
+
+Similar to L</pad_add_symbol_pvn>, but takes a literal string instead of a string/length pair.
+
+    # Example: create pad entry for "$self"
+    pad_add_symbol_pvs (Perl_Symbol_Scalar, "self", 0, NULL, NULL);
+
+=cut
+*/
+
+#define pad_add_symbol_pvs(Symbol_Table, Name, Flags, Typestash, Ourstash) \
+    EXPAND_CALL (pad_add_symbol_pvn, (Symbol_Table, STR_WITH_LEN (Name), Flags, Typestash, Ourstash))
+
+/*
 =for apidoc_defn Am|PADOFFSET|pad_findmy_pvs|"name"|U32 flags
 
 =cut
