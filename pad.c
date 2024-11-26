@@ -586,6 +586,7 @@ S_pad_alloc_name(pTHX_ PADNAME *name, U32 flags, HV *typestash,
 =for apidoc      pad_add_name_pv
 =for apidoc_item pad_add_name_pvn
 =for apidoc_item pad_add_name_sv
+=for apidoc_item pad_add_symbol_pv
 =for apidoc_item pad_add_symbol_pvn
 
 These each allocate a place in the currently-compiling pad for a named lexical
@@ -702,6 +703,20 @@ Perl_pad_add_name_pv(pTHX_ const char *name,
 {
     PERL_ARGS_ASSERT_PAD_ADD_NAME_PV;
     return pad_add_symbol_pvn (*name, name + 1, strlen(name) - 1, flags, typestash, ourstash);
+}
+
+PADOFFSET
+Perl_pad_add_symbol_pv(
+    pTHX_
+    perl_symbol_table_id symbol_table,
+    const char *name,
+    const U32 flags,
+    HV *typestash,
+    HV *ourstash
+)
+{
+    PERL_ARGS_ASSERT_PAD_ADD_SYMBOL_PV;
+    return pad_add_symbol_pvn (symbol_table, name, strlen(name), flags, typestash, ourstash);
 }
 
 PADOFFSET

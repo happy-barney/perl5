@@ -2470,6 +2470,12 @@ Adp	|PADOFFSET|pad_add_name_sv					\
 				|U32 flags				\
 				|NULLOK HV *typestash			\
 				|NULLOK HV *ourstash
+Adp	|PADOFFSET|pad_add_symbol_pv					\
+				|perl_symbol_table_id symbol_table	\
+				|NN const char *name			\
+				|const U32 flags			\
+				|NULLOK HV *typestash			\
+				|NULLOK HV *ourstash
 Adp	|PADOFFSET|pad_add_symbol_pvn					\
 				|perl_symbol_table_id symbol_table	\
 				|NN const char *namepv			\
