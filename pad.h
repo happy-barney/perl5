@@ -711,7 +711,7 @@ instead of a string/length pair.
 */
 
 #define pad_add_name_pvs(name,flags,typestash,ourstash) \
-    Perl_pad_add_name_pvn(aTHX_ STR_WITH_LEN(name), flags, typestash, ourstash)
+    EXPAND_CALL (pad_add_name_pvn, (STR_WITH_LEN(name), flags, typestash, ourstash))
 
 /*
 =for apidoc_defn Am|PADOFFSET|pad_findmy_pvs|"name"|U32 flags
@@ -720,7 +720,7 @@ instead of a string/length pair.
 */
 
 #define pad_findmy_pvs(name,flags) \
-    Perl_pad_findmy_pvn(aTHX_ STR_WITH_LEN(name), flags)
+    EXPAND_CALL (pad_findmy_pvn, (STR_WITH_LEN(name), flags))
 
 struct suspended_compcv
 {

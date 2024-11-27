@@ -417,6 +417,44 @@ Perl_xxx(aTHX_ ...) form for any API calls where it's used.
 #define newSVpvs_share(str) Perl_newSVpvn_share(aTHX_ STR_WITH_LEN(str), 0)
 
 /*
+=for apidoc_section $utility
+
+=for apidoc Amu|Function call|EXPAND_CALL|Macro, Arguments_List
+
+When calling macro C<Function> with arguments containing another macro
+which expands as multiple arguments (for example: C<STR_WITH_LEN>) we
+need to expand arguments before expanding C<Function> macro.
+
+Usage:
+
+    #define my_macro(Arg1, Arg2) \
+        EXPAND_CALL (Macro, (Arg1, STR_WITH_LEN (Arg2))
+
+Note: C<Arguments_List> must include C<()> to enforce single expression
+
+Example:
+
+    #define pad_add_symbol_pvs(Table, Name, Flags, Type, Our) \
+        EXPAND_CALL (                                         \
+            pad_add_symbol_pvn,                               \
+            (Table, STR_WITH_LEN (Name), Flags, Type, Our)    \
+        )
+
+In this case C<pad_add_symbol_pvn> is macro so calling it directly fails
+because C<STR_WITH_LEN> expands as two arguments, but for preprocessor, when used
+directly, it is only one.
+
+Using C<EXPAND_CALL> introduces additional step where any macro used in arguments
+is expanded before expanding C<Macro> itself.
+
+=cut
+
+*/
+
+#define EXPAND_CALL(Macro, Args)                                      \
+    Macro Args
+
+/*
 =for apidoc_defn Am|void|sv_catpvs_flags|SV * const dsv|"literal string"|I32 flags
 =for apidoc_defn Am|void|sv_catpvs_nomg|SV * const dsv|"literal string"
 =for apidoc_defn Am|void|sv_catpvs|SV * const dsv|"literal string"
