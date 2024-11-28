@@ -12,7 +12,7 @@ else {
     plan tests => 77;
 }
 
-use XS::APItest qw( fetch_pad_names pad_scalar );
+use XS::APItest qw( fetch_pad_names pad_scalar PAD_FINDMY_SV );
 
 local $SIG{__WARN__} = sub { warn $_[0] unless $_[0] =~ /Wide character in print at/ };
 
@@ -34,7 +34,11 @@ $cv = sub {
     my $zest = 'invariant';
     my $zèst = 'latin-1';
     
-    return [pad_scalar(1, "zèst"), pad_scalar(1, "z\350st"), pad_scalar(1, "z\303\250st")];
+    return [
+        pad_scalar (PAD_FINDMY_SV, "zèst"),
+        pad_scalar (PAD_FINDMY_SV, "z\350st"),
+        pad_scalar (PAD_FINDMY_SV, "z\303\250st"),
+    ];
 };
 
 my $names_av    = fetch_pad_names($cv);
@@ -65,7 +69,11 @@ $cv = do {
     sub {
         use utf8;
         my $партнеры = $ascii;
-        return [$партнеры, pad_scalar(1, "партнеры"), pad_scalar(1, "\320\277\320\260\321\200\321\202\320\275\320\265\321\200\321\213")];
+        return [
+            $партнеры,
+            pad_scalar (PAD_FINDMY_SV, "партнеры"),
+            pad_scalar (PAD_FINDMY_SV, "\320\277\320\260\321\200\321\202\320\275\320\265\321\200\321\213"),
+        ];
     };
 };
 
@@ -109,7 +117,7 @@ $cv = eval <<"END";
         use utf8;
         my \$Leon = 'Invariant';
         my $leon1 = 'Latin-1';
-        return [ \$Leon, $leon1, $leon2, pad_scalar(1, "L\x{e9}on"), pad_scalar(1, "L\x{c3}\x{a9}on")];
+        return [ \$Leon, $leon1, $leon2, pad_scalar(PAD_FINDMY_SV, "L\x{e9}on"), pad_scalar(PAD_FINDMY_SV, "L\x{c3}\x{a9}on")];
     };
 END
 
@@ -225,10 +233,10 @@ $cv = sub {
 
     return [
         $tèst,
-        pad_scalar(1, "tèst"),              #"UTF-8"
-        pad_scalar(1, "t\350st"),           #"Latin-1"
-        pad_scalar(1, "t\x{c3}\x{a8}st"),   #"Octal"
-        pad_scalar(1, test()),              #'UTF-8 enc'
+        pad_scalar (PAD_FINDMY_SV, "tèst"),              #"UTF-8"
+        pad_scalar (PAD_FINDMY_SV, "t\350st"),           #"Latin-1"
+        pad_scalar (PAD_FINDMY_SV, "t\x{c3}\x{a8}st"),   #"Octal"
+        pad_scalar (PAD_FINDMY_SV, test()),              #'UTF-8 enc'
         ];
 };
 
@@ -261,12 +269,12 @@ $cv = do {
         return [
                 $ニコニコ,
                 $にこにこ,
-                pad_scalar(1, "にこにこ"),
-                pad_scalar(1, "\x{306b}\x{3053}\x{306b}\x{3053}"),
-                pad_scalar(1, "\343\201\253\343\201\223\343\201\253\343\201\223"),
-                pad_scalar(1, "ニコニコ"),
-                pad_scalar(1, "\x{30cb}\x{30b3}\x{30cb}\x{30b3}"),
-                pad_scalar(1, "\343\203\213\343\202\263\343\203\213\343\202\263"),
+                pad_scalar (PAD_FINDMY_SV, "にこにこ"),
+                pad_scalar (PAD_FINDMY_SV, "\x{306b}\x{3053}\x{306b}\x{3053}"),
+                pad_scalar (PAD_FINDMY_SV, "\343\201\253\343\201\223\343\201\253\343\201\223"),
+                pad_scalar (PAD_FINDMY_SV, "ニコニコ"),
+                pad_scalar (PAD_FINDMY_SV, "\x{30cb}\x{30b3}\x{30cb}\x{30b3}"),
+                pad_scalar (PAD_FINDMY_SV, "\343\203\213\343\202\263\343\203\213\343\202\263"),
             ];
     }
 };
@@ -302,7 +310,7 @@ general_tests( $cv->(), $names_av, {
         use constant utf8_e => $utf8_e;
     }
     my $e = 'Invariant';
-    is pad_scalar(1, "e"), pad_scalar(1, utf8_e), 'Fetches the same thing, even if invariant but with differing utf8ness.';
+    is pad_scalar (PAD_FINDMY_SV, "e"), pad_scalar (PAD_FINDMY_SV, utf8_e), 'Fetches the same thing, even if invariant but with differing utf8ness.';
 }
 
 

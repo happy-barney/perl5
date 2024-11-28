@@ -786,6 +786,13 @@ THX_ck_entersub_postinc(pTHX_ OP *entersubop, GV *namegv, SV *ckobj)
         op_lvalue(op_contextualize(argop, G_SCALAR), OP_POSTINC));
 }
 
+enum Pad_Find_Method {
+    PAD_FINDMY_SV  = 1,
+    PAD_FINDMY_PVN = 2,
+    PAD_FINDMY_PV  = 3,
+    PAD_FINDMY_FOO = 4,
+};
+
 STATIC OP *
 THX_ck_entersub_pad_scalar(pTHX_ OP *entersubop, GV *namegv, SV *ckobj)
 {
@@ -802,12 +809,12 @@ THX_ck_entersub_pad_scalar(pTHX_ OP *entersubop, GV *namegv, SV *ckobj)
     a0 = cSVOPx_sv(argop);
     a1 = cSVOPx_sv(OpSIBLING(argop));
     switch(SvIV(a0)) {
-        case 1: {
+        case PAD_FINDMY_SV: {
             SV *namesv = sv_2mortal(newSVpvs("$"));
             sv_catsv(namesv, a1);
             padoff = pad_findmy_sv(namesv, 0);
         } break;
-        case 2: {
+        case PAD_FINDMY_PVN: {
             char *namepv;
             STRLEN namelen;
             SV *namesv = sv_2mortal(newSVpvs("$"));
@@ -815,14 +822,14 @@ THX_ck_entersub_pad_scalar(pTHX_ OP *entersubop, GV *namegv, SV *ckobj)
             namepv = SvPV(namesv, namelen);
             padoff = pad_findmy_pvn(namepv, namelen, SvUTF8(namesv));
         } break;
-        case 3: {
+        case PAD_FINDMY_PV: {
             char *namepv;
             SV *namesv = sv_2mortal(newSVpvs("$"));
             sv_catsv(namesv, a1);
             namepv = SvPV_nolen(namesv);
             padoff = pad_findmy_pv(namepv, SvUTF8(namesv));
         } break;
-        case 4: {
+        case PAD_FINDMY_FOO: {
             padoff = pad_findmy_pvs("$foo", 0);
         } break;
         default: croak("bad type value for pad_scalar()");
@@ -4348,6 +4355,19 @@ OUTPUT:
     RETVAL
 
 
+#define EXPORT_ENUM(Stash, Name)                                        \
+    newCONSTSUB(Stash, #Name, newSViv(Name))
+
+BOOT:
+{
+    HV *stash = gv_stashpv("XS::APItest", TRUE);
+
+    EXPORT_ENUM (stash, PAD_FINDMY_PV);
+    EXPORT_ENUM (stash, PAD_FINDMY_PVN);
+    EXPORT_ENUM (stash, PAD_FINDMY_FOO);
+    EXPORT_ENUM (stash, PAD_FINDMY_SV);
+}
+
 BOOT:
         {
         HV* stash;
@@ -4360,6 +4380,7 @@ BOOT:
             croak("lost method 'make_temp_mg_lv'");
         cv = GvCV(*meth);
         CvLVALUE_on(cv);
+
         }
 
 BOOT:
