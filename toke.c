@@ -5558,8 +5558,8 @@ yyl_sub(pTHX_ char *s, const int key)
             format_name = S_newSV_maybe_utf8(aTHX_ s, d - s);
         *PL_tokenbuf = '&';
         if (memchr(tmpbuf, ':', len) || key != KEY_sub
-         || pad_findmy_pvn(
-                PL_tokenbuf, len + 1, 0
+         || pad_find_my_symbol_pvn (
+                Perl_Symbol_Table_Code, PL_tokenbuf + 1, len, 0
             ) != NOT_IN_PAD)
             sv_setpvn(PL_subname, tmpbuf, len);
         else {
@@ -9001,10 +9001,7 @@ yyl_keylookup(pTHX_ char *s, GV *gv)
 
     /* Check for lexical sub */
     if (PL_expect != XOPERATOR) {
-        char tmpbuf[sizeof PL_tokenbuf + 1];
-        *tmpbuf = '&';
-        Copy(PL_tokenbuf, tmpbuf+1, len, char);
-        c.off = pad_findmy_pvn(tmpbuf, len+1, 0);
+        c.off = pad_find_my_symbol_pvn (Perl_Symbol_Table_Code, PL_tokenbuf, len, 0);
         if (c.off != NOT_IN_PAD) {
             assert(c.off); /* we assume this is boolean-true below */
             if (PAD_COMPNAME_FLAGS_isOUR(c.off)) {
@@ -9985,8 +9982,7 @@ S_pending_ident(pTHX)
 
     if (!has_colon) {
         if (!PL_in_my)
-            tmp = pad_findmy_pvn(PL_tokenbuf, tokenbuf_len,
-                                 0);
+            tmp = pad_find_my_symbol_pvn (*PL_tokenbuf, PL_tokenbuf + 1, tokenbuf_len - 1, 0);
         if (tmp != NOT_IN_PAD) {
             /* might be an "our" variable" */
             if (PAD_COMPNAME_FLAGS_isOUR(tmp)) {
@@ -10102,10 +10098,7 @@ S_checkcomma(pTHX_ const char *s, const char *name, const char *what)
                 return;
             if (s - w <= 254) {
                 PADOFFSET off;
-                char tmpbuf[256];
-                Copy(w, tmpbuf+1, s - w, char);
-                *tmpbuf = '&';
-                off = pad_findmy_pvn(tmpbuf, s-w+1, 0);
+                off = pad_find_my_symbol_pvn (Perl_Symbol_Table_Code, w, s-w, 0);
                 if (off != NOT_IN_PAD) return;
             }
             Perl_croak(aTHX_ "No comma allowed after %s", what);
@@ -11443,7 +11436,7 @@ S_scan_inputsymbol(pTHX_ char *start)
             /* try to find it in the pad for this block, otherwise find
                add symbol table ops
             */
-            const PADOFFSET tmp = pad_findmy_pvn(d, len, 0);
+            const PADOFFSET tmp = pad_find_my_symbol_pvn (Perl_Symbol_Table_Scalar, d + 1, len - 1, 0);
             if (tmp != NOT_IN_PAD) {
                 if (PAD_COMPNAME_FLAGS_isOUR(tmp)) {
                     HV * const stash = PAD_COMPNAME_OURSTASH(tmp);

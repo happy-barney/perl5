@@ -1115,7 +1115,7 @@ PADOFFSET
 Perl_pad_findmy_pv(pTHX_ const char *name, U32 flags)
 {
     PERL_ARGS_ASSERT_PAD_FINDMY_PV;
-    return pad_findmy_pvn(name, strlen(name), flags);
+    return pad_find_my_symbol_pvn (*name, name + 1, strlen(name) - 1, flags);
 }
 
 PADOFFSET
@@ -1125,7 +1125,7 @@ Perl_pad_findmy_sv(pTHX_ SV *name, U32 flags)
     STRLEN namelen;
     PERL_ARGS_ASSERT_PAD_FINDMY_SV;
     namepv = SvPVutf8(name, namelen);
-    return pad_findmy_pvn(namepv, namelen, flags);
+    return pad_find_my_symbol_pvn (*namepv, namepv + 1, namelen - 1, flags);
 }
 
 /*

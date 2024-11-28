@@ -13973,14 +13973,10 @@ Perl_ck_sort(pTHX_ OP *o)
         }
         else if (kid->op_type == OP_CONST
               && kid->op_private & OPpCONST_BARE) {
-            char tmpbuf[256];
             STRLEN len;
             PADOFFSET off;
             const char * const name = SvPV(kSVOP_sv, len);
-            *tmpbuf = '&';
-            assert (len < 256);
-            Copy(name, tmpbuf+1, len, char);
-            off = pad_findmy_pvn(tmpbuf, len+1, 0);
+            off = pad_find_my_symbol_pvn (Perl_Symbol_Table_Code, name, len, 0);
             if (off != NOT_IN_PAD) {
                 if (PAD_COMPNAME_FLAGS_isOUR(off)) {
                     SV * const fq =
