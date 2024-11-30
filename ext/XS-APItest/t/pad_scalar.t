@@ -1,13 +1,14 @@
 use warnings;
 use strict;
 
-use Test::More tests => 110;
+use Test::More tests => 113;
 
 use XS::APItest qw (
     PAD_FINDMY_FOO
     PAD_FINDMY_PV
     PAD_FINDMY_PVN
     PAD_FINDMY_SV
+    PAD_FIND_MY_SYMBOL_FOO
     PAD_FIND_MY_SYMBOL_PV
     PAD_FIND_MY_SYMBOL_PVN
     pad_scalar
@@ -17,6 +18,7 @@ is pad_scalar (PAD_FINDMY_SV,          "foo"), "NOT_IN_PAD", q (undeclared '$foo
 is pad_scalar (PAD_FINDMY_PVN,         "foo"), "NOT_IN_PAD", q (undeclared '$foo'; pad_findmy_pvn ());
 is pad_scalar (PAD_FINDMY_PV,          "foo"), "NOT_IN_PAD", q (undeclared '$foo'; pad_findmy_pv ());
 is pad_scalar (PAD_FINDMY_FOO,         "foo"), "NOT_IN_PAD", q (undeclared '$foo'; pad_findmy_pvs ());
+is pad_scalar (PAD_FIND_MY_SYMBOL_FOO, "foo"), "NOT_IN_PAD", q (undeclared '$foo'; pad_find_my_symbol_pvs ());
 is pad_scalar (PAD_FIND_MY_SYMBOL_PV,  "foo"), "NOT_IN_PAD", q (undeclared '$foo'; pad_find_my_symbol_pv ());
 is pad_scalar (PAD_FIND_MY_SYMBOL_PVN, "foo"), "NOT_IN_PAD", q (undeclared '$foo'; pad_find_my_symbol_pvn ());
 
@@ -32,6 +34,7 @@ is pad_scalar (PAD_FINDMY_SV,          "foo"), "NOT_MY", q ('our $foo'; pad_find
 is pad_scalar (PAD_FINDMY_PVN,         "foo"), "NOT_MY", q ('our $foo'; pad_findmy_pvn ());
 is pad_scalar (PAD_FINDMY_PV,          "foo"), "NOT_MY", q ('our $foo'; pad_findmy_pv ());
 is pad_scalar (PAD_FINDMY_FOO,         "foo"), "NOT_MY", q ('our $foo'; pad_findmy_pvs ());
+is pad_scalar (PAD_FIND_MY_SYMBOL_FOO, "foo"), "NOT_MY", q ('our $foo'; pad_find_my_symbol_pvs ());
 is pad_scalar (PAD_FIND_MY_SYMBOL_PV,  "foo"), "NOT_MY", q ('our $foo'; pad_find_my_symbol_pv ());
 is pad_scalar (PAD_FIND_MY_SYMBOL_PVN, "foo"), "NOT_MY", q ('our $foo'; pad_find_my_symbol_pvn ());
 
@@ -79,12 +82,12 @@ sub bb() {
     my $counter = 0;
     my $foo = \$counter;
     return sub {
-        ok pad_scalar (PAD_FINDMY_SV,          "foo") == \pad_scalar(PAD_FINDMY_SV, "counter");
-        ok pad_scalar (PAD_FINDMY_PVN,         "foo") == \pad_scalar(PAD_FINDMY_SV, "counter");
-        ok pad_scalar (PAD_FINDMY_PV,          "foo") == \pad_scalar(PAD_FINDMY_SV, "counter");
-        ok pad_scalar (PAD_FINDMY_FOO,         "foo") == \pad_scalar(PAD_FINDMY_SV, "counter");
-        ok pad_scalar (PAD_FIND_MY_SYMBOL_PV,  "foo") == \pad_scalar(PAD_FINDMY_SV, "counter");
-        ok pad_scalar (PAD_FIND_MY_SYMBOL_PVN, "foo") == \pad_scalar(PAD_FINDMY_SV, "counter");
+        ok pad_scalar (PAD_FINDMY_SV,          "foo") == \pad_scalar (PAD_FINDMY_SV, "counter");
+        ok pad_scalar (PAD_FINDMY_PVN,         "foo") == \pad_scalar (PAD_FINDMY_SV, "counter");
+        ok pad_scalar (PAD_FINDMY_PV,          "foo") == \pad_scalar (PAD_FINDMY_SV, "counter");
+        ok pad_scalar (PAD_FINDMY_FOO,         "foo") == \pad_scalar (PAD_FINDMY_SV, "counter");
+        ok pad_scalar (PAD_FIND_MY_SYMBOL_PV,  "foo") == \pad_scalar (PAD_FINDMY_SV, "counter");
+        ok pad_scalar (PAD_FIND_MY_SYMBOL_PVN, "foo") == \pad_scalar (PAD_FINDMY_SV, "counter");
 
         my $modulus = pad_scalar (PAD_FINDMY_SV, "counter") % 5;
 
@@ -121,6 +124,7 @@ is pad_scalar (PAD_FINDMY_SV,          "foo"), "NOT_MY", q ('my $foo' still unde
 is pad_scalar (PAD_FINDMY_PVN,         "foo"), "NOT_MY", q ('my $foo' still undeclared; pad_findmy_pvn ());
 is pad_scalar (PAD_FINDMY_PV,          "foo"), "NOT_MY", q ('my $foo' still undeclared; pad_findmy_pv ());
 is pad_scalar (PAD_FINDMY_FOO,         "foo"), "NOT_MY", q ('my $foo' still undeclared; pad_findmy_pvs ());
+is pad_scalar (PAD_FIND_MY_SYMBOL_FOO, "foo"), "NOT_MY", q ('my $foo' still undeclared; pad_find_my_symbol_pvs ());
 is pad_scalar (PAD_FIND_MY_SYMBOL_PV,  "foo"), "NOT_MY", q ('my $foo' still undeclared; pad_find_my_symbol_pv ());
 is pad_scalar (PAD_FIND_MY_SYMBOL_PVN, "foo"), "NOT_MY", q ('my $foo' still undeclared; pad_find_my_symbol_pvn ());
 

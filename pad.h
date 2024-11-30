@@ -736,6 +736,15 @@ Similar to L</pad_add_symbol_pvn>, but takes a literal string instead of a strin
 #define pad_findmy_pvs(name,flags) \
     EXPAND_CALL (pad_findmy_pvn, (STR_WITH_LEN(name), flags))
 
+/*
+=for apidoc_defn Am|PADOFFSET|pad_find_my_symbol_pvs|"symbol_table"|"name"|U32 flags
+
+=cut
+*/
+
+#define pad_find_my_symbol_pvs(Symbol_Table, Name, Flags)               \
+    EXPAND_CALL (pad_find_my_symbol_pvn, (Symbol_Table, STR_WITH_LEN(Name), Flags))
+
 struct suspended_compcv
 {
     CV *compcv;

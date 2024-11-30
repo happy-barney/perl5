@@ -1037,6 +1037,7 @@ C<flags> is reserved and must be zero.
 
 =for apidoc pad_find_my_symbol_pv
 =for apidoc_item pad_find_my_symbol_pvn
+=for apidoc_item pad_find_my_symbol_pvs
 
 Similar to C<pad_findmy_pv> but with explicit symbol table parameter.
 
@@ -1047,6 +1048,9 @@ Difference:
 
     pad_findmy_pvn ("$self", 5, 0);
     pad_find_my_symbol_pvn (Perl_Symbol_Scalar, "self", 5, 0);
+
+    pad_findmy_pvs ("$self", 0);
+    pad_find_my_symbol_pvs (Perl_Symbol_Scalar, "self", 0);
 
 =cut
 */
