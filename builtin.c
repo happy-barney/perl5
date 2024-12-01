@@ -692,15 +692,11 @@ static bool S_cv_is_builtin(pTHX_ CV *cv)
 void
 Perl_import_builtin_bundle(pTHX_ U16 ver)
 {
-    SV *ampname = sv_newmortal();
-
     for(int i = 0; builtins[i].name; i++) {
-        sv_setpvf(ampname, "&%s", builtins[i].name);
-
         bool want = (builtins[i].since_ver <= ver);
 
         bool got = false;
-        PADOFFSET off = pad_findmy_sv(ampname, 0);
+        PADOFFSET off = pad_find_my_symbol_pv (Perl_Symbol_Table_Code, builtins[i].name, 0);
         CV *cv;
         if(off != NOT_IN_PAD &&
                 SvTYPE((cv = (CV *)PL_curpad[off])) == SVt_PVCV &&
