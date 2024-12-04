@@ -4962,7 +4962,8 @@ Sd	|PADOFFSET|pad_alloc_name					\
 Sd	|void	|pad_check_dup	|NN PADNAME *name			\
 				|U32 flags				\
 				|NULLOK const HV *ourstash
-Sd	|PADOFFSET|pad_findlex	|NN const char *namepv			\
+Sd	|PADOFFSET|pad_findlex	|perl_symbol_table_id find_symbol_table \
+				|NN const char *namepv			\
 				|STRLEN namelen 			\
 				|U32 flags				\
 				|NN const CV *cv			\

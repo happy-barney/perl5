@@ -1057,7 +1057,7 @@ Perl_pad_findmy_pvn(pTHX_ const char *namepv, STRLEN namelen, U32 flags)
     if (!PL_compcv)
         return NOT_IN_PAD;
 
-    offset = pad_findlex(namepv, namelen, flags,
+    offset = pad_findlex (*namepv, namepv + 1, namelen - 1, flags,
                 PL_compcv, PL_cop_seqmax, 1, NULL, &out_pn, &out_flags);
     if (offset != NOT_IN_PAD)
         return offset;
@@ -1160,8 +1160,19 @@ S_unavailable(pTHX_ PADNAME *name)
 }
 
 STATIC PADOFFSET
-S_pad_findlex(pTHX_ const char *namepv, STRLEN namelen, U32 flags, const CV* cv, U32 seq,
-        int warn, SV** out_capture, PADNAME** out_name, int *out_flags)
+S_pad_findlex(
+    pTHX_
+    perl_symbol_table_id find_symbol_table,
+    const char *         namepv,
+    STRLEN               namelen,
+    U32                  flags,
+    const CV *           cv,
+    U32                  seq,
+    int                  warn,
+    SV **                out_capture,
+    PADNAME **           out_name,
+    int *                out_flags
+)
 {
     PADOFFSET offset, new_offset;
     SV *new_capture;
@@ -1180,8 +1191,8 @@ S_pad_findlex(pTHX_ const char *namepv, STRLEN namelen, U32 flags, const CV* cv,
     *out_flags = 0;
 
     DEBUG_Xv(PerlIO_printf(Perl_debug_log,
-        "Pad findlex cv=0x%" UVxf " searching \"%.*s\" seq=%d%s\n",
-                           PTR2UV(cv), (int)namelen, namepv, (int)seq,
+        "Pad findlex cv=0x%" UVxf " searching \"%c%.*s\" seq=%d%s\n",
+                           PTR2UV(cv), find_symbol_table, (int)namelen, namepv, (int)seq,
         out_capture ? " capturing" : "" ));
 
     /* first, search this pad */
@@ -1193,9 +1204,13 @@ S_pad_findlex(pTHX_ const char *namepv, STRLEN namelen, U32 flags, const CV* cv,
 
         for (offset = PadnamelistMAXNAMED(names); offset > 0; offset--) {
             const PADNAME * const name = name_p[offset];
-            if (name && PadnameLEN(name) == namelen
-                     && (  PadnamePV(name) == namepv
-                        || memEQ(PadnamePV(name), namepv, namelen)  ))
+            if (Padname_Is_Symbol (name)
+                && Padname_Symbol_Table (name) == find_symbol_table
+                && Padname_Symbol_Name_Length (name) == namelen
+                && (
+                    Padname_Symbol_Name (name) == namepv
+                    || memEQ(Padname_Symbol_Name (name), namepv, namelen)
+                ))
             {
                 if (PadnameOUTER(name)) {
                     fake_offset = offset; /* in case we don't find a real one */
@@ -1276,8 +1291,9 @@ S_pad_findlex(pTHX_ const char *namepv, STRLEN namelen, U32 flags, const CV* cv,
                         /* diag_listed_as: Variable "%s" will not stay
                                            shared */
                         Perl_warner(aTHX_ packWARN(WARN_CLOSURE),
-                            "%s \"%" UTF8f "\" will not stay shared",
-                             Perl_Symbol_Table_Title_ucfirst (*namepv),
+                            "%s \"%c%" UTF8f "\" will not stay shared",
+                             Perl_Symbol_Table_Title_ucfirst (find_symbol_table),
+                             Perl_Symbol_Table_To_Sigil (find_symbol_table),
                              UTF8fARG(1, namelen, namepv));
                     }
 
@@ -1290,7 +1306,7 @@ S_pad_findlex(pTHX_ const char *namepv, STRLEN namelen, U32 flags, const CV* cv,
                             "Pad findlex cv=0x%" UVxf " chasing lex in outer pad\n",
                             PTR2UV(cv)));
                         n = *out_name;
-                        (void) pad_findlex(namepv, namelen, flags, CvOUTSIDE(cv),
+                        (void) pad_findlex (find_symbol_table, namepv, namelen, flags, CvOUTSIDE(cv),
                             CvOUTSIDE_SEQ(cv),
                             newwarn, out_capture, out_name, out_flags);
                         *out_name = n;
@@ -1314,7 +1330,7 @@ S_pad_findlex(pTHX_ const char *namepv, STRLEN namelen, U32 flags, const CV* cv,
                 }
                 if (!*out_capture) {
                     if (namelen != 0) {
-                        switch (*namepv) {
+                        switch (find_symbol_table) {
                             case Perl_Symbol_Table_Array:
                                 *out_capture = newSV_type_mortal(SVt_PVAV);
                                 break;
@@ -1351,7 +1367,7 @@ S_pad_findlex(pTHX_ const char *namepv, STRLEN namelen, U32 flags, const CV* cv,
     if(CvIsMETHOD(cv))
         recurse_flags |= padfind_FIELD_OK;
 
-    offset = pad_findlex(namepv, namelen, recurse_flags,
+    offset = pad_findlex (find_symbol_table, namepv, namelen, recurse_flags,
                 CvOUTSIDE(cv), CvOUTSIDE_SEQ(cv), 1,
                 new_capturep, out_name, out_flags);
     if (offset == NOT_IN_PAD)

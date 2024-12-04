@@ -7555,7 +7555,7 @@ S_pad_check_dup(pTHX_ PADNAME *name, U32 flags, const HV *ourstash);
         assert(name)
 
 STATIC PADOFFSET
-S_pad_findlex(pTHX_ const char *namepv, STRLEN namelen, U32 flags, const CV *cv, U32 seq, int warn, SV **out_capture, PADNAME **out_name, int *out_flags);
+S_pad_findlex(pTHX_ perl_symbol_table_id find_symbol_table, const char *namepv, STRLEN namelen, U32 flags, const CV *cv, U32 seq, int warn, SV **out_capture, PADNAME **out_name, int *out_flags);
 # define PERL_ARGS_ASSERT_PAD_FINDLEX           \
         assert(namepv); assert(cv); assert(out_name); assert(out_flags)
 

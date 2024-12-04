@@ -1578,7 +1578,7 @@
 #   if defined(PERL_IN_PAD_C)
 #     define pad_alloc_name(a,b,c,d)            S_pad_alloc_name(aTHX_ a,b,c,d)
 #     define pad_check_dup(a,b,c)               S_pad_check_dup(aTHX_ a,b,c)
-#     define pad_findlex(a,b,c,d,e,f,g,h,i)     S_pad_findlex(aTHX_ a,b,c,d,e,f,g,h,i)
+#     define pad_findlex(a,b,c,d,e,f,g,h,i,j)   S_pad_findlex(aTHX_ a,b,c,d,e,f,g,h,i,j)
 #     define pad_reset()                        S_pad_reset(aTHX)
 #     if defined(DEBUGGING)
 #       define cv_dump(a,b)                     S_cv_dump(aTHX_ a,b)
