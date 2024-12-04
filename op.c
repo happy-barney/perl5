@@ -9814,7 +9814,7 @@ Perl_newFOROP(pTHX_ I32 flags, OP *sv, OP *expr, OP *block, OP *cont)
             PADNAME * const pn = PAD_COMPNAME(padoff);
             const char * const name = PadnamePV(pn);
 
-            if (PadnameLEN(pn) == 2 && name[0] == '$' && name[1] == '_')
+            if (PadnameLEN(pn) == 2 && name[0] == Perl_Symbol_Table_Scalar && name[1] == '_')
                 enteriterpflags |= OPpITER_DEF;
         }
     }
@@ -14068,7 +14068,7 @@ S_simplify_sort(pTHX_ OP *o)
         do {
             if (kid->op_type == OP_PADSV) {
                 PADNAME * const name = PAD_COMPNAME(kid->op_targ);
-                if (PadnameLEN(name) == 2 && *PadnamePV(name) == '$'
+                if (PadnameLEN(name) == 2 && *PadnamePV(name) == Perl_Symbol_Table_Scalar
                  && (  PadnamePV(name)[1] == 'a'
                     || PadnamePV(name)[1] == 'b'  ))
                     /* diag_listed_as: "my %s" used in sort comparison */

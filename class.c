@@ -729,7 +729,7 @@ Perl_class_seal_stash(pTHX_ HV *stash)
 
             U8 op_priv = 0;
             switch(sigil) {
-                case '$':
+                case Perl_Symbol_Table_Scalar:
                     if(paramname) {
                         if(!valop) {
                             SV *message =
@@ -947,7 +947,7 @@ apply_field_attribute_param(pTHX_ PADNAME *pn, SV *value)
         /* Default to name minus the sigil */
         value = newSVpvn_utf8(PadnamePV(pn) + 1, PadnameLEN(pn) - 1, PadnameUTF8(pn));
 
-    if(PadnamePV(pn)[0] != '$')
+    if(PadnamePV(pn)[0] != Perl_Symbol_Table_Scalar)
         croak("Only scalar fields can take a :param attribute");
 
     if(PadnameFIELDINFO(pn)->paramname)
@@ -1029,7 +1029,7 @@ apply_field_attribute_reader(pTHX_ PADNAME *pn, SV *value)
     {
         OPCODE optype = 0;
         switch(PadnamePV(pn)[0]) {
-            case '$': optype = OP_PADSV; break;
+            case Perl_Symbol_Table_Scalar: optype = OP_PADSV; break;
             case '@': optype = OP_PADAV; break;
             case '%': optype = OP_PADHV; break;
             default: NOT_REACHED;
@@ -1240,7 +1240,7 @@ Perl_class_set_field_defop(pTHX_ PADNAME *pn, OPCODE defmode, OP *defop)
 
     char sigil = PadnamePV(pn)[0];
     switch(sigil) {
-        case '$':
+        case Perl_Symbol_Table_Scalar:
             defop = op_contextualize(defop, G_SCALAR);
             break;
 
