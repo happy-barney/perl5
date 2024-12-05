@@ -947,7 +947,7 @@ apply_field_attribute_param(pTHX_ PADNAME *pn, SV *value)
         /* Default to name minus the sigil */
         value = newSVpvn_utf8(PadnamePV(pn) + 1, PadnameLEN(pn) - 1, PadnameUTF8(pn));
 
-    if(PadnamePV(pn)[0] != Perl_Symbol_Table_Scalar)
+    if(! Padname_Is_Symbol_Table_Scalar (pn))
         croak("Only scalar fields can take a :param attribute");
 
     if(PadnameFIELDINFO(pn)->paramname)
