@@ -655,7 +655,7 @@ Perl_pad_add_name_pvn(pTHX_ const char *namepv, STRLEN namelen,
     /* if it's not a simple scalar, replace with an AV or HV */
     assert(SvTYPE(PL_curpad[offset]) == SVt_NULL);
     assert(SvREFCNT(PL_curpad[offset]) == 1);
-    if (namelen != 0 && *namepv == '@')
+    if (namelen != 0 && *namepv == Perl_Symbol_Table_Array)
         sv_upgrade(PL_curpad[offset], SVt_PVAV);
     else if (namelen != 0 && *namepv == '%')
         sv_upgrade(PL_curpad[offset], SVt_PVHV);
@@ -1254,7 +1254,7 @@ S_pad_findlex(pTHX_ const char *namepv, STRLEN namelen, U32 flags, const CV* cv,
                     }
                 }
                 if (!*out_capture) {
-                    if (namelen != 0 && *namepv == '@')
+                    if (namelen != 0 && *namepv == Perl_Symbol_Table_Array)
                         *out_capture = newSV_type_mortal(SVt_PVAV);
                     else if (namelen != 0 && *namepv == '%')
                         *out_capture = newSV_type_mortal(SVt_PVHV);
@@ -2047,7 +2047,7 @@ S_cv_clone_pad(pTHX_ CV *proto, CV *cv, CV *outside, HV *cloned,
                         CvLEXICAL_on(sv);
                     }
                     else sv = SvREFCNT_inc(ppad[ix]);
-                else if (sigil == '@')
+                else if (sigil == Perl_Symbol_Table_Array)
                     sv = MUTABLE_SV(newAV());
                 else if (sigil == '%')
                     sv = MUTABLE_SV(newHV());
@@ -2465,7 +2465,7 @@ Perl_pad_push(pTHX_ PADLIST *padlist, int depth)
                     }
                 }
                 else {		/* our own lexical */
-                    if (sigil == '@')
+                    if (sigil == Perl_Symbol_Table_Array)
                         sv = MUTABLE_SV(newAV());
                     else if (sigil == '%')
                         sv = MUTABLE_SV(newHV());
@@ -2571,7 +2571,7 @@ Perl_padlist_dup(pTHX_ PADLIST *srcpad, CLONE_PARAMS *param)
                         } else {
                             SV *sv;
 
-                            if (sigil == '@')
+                            if (sigil == Perl_Symbol_Table_Array)
                                 sv = MUTABLE_SV(newAV());
                             else if (sigil == '%')
                                 sv = MUTABLE_SV(newHV());
