@@ -313,6 +313,20 @@ current pad equal to C<npad>
 =for apidoc m|void|PAD_RESTORE_LOCAL|PAD *opad
 Restore the old pad saved into the local variable C<opad> by C<PAD_SAVE_LOCAL()>
 
+
+=for apidoc Am|bool|Padname_Is_Symbol_Table|PADNAME * pn|Perl_Symbol_Table symbol_table
+=for apidoc_item m|bool|Padname_Is_Symbol_Table_Array|PADNAME * pn
+=for apidoc_item m|bool|Padname_Is_Symbol_Table_Code|PADNAME * pn
+=for apidoc_item m|bool|Padname_Is_Symbol_Table_Hash|PADNAME * pn
+=for apidoc_item m|bool|Padname_Is_Symbol_Table_Scalar|PADNAME * pn
+
+Whether PADNAME represents symbol for given symbol table.
+
+    if (! Padname_Is_Symbol_Table_Code (pn)) {
+        ...
+    }
+
+
 =for apidoc      Ay||Perl_Symbol_Table
 =for apidoc_item Perl_Symbol_Table_Array
 =for apidoc_item Perl_Symbol_Table_Code
@@ -352,6 +366,21 @@ enum Perl_Symbol_Table {
     Perl_Symbol_Table_Hash   = '%',
     Perl_Symbol_Table_Scalar = '$',
 };
+
+#define Padname_Is_Symbol_Table(Pn, Table)                              \
+    (PadnamePV (Pn)[0] == (Table))
+
+#define Padname_Is_Symbol_Table_Array(Pn)                               \
+    Padname_Is_Symbol_Table (Pn, Perl_Symbol_Table_Array)
+
+#define Padname_Is_Symbol_Table_Code(Pn)                                \
+    Padname_Is_Symbol_Table (Pn, Perl_Symbol_Table_Code)
+
+#define Padname_Is_Symbol_Table_Hash(Pn)                                \
+    Padname_Is_Symbol_Table (Pn, Perl_Symbol_Table_Hash)
+
+#define Padname_Is_Symbol_Table_Scalar(Pn)                              \
+    Padname_Is_Symbol_Table (Pn, Perl_Symbol_Table_Scalar)
 
 #define PadlistARRAY(pl)	(pl)->xpadl_arr.xpadlarr_alloc
 #define PadlistMAX(pl)		(pl)->xpadl_max
