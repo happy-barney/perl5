@@ -391,7 +391,7 @@ Perl_cv_undef_flags(pTHX_ CV *cv, U32 flags)
                               PTR2UV(cv), PTR2UV(padlist), PTR2UV(PL_comppad))
                 );
 
-        /* detach any '&' anon children in the pad; if afterwards they
+        /* detach any 'Perl_Symbol_Table_Code' anon children in the pad; if afterwards they
          * are still live, fix up their CvOUTSIDEs to point to our outside,
          * bypassing us. */
 
@@ -404,7 +404,7 @@ Perl_cv_undef_flags(pTHX_ CV *cv, U32 flags)
             SV ** const curpad = AvARRAY(comppad);
             for (ix = PadnamelistMAX(comppad_name); ix > 0; ix--) {
                 PADNAME * const name = namepad[ix];
-                if (name && PadnamePV(name) && *PadnamePV(name) == '&') {
+                if (name && PadnamePV(name) && *PadnamePV(name) == Perl_Symbol_Table_Code) {
                     CV * const innercv = MUTABLE_CV(curpad[ix]);
                     if (PadnameIsOUR(name) && CvCLONED(&cvbody)) {
                         assert(!innercv);
@@ -659,7 +659,7 @@ Perl_pad_add_name_pvn(pTHX_ const char *namepv, STRLEN namelen,
         sv_upgrade(PL_curpad[offset], SVt_PVAV);
     else if (namelen != 0 && *namepv == '%')
         sv_upgrade(PL_curpad[offset], SVt_PVHV);
-    else if (namelen != 0 && *namepv == '&')
+    else if (namelen != 0 && *namepv == Perl_Symbol_Table_Code)
         sv_upgrade(PL_curpad[offset], SVt_PVCV);
     assert(SvPADMY(PL_curpad[offset]));
     DEBUG_Xv(PerlIO_printf(Perl_debug_log,
@@ -907,7 +907,7 @@ S_pad_check_dup(pTHX_ PADNAME *name, U32 flags, const HV *ourstash)
                     PL_parser->in_my == KEY_sigvar ? "my"    :
                     PL_parser->in_my == KEY_field  ? "field" :
                                                      "state" ),
-                *PadnamePV(pn) == '&' ? "subroutine" : "variable",
+                *PadnamePV(pn) == Perl_Symbol_Table_Code ? "subroutine" : "variable",
                 PNfARG(pn),
                 (COP_SEQ_RANGE_HIGH(pn) == PERL_PADSEQ_INTRO
                     ? "scope" : "statement"));
@@ -1003,7 +1003,7 @@ Perl_pad_findmy_pvn(pTHX_ const char *namepv, STRLEN namelen, U32 flags)
 
     /* Skip the ‘our’ hack for subroutines, as the warning does not apply.
      */
-    if (*namepv == '&') return NOT_IN_PAD;
+    if (*namepv == Perl_Symbol_Table_Code) return NOT_IN_PAD;
 
     /* look for an our that's being introduced; this allows
      *    our $foo = 0 unless defined $foo;
@@ -1094,7 +1094,7 @@ S_unavailable(pTHX_ PADNAME *name)
     /* diag_listed_as: Variable "%s" is not available */
     Perl_ck_warner(aTHX_ packWARN(WARN_CLOSURE),
                         "%s \"%" PNf "\" is not available",
-                         *PadnamePV(name) == '&'
+                         *PadnamePV(name) == Perl_Symbol_Table_Code
                                          ? "Subroutine"
                                          : "Variable",
                          PNfARG(name));
@@ -1218,7 +1218,7 @@ S_pad_findlex(pTHX_ const char *namepv, STRLEN namelen, U32 flags, const CV* cv,
                                            shared */
                         Perl_warner(aTHX_ packWARN(WARN_CLOSURE),
                             "%s \"%" UTF8f "\" will not stay shared",
-                             *namepv == '&' ? "Subroutine" : "Variable",
+                             *namepv == Perl_Symbol_Table_Code ? "Subroutine" : "Variable",
                              UTF8fARG(1, namelen, namepv));
                     }
 
@@ -1258,7 +1258,7 @@ S_pad_findlex(pTHX_ const char *namepv, STRLEN namelen, U32 flags, const CV* cv,
                         *out_capture = newSV_type_mortal(SVt_PVAV);
                     else if (namelen != 0 && *namepv == '%')
                         *out_capture = newSV_type_mortal(SVt_PVHV);
-                    else if (namelen != 0 && *namepv == '&')
+                    else if (namelen != 0 && *namepv == Perl_Symbol_Table_Code)
                         *out_capture = newSV_type_mortal(SVt_PVCV);
                     else
                         *out_capture = newSV_type_mortal(SVt_NULL);
@@ -1536,7 +1536,7 @@ Perl_pad_leavemy(pTHX)
                 (unsigned long)COP_SEQ_RANGE_HIGH(sv))
             );
             if (!PadnameIsSTATE(sv) && !PadnameIsOUR(sv)
-             && *PadnamePV(sv) == '&' && PadnameLEN(sv) > 1) {
+             && *PadnamePV(sv) == Perl_Symbol_Table_Code && PadnameLEN(sv) > 1) {
                 OP *kid = newOP(OP_INTROCV, 0);
                 kid->op_targ = off;
                 o = op_prepend_elem(OP_LINESEQ, kid, o);
@@ -1708,7 +1708,7 @@ Perl_pad_tidy(pTHX_ padtidy_type type)
                 continue;
             namesv = namep[ix];
             if (!(PadnamePV(namesv) &&
-                   (!PadnameLEN(namesv) || *PadnamePV(namesv) == '&')))
+                   (!PadnameLEN(namesv) || *PadnamePV(namesv) == Perl_Symbol_Table_Code)))
             {
                 SvREFCNT_dec(PL_curpad[ix]);
                 PL_curpad[ix] = NULL;
@@ -2013,7 +2013,7 @@ S_cv_clone_pad(pTHX_ CV *proto, CV *cv, CV *outside, HV *cloned,
             }
             if (!sv) {
                 const char sigil = PadnamePV(namesv)[0];
-                if (sigil == '&')
+                if (sigil == Perl_Symbol_Table_Code)
                     /* If there are state subs, we need to clone them, too.
                        But they may need to close over variables we have
                        not cloned yet.  So we will have to do a second
@@ -2054,7 +2054,7 @@ S_cv_clone_pad(pTHX_ CV *proto, CV *cv, CV *outside, HV *cloned,
                 else
                     sv = newSV_type(SVt_NULL);
                 /* reset the 'assign only once' flag on each state var */
-                if (sigil != '&' && PadnameIsSTATE(namesv))
+                if (sigil != Perl_Symbol_Table_Code && PadnameIsSTATE(namesv))
                     SvPADSTALE_on(sv);
             }
           }
@@ -2092,7 +2092,7 @@ S_cv_clone_pad(pTHX_ CV *proto, CV *cv, CV *outside, HV *cloned,
                     PADNAME * const name =
                         (ix <= fname) ? pname[ix] : NULL;
                     if (name && name != &PL_padname_undef
-                     && !PadnameOUTER(name) && PadnamePV(name)[0] == '&'
+                     && !PadnameOUTER(name) && PadnamePV(name)[0] == Perl_Symbol_Table_Code
                      && PadnameIsSTATE(name) && !CvCLONED(PL_curpad[ix]))
                     {
                         CV * const protokey = CvOUTSIDE(ppad[ix]);
@@ -2119,7 +2119,7 @@ S_cv_clone_pad(pTHX_ CV *proto, CV *cv, CV *outside, HV *cloned,
                     PADNAME * const name =
                         (ix <= fname) ? pname[ix] : NULL;
                     if (name && name != &PL_padname_undef
-                     && !PadnameOUTER(name) && PadnamePV(name)[0] == '&'
+                     && !PadnameOUTER(name) && PadnamePV(name)[0] == Perl_Symbol_Table_Code
                      && PadnameIsSTATE(name) && !CvCLONED(PL_curpad[ix]))
                         S_cv_clone(aTHX_ (CV *)ppad[ix],
                                          (CV *)PL_curpad[ix],
@@ -2129,7 +2129,7 @@ S_cv_clone_pad(pTHX_ CV *proto, CV *cv, CV *outside, HV *cloned,
         else for (ix = fpad; ix > 0; ix--) {
             PADNAME * const name = (ix <= fname) ? pname[ix] : NULL;
             if (name && name != &PL_padname_undef && !PadnameOUTER(name)
-             && PadnamePV(name)[0] == '&' && PadnameIsSTATE(name))
+             && PadnamePV(name)[0] == Perl_Symbol_Table_Code && PadnameIsSTATE(name))
                 S_cv_clone(aTHX_ (CV *)ppad[ix], (CV *)PL_curpad[ix], cv,
                                  NULL);
         }
@@ -2367,7 +2367,7 @@ Perl_pad_fixup_inner_anons(pTHX_ PADLIST *padlist, CV *old_cv, CV *new_cv)
     for (ix = PadnamelistMAX(comppad_name); ix > 0; ix--) {
         const PADNAME *name = namepad[ix];
         if (name && name != &PL_padname_undef && !PadnameIsOUR(name)
-            && *PadnamePV(name) == '&')
+            && *PadnamePV(name) == Perl_Symbol_Table_Code)
         {
           CV *innercv = MUTABLE_CV(curpad[ix]);
           if (UNLIKELY(PadnameOUTER(name))) {
@@ -2448,10 +2448,10 @@ Perl_pad_push(pTHX_ PADLIST *padlist, int depth)
                 const char sigil = PadnamePV(names[ix])[0];
                 if (PadnameOUTER(names[ix])
                         || PadnameIsSTATE(names[ix])
-                        || sigil == '&')
+                        || sigil == Perl_Symbol_Table_Code)
                 {
                     SV *tmp = oldpad[ix];
-                    if (sigil == '&' && SvTYPE(tmp) == SVt_PVCV
+                    if (sigil == Perl_Symbol_Table_Code && SvTYPE(tmp) == SVt_PVCV
                         && !PadnameOUTER(names[ix])
                         && CvLEXICAL(tmp) && CvCLONED(tmp)
                         && !PadnameIsOUR(names[ix])
@@ -2557,7 +2557,7 @@ Perl_padlist_dup(pTHX_ PADLIST *srcpad, CLONE_PARAMS *param)
                     const char sigil = PadnamePV(names[ix])[0];
                     if (PadnameOUTER(names[ix])
                         || PadnameIsSTATE(names[ix])
-                        || sigil == '&')
+                        || sigil == Perl_Symbol_Table_Code)
                         {
                             /* outer lexical or anon code */
                             pad1a[ix] = sv_dup_inc(oldpad[ix], param);
