@@ -404,7 +404,7 @@ Perl_cv_undef_flags(pTHX_ CV *cv, U32 flags)
             SV ** const curpad = AvARRAY(comppad);
             for (ix = PadnamelistMAX(comppad_name); ix > 0; ix--) {
                 PADNAME * const name = namepad[ix];
-                if (name && PadnamePV(name) && *PadnamePV(name) == Perl_Symbol_Table_Code) {
+                if (name && PadnamePV(name) && Padname_Is_Symbol_Table_Code (name)) {
                     CV * const innercv = MUTABLE_CV(curpad[ix]);
                     if (PadnameIsOUR(name) && CvCLONED(&cvbody)) {
                         assert(!innercv);
@@ -907,7 +907,7 @@ S_pad_check_dup(pTHX_ PADNAME *name, U32 flags, const HV *ourstash)
                     PL_parser->in_my == KEY_sigvar ? "my"    :
                     PL_parser->in_my == KEY_field  ? "field" :
                                                      "state" ),
-                *PadnamePV(pn) == Perl_Symbol_Table_Code ? "subroutine" : "variable",
+                Padname_Is_Symbol_Table_Code (pn) ? "subroutine" : "variable",
                 PNfARG(pn),
                 (COP_SEQ_RANGE_HIGH(pn) == PERL_PADSEQ_INTRO
                     ? "scope" : "statement"));
@@ -1094,7 +1094,7 @@ S_unavailable(pTHX_ PADNAME *name)
     /* diag_listed_as: Variable "%s" is not available */
     Perl_ck_warner(aTHX_ packWARN(WARN_CLOSURE),
                         "%s \"%" PNf "\" is not available",
-                         *PadnamePV(name) == Perl_Symbol_Table_Code
+                         Padname_Is_Symbol_Table_Code (name)
                                          ? "Subroutine"
                                          : "Variable",
                          PNfARG(name));
@@ -1536,7 +1536,7 @@ Perl_pad_leavemy(pTHX)
                 (unsigned long)COP_SEQ_RANGE_HIGH(sv))
             );
             if (!PadnameIsSTATE(sv) && !PadnameIsOUR(sv)
-             && *PadnamePV(sv) == Perl_Symbol_Table_Code && PadnameLEN(sv) > 1) {
+             && Padname_Is_Symbol_Table_Code (sv) && PadnameLEN(sv) > 1) {
                 OP *kid = newOP(OP_INTROCV, 0);
                 kid->op_targ = off;
                 o = op_prepend_elem(OP_LINESEQ, kid, o);
@@ -1708,7 +1708,7 @@ Perl_pad_tidy(pTHX_ padtidy_type type)
                 continue;
             namesv = namep[ix];
             if (!(PadnamePV(namesv) &&
-                   (!PadnameLEN(namesv) || *PadnamePV(namesv) == Perl_Symbol_Table_Code)))
+                   (!PadnameLEN(namesv) || Padname_Is_Symbol_Table_Code (namesv))))
             {
                 SvREFCNT_dec(PL_curpad[ix]);
                 PL_curpad[ix] = NULL;
@@ -2092,7 +2092,7 @@ S_cv_clone_pad(pTHX_ CV *proto, CV *cv, CV *outside, HV *cloned,
                     PADNAME * const name =
                         (ix <= fname) ? pname[ix] : NULL;
                     if (name && name != &PL_padname_undef
-                     && !PadnameOUTER(name) && PadnamePV(name)[0] == Perl_Symbol_Table_Code
+                     && !PadnameOUTER(name) && Padname_Is_Symbol_Table_Code (name)
                      && PadnameIsSTATE(name) && !CvCLONED(PL_curpad[ix]))
                     {
                         CV * const protokey = CvOUTSIDE(ppad[ix]);
@@ -2119,7 +2119,7 @@ S_cv_clone_pad(pTHX_ CV *proto, CV *cv, CV *outside, HV *cloned,
                     PADNAME * const name =
                         (ix <= fname) ? pname[ix] : NULL;
                     if (name && name != &PL_padname_undef
-                     && !PadnameOUTER(name) && PadnamePV(name)[0] == Perl_Symbol_Table_Code
+                     && !PadnameOUTER(name) && Padname_Is_Symbol_Table_Code (name)
                      && PadnameIsSTATE(name) && !CvCLONED(PL_curpad[ix]))
                         S_cv_clone(aTHX_ (CV *)ppad[ix],
                                          (CV *)PL_curpad[ix],
@@ -2129,7 +2129,7 @@ S_cv_clone_pad(pTHX_ CV *proto, CV *cv, CV *outside, HV *cloned,
         else for (ix = fpad; ix > 0; ix--) {
             PADNAME * const name = (ix <= fname) ? pname[ix] : NULL;
             if (name && name != &PL_padname_undef && !PadnameOUTER(name)
-             && PadnamePV(name)[0] == Perl_Symbol_Table_Code && PadnameIsSTATE(name))
+             && Padname_Is_Symbol_Table_Code (name) && PadnameIsSTATE(name))
                 S_cv_clone(aTHX_ (CV *)ppad[ix], (CV *)PL_curpad[ix], cv,
                                  NULL);
         }
@@ -2367,7 +2367,7 @@ Perl_pad_fixup_inner_anons(pTHX_ PADLIST *padlist, CV *old_cv, CV *new_cv)
     for (ix = PadnamelistMAX(comppad_name); ix > 0; ix--) {
         const PADNAME *name = namepad[ix];
         if (name && name != &PL_padname_undef && !PadnameIsOUR(name)
-            && *PadnamePV(name) == Perl_Symbol_Table_Code)
+            && Padname_Is_Symbol_Table_Code (name))
         {
           CV *innercv = MUTABLE_CV(curpad[ix]);
           if (UNLIKELY(PadnameOUTER(name))) {
