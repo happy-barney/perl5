@@ -770,7 +770,7 @@ Perl_class_seal_stash(pTHX_ HV *stash)
                     op_priv = OPpINITFIELD_AV;
                     break;
 
-                case '%':
+                case Perl_Symbol_Table_Hash:
                     op_priv = OPpINITFIELD_HV;
                     break;
 
@@ -1031,7 +1031,7 @@ apply_field_attribute_reader(pTHX_ PADNAME *pn, SV *value)
         switch(PadnamePV(pn)[0]) {
             case Perl_Symbol_Table_Scalar: optype = OP_PADSV; break;
             case Perl_Symbol_Table_Array:  optype = OP_PADAV; break;
-            case '%': optype = OP_PADHV; break;
+            case Perl_Symbol_Table_Hash:   optype = OP_PADHV; break;
             default: NOT_REACHED;
         }
 
@@ -1245,7 +1245,7 @@ Perl_class_set_field_defop(pTHX_ PADNAME *pn, OPCODE defmode, OP *defop)
             break;
 
         case Perl_Symbol_Table_Array:
-        case '%':
+        case Perl_Symbol_Table_Hash:
             defop = op_contextualize(op_force_list(defop), G_LIST);
             break;
     }
