@@ -313,8 +313,45 @@ current pad equal to C<npad>
 =for apidoc m|void|PAD_RESTORE_LOCAL|PAD *opad
 Restore the old pad saved into the local variable C<opad> by C<PAD_SAVE_LOCAL()>
 
+=for apidoc      Ay||Perl_Symbol_Table
+=for apidoc_item Perl_Symbol_Table_Array
+=for apidoc_item Perl_Symbol_Table_Code
+=for apidoc_item Perl_Symbol_Table_Hash
+=for apidoc_item Perl_Symbol_Table_Scalar
+
+Symbol table identifies how symbol value is represented internally.
+
+For example, C<'&'> can be:
+
+=over
+
+=item Internal identification of symbol
+
+    &foo
+
+=item External identification of expression
+
+    goto &foo;
+
+=item Predefined variable name
+
+    $&
+
+=item Prototype
+
+    sub foo :prototype(&);
+
+=back
+
 =cut
 */
+
+enum Perl_Symbol_Table {
+    Perl_Symbol_Table_Array  = '@',
+    Perl_Symbol_Table_Code   = '&',
+    Perl_Symbol_Table_Hash   = '%',
+    Perl_Symbol_Table_Scalar = '$',
+};
 
 #define PadlistARRAY(pl)	(pl)->xpadl_arr.xpadlarr_alloc
 #define PadlistMAX(pl)		(pl)->xpadl_max
