@@ -577,7 +577,7 @@ S_pad_alloc_name(pTHX_ PADNAME *name, U32 flags, HV *typestash,
     }
 
     padnamelist_store(PL_comppad_name, offset, name);
-    if (PadnameLEN(name) > 1)
+    if (Padname_Symbol_Name_Length (name) > 0)
         PadnamelistMAXNAMED(PL_comppad_name) = offset;
     return offset;
 }
@@ -1538,7 +1538,7 @@ Perl_pad_leavemy(pTHX)
                 (unsigned long)COP_SEQ_RANGE_HIGH(sv))
             );
             if (!PadnameIsSTATE(sv) && !PadnameIsOUR(sv)
-             && Padname_Is_Symbol_Table_Code (sv) && PadnameLEN(sv) > 1) {
+             && Padname_Is_Symbol_Table_Code (sv) && Padname_Symbol_Name_Length (sv) > 0) {
                 OP *kid = newOP(OP_INTROCV, 0);
                 kid->op_targ = off;
                 o = op_prepend_elem(OP_LINESEQ, kid, o);
@@ -2031,19 +2031,19 @@ S_cv_clone_pad(pTHX_ CV *proto, CV *cv, CV *outside, HV *cloned,
                         sv = newSV_type(SVt_PVCV);
                         CvLEXICAL_on(sv);
                     }
-                    else if (PadnameLEN(namesv)>1 && !PadnameIsOUR(namesv))
+                    else if (Padname_Symbol_Name_Length (namesv) > 0 && !PadnameIsOUR(namesv))
                     {
                         /* my sub */
                         /* Just provide a stub, but name it.  It will be
                            upgraded to the real thing on scope entry. */
                         U32 hash;
                         PERL_HASH(hash, Padname_Symbol_Name (namesv),
-                                  PadnameLEN(namesv) - 1);
+                                  Padname_Symbol_Name_Length (namesv));
                         sv = newSV_type(SVt_PVCV);
                         CvNAME_HEK_set(
                             sv,
                             share_hek(Padname_Symbol_Name (namesv),
-                                      1 - PadnameLEN(namesv),
+                                      - Padname_Symbol_Name_Length (namesv),
                                       hash)
                         );
                         CvLEXICAL_on(sv);

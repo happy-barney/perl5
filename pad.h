@@ -340,6 +340,13 @@ For backward compatibility its index C<-1> is valid index for read.
     Padname_Symbol_Name ("$self") == "self"
 
 
+=for apidoc Am|STRLEN|Padname_Symbol_Name_Length|PADNAME * pn
+Length of name of valid symbol (see L</Padname_Is_Symbol>).
+
+    # pseudocode
+    Padname_Symbol_Name_Length ("$self") == 4
+
+
 =for apidoc Am|char|Padname_Symbol_Table|PADNAME * pn
 Extract symbol table identifier from valid symbol (see L</Padname_Is_Symbol>).
 
@@ -407,6 +414,9 @@ enum Perl_Symbol_Table {
 
 #define Padname_Symbol_Name(Pn)                                         \
     (PadnamePV (Pn) + 1)
+
+#define Padname_Symbol_Name_Length(Pn)                                  \
+    ((STRLEN) ((PadnamePV (Pn)) ? (PadnameLEN (Pn) - 1) : 0))
 
 #define Padname_Symbol_Table(Pn)                                        \
     (PadnamePV (Pn)[0])

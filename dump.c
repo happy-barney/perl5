@@ -3056,7 +3056,7 @@ S_append_padvar(pTHX_ PADOFFSET off, CV *cv, SV *out, int n,
         {
             STRLEN cur = SvCUR(out);
             Perl_sv_catpvf(aTHX_ out, "[%" UTF8f,
-                                 UTF8fARG(1, PadnameLEN(sv) - 1,
+                                 UTF8fARG(1, Padname_Symbol_Name_Length (sv),
                                           Padname_Symbol_Name (sv)));
             if (is_scalar)
                 SvPVX(out)[cur] = '$';

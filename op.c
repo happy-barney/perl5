@@ -9814,7 +9814,7 @@ Perl_newFOROP(pTHX_ I32 flags, OP *sv, OP *expr, OP *block, OP *cont)
             PADNAME * const pn = PAD_COMPNAME(padoff);
             const char * const name = Padname_Symbol_Name (pn);
 
-            if (PadnameLEN(pn) == 2 && Padname_Is_Symbol_Table_Scalar (pn) && name[0] == '_')
+            if (Padname_Symbol_Name_Length (pn) == 1 && Padname_Is_Symbol_Table_Scalar (pn) && name[0] == '_')
                 enteriterpflags |= OPpITER_DEF;
         }
     }
@@ -10289,7 +10289,7 @@ S_already_defined(pTHX_ CV *const cv, OP * const block, OP * const o,
         const line_t oldline = CopLINE(PL_curcop);
         SV *namesv = o
             ? cSVOPo->op_sv
-            : newSVpvn_flags( Padname_Symbol_Name (name), PadnameLEN(name)-1,
+            : newSVpvn_flags( Padname_Symbol_Name (name), Padname_Symbol_Name_Length (name),
                (PadnameUTF8(name)) ? SVf_UTF8|SVs_TEMP : SVs_TEMP
               );
         if (PL_parser && PL_parser->copline != NOLINE)
@@ -10400,11 +10400,11 @@ Perl_newMYSUB(pTHX_ I32 floor, OP *o, OP *proto, OP *attrs, OP *block)
             hek = CvNAME_HEK(*spot);
         else {
             U32 hash;
-            PERL_HASH(hash, Padname_Symbol_Name (name), PadnameLEN(name)-1);
+            PERL_HASH(hash, Padname_Symbol_Name (name), Padname_Symbol_Name_Length (name));
             CvNAME_HEK_set(*spot, hek =
                 share_hek(
                     Padname_Symbol_Name (name),
-                    (PadnameLEN(name)-1) * (PadnameUTF8(name) ? -1 : 1),
+                    (Padname_Symbol_Name_Length (name)) * (PadnameUTF8(name) ? -1 : 1),
                     hash
                 )
             );
@@ -10559,9 +10559,9 @@ Perl_newMYSUB(pTHX_ I32 floor, OP *o, OP *proto, OP *attrs, OP *block)
         if (hek) (void)share_hek_hek(hek);
         else {
             U32 hash;
-            PERL_HASH(hash, Padname_Symbol_Name (name), PadnameLEN(name)-1);
+            PERL_HASH(hash, Padname_Symbol_Name (name), Padname_Symbol_Name_Length (name));
             hek = share_hek(Padname_Symbol_Name (name),
-                      (PadnameLEN(name)-1) * (PadnameUTF8(name) ? -1 : 1),
+                      (Padname_Symbol_Name_Length (name)) * (PadnameUTF8(name) ? -1 : 1),
                       hash);
         }
         CvNAME_HEK_set(cv, hek);
@@ -10622,7 +10622,7 @@ Perl_newMYSUB(pTHX_ I32 floor, OP *o, OP *proto, OP *attrs, OP *block)
             else
                 sv_setpvs(tmpstr, "__ANON__::");
 
-            sv_catpvn_flags(tmpstr, Padname_Symbol_Name (name), PadnameLEN(name)-1,
+            sv_catpvn_flags(tmpstr, Padname_Symbol_Name (name), Padname_Symbol_Name_Length (name),
                             PadnameUTF8(name) ? SV_CATUTF8 : SV_CATBYTES);
             (void)hv_store_ent(GvHV(PL_DBsub), tmpstr, sv, 0);
             hv = GvHVn(db_postponed);
@@ -13069,7 +13069,7 @@ Perl_ck_fun(pTHX_ OP *o)
                                 PADNAME * const pn
                                     = PAD_COMPNAME_SV(kid->op_targ);
                                 name = Padname_Symbol_Name (pn);
-                                len  = PadnameLEN(pn) - 1;
+                                len  = Padname_Symbol_Name_Length (pn);
                                 name_utf8 = PadnameUTF8(pn);
                             }
                             else if (kid->op_type == OP_RV2SV
@@ -14068,7 +14068,7 @@ S_simplify_sort(pTHX_ OP *o)
         do {
             if (kid->op_type == OP_PADSV) {
                 PADNAME * const name = PAD_COMPNAME(kid->op_targ);
-                if (PadnameLEN(name) == 2 && Padname_Is_Symbol_Table_Scalar (name)
+                if (Padname_Symbol_Name_Length (name) == 1 && Padname_Is_Symbol_Table_Scalar (name)
                  && (  Padname_Symbol_Name (name)[0] == 'a'
                     || Padname_Symbol_Name (name)[0] == 'b'  ))
                     /* diag_listed_as: "my %s" used in sort comparison */
