@@ -332,6 +332,14 @@ Whether PADNAME represents symbol for given symbol table.
     }
 
 
+=for apidoc Am|char *|Padname_Symbol_Name|PADNAME * pn
+Extract symbol name from valid symbol (see L</Padname_Is_Symbol>).
+For backward compatibility its index C<-1> is valid index for read.
+
+    # pseudocode
+    Padname_Symbol_Name ("$self") == "self"
+
+
 =for apidoc Am|char|Padname_Symbol_Table|PADNAME * pn
 Extract symbol table identifier from valid symbol (see L</Padname_Is_Symbol>).
 
@@ -396,6 +404,9 @@ enum Perl_Symbol_Table {
 
 #define Padname_Is_Symbol_Table_Scalar(Pn)                              \
     Padname_Is_Symbol_Table (Pn, Perl_Symbol_Table_Scalar)
+
+#define Padname_Symbol_Name(Pn)                                         \
+    (PadnamePV (Pn) + 1)
 
 #define Padname_Symbol_Table(Pn)                                        \
     (PadnamePV (Pn)[0])

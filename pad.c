@@ -2037,12 +2037,12 @@ S_cv_clone_pad(pTHX_ CV *proto, CV *cv, CV *outside, HV *cloned,
                         /* Just provide a stub, but name it.  It will be
                            upgraded to the real thing on scope entry. */
                         U32 hash;
-                        PERL_HASH(hash, PadnamePV(namesv)+1,
+                        PERL_HASH(hash, Padname_Symbol_Name (namesv),
                                   PadnameLEN(namesv) - 1);
                         sv = newSV_type(SVt_PVCV);
                         CvNAME_HEK_set(
                             sv,
-                            share_hek(PadnamePV(namesv)+1,
+                            share_hek(Padname_Symbol_Name (namesv),
                                       1 - PadnameLEN(namesv),
                                       hash)
                         );

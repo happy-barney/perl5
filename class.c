@@ -945,7 +945,7 @@ apply_field_attribute_param(pTHX_ PADNAME *pn, SV *value)
 {
     if(!value)
         /* Default to name minus the sigil */
-        value = newSVpvn_utf8(PadnamePV(pn) + 1, PadnameLEN(pn) - 1, PadnameUTF8(pn));
+        value = newSVpvn_utf8(Padname_Symbol_Name (pn), PadnameLEN(pn) - 1, PadnameUTF8(pn));
 
     if(! Padname_Is_Symbol_Table_Scalar (pn))
         croak("Only scalar fields can take a :param attribute");
@@ -977,7 +977,7 @@ apply_field_attribute_reader(pTHX_ PADNAME *pn, SV *value)
         SvREFCNT_inc(value);
     else
         /* Default to name minus the sigil */
-        value = newSVpvn_utf8(PadnamePV(pn) + 1, PadnameLEN(pn) - 1, PadnameUTF8(pn));
+        value = newSVpvn_utf8(Padname_Symbol_Name (pn), PadnameLEN(pn) - 1, PadnameUTF8(pn));
 
     if(!valid_identifier_sv(value))
         croak("%" SVf_QUOTEDPREFIX " is not a valid name for a generated method", value);
