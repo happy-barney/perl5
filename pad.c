@@ -754,9 +754,11 @@ Perl_pad_alloc(pTHX_ I32 optype, U32 tmptype)
              * can be reused; not so for constants.
              */
             PADNAME *pn;
-            if (++retval <= names_fill &&
-                   (pn = names[retval]) && PadnamePV(pn))
-                continue;
+            if (++retval <= names_fill) {
+                pn = names[retval];
+                if (Padname_Is_Symbol (pn))
+                    continue;
+            }
             sv = *av_fetch_simple(PL_comppad, retval, TRUE);
             if (!(SvFLAGS(sv) &
 #ifdef USE_PAD_RESET
@@ -2059,7 +2061,7 @@ S_cv_clone_pad(pTHX_ CV *proto, CV *cv, CV *outside, HV *cloned,
             }
           }
         }
-        else if (namesv && PadnamePV(namesv)) {
+        else if (Padname_Is_Symbol (namesv)) {
             sv = SvREFCNT_inc_NN(ppad[ix]);
         }
         else {
@@ -2581,8 +2583,8 @@ Perl_padlist_dup(pTHX_ PADLIST *srcpad, CLONE_PARAMS *param)
                         }
                     }
                 }
-                else if ((  names_fill >= ix && names[ix]
-                         && PadnamePV(names[ix])  )) {
+                else if ((  names_fill >= ix
+                         && Padname_Is_Symbol (names[ix])  )) {
                     pad1a[ix] = sv_dup_inc(oldpad[ix], param);
                 }
                 else {

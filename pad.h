@@ -314,6 +314,11 @@ current pad equal to C<npad>
 Restore the old pad saved into the local variable C<opad> by C<PAD_SAVE_LOCAL()>
 
 
+=for apidoc Am|bool|Padname_Is_Symbol|PADNAME * pn
+Checks whether C<pn> represents valid symbol (aka: has name, empty string ok)
+Every other C<Padname_Symbol> or C<Padname_Symbol_Table> macro expects valid symbol.
+
+
 =for apidoc Am|bool|Padname_Is_Symbol_Table|PADNAME * pn|Perl_Symbol_Table symbol_table
 =for apidoc_item m|bool|Padname_Is_Symbol_Table_Array|PADNAME * pn
 =for apidoc_item m|bool|Padname_Is_Symbol_Table_Code|PADNAME * pn
@@ -366,6 +371,9 @@ enum Perl_Symbol_Table {
     Perl_Symbol_Table_Hash   = '%',
     Perl_Symbol_Table_Scalar = '$',
 };
+
+#define Padname_Is_Symbol(Pn)                                           \
+    ((Pn) && PadnamePV (Pn))
 
 #define Padname_Is_Symbol_Table(Pn, Table)                              \
     (PadnamePV (Pn)[0] == (Table))
