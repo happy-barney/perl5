@@ -453,17 +453,21 @@ enum Perl_Symbol_Table {
     ((STRLEN) ((PadnamePV (Pn)) ? (PadnameLEN (Pn) - 1) : 0))
 
 #define Padname_Symbol_Printf_Format                                    \
-    "%.*s"
+    "%c%.*s"
 
 #define Padname_Symbol_Printf_Params(Pn)                                \
-    (int) PadnameLEN (Pn),                                              \
-    PadnamePV (Pn)
+    Perl_Symbol_Table_To_Sigil (Padname_Symbol_Table (Pn)),             \
+    (int) Padname_Symbol_Name_Length (Pn),                              \
+    Padname_Symbol_Name (Pn)
 
 #define Padname_Symbol_Table(Pn)                                        \
     (PadnamePV (Pn)[0])
 
 #define Perl_Sigil_To_Symbol_Table(Sigil)                               \
     (Sigil)
+
+#define Perl_Symbol_Table_To_Sigil(Symbol_Table)                        \
+    (Symbol_Table)
 
 #define Perl_Symbol_Table_Title_lc(Table)                               \
     (((Table) == Perl_Symbol_Table_Code) ? "subroutine" : "variable")
