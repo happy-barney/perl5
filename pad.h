@@ -394,6 +394,12 @@ For example, C<'&'> can be:
 
 =back
 
+
+=for apidoc      Am|const char const *|Perl_Symbol_Table_Title_lc|Perl_Symbol_Table symbol_table
+=for apidoc_item  m|const char const *|Perl_Symbol_Table_Title_ucfirst|Perl_Symbol_Table symbol_table
+
+Expand as a title of symbol table, for example C<subroutine> or C<variable>.
+
 =cut
 */
 
@@ -436,6 +442,12 @@ enum Perl_Symbol_Table {
 
 #define Perl_Sigil_To_Symbol_Table(Sigil)                               \
     (Sigil)
+
+#define Perl_Symbol_Table_Title_lc(Table)                               \
+    (((Table) == Perl_Symbol_Table_Code) ? "subroutine" : "variable")
+
+#define Perl_Symbol_Table_Title_ucfirst(Table)                          \
+    (((Table) == Perl_Symbol_Table_Code) ? "Subroutine" : "Variable")
 
 #define PadlistARRAY(pl)	(pl)->xpadl_arr.xpadlarr_alloc
 #define PadlistMAX(pl)		(pl)->xpadl_max

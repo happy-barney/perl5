@@ -909,7 +909,7 @@ S_pad_check_dup(pTHX_ PADNAME *name, U32 flags, const HV *ourstash)
                     PL_parser->in_my == KEY_sigvar ? "my"    :
                     PL_parser->in_my == KEY_field  ? "field" :
                                                      "state" ),
-                Padname_Is_Symbol_Table_Code (pn) ? "subroutine" : "variable",
+                Perl_Symbol_Table_Title_lc (Padname_Symbol_Table (pn)),
                 PNfARG(pn),
                 (COP_SEQ_RANGE_HIGH(pn) == PERL_PADSEQ_INTRO
                     ? "scope" : "statement"));
@@ -1220,7 +1220,7 @@ S_pad_findlex(pTHX_ const char *namepv, STRLEN namelen, U32 flags, const CV* cv,
                                            shared */
                         Perl_warner(aTHX_ packWARN(WARN_CLOSURE),
                             "%s \"%" UTF8f "\" will not stay shared",
-                             *namepv == Perl_Symbol_Table_Code ? "Subroutine" : "Variable",
+                             Perl_Symbol_Table_Title_ucfirst (*namepv),
                              UTF8fARG(1, namelen, namepv));
                     }
 

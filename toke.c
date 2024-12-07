@@ -9933,7 +9933,7 @@ S_pending_ident(pTHX)
                                    in "our" */
                 yyerror_pv(Perl_form(aTHX_ "No package name allowed for "
                                   "%s %s in \"our\"",
-                                  *PL_tokenbuf=='&' ? "subroutine" : "variable",
+                                  Perl_Symbol_Table_Title_lc (Perl_Sigil_To_Symbol_Table (*PL_tokenbuf)),
                                   PL_tokenbuf), UTF ? SVf_UTF8 : 0);
             tmp = allocmy(PL_tokenbuf, tokenbuf_len, UTF ? SVf_UTF8 : 0);
         }
@@ -9946,7 +9946,7 @@ S_pending_ident(pTHX)
                 yyerror_pv(Perl_form(aTHX_ PL_no_myglob,
                             PL_in_my == KEY_my ? "my" :
                             PL_in_my == KEY_field ? "field" : "state",
-                            *PL_tokenbuf == '&' ? "subroutine" : "variable",
+                            Perl_Symbol_Table_Title_lc (Perl_Sigil_To_Symbol_Table (*PL_tokenbuf)),
                             PL_tokenbuf),
                             UTF ? SVf_UTF8 : 0);
                 GCC_DIAG_RESTORE_STMT;
