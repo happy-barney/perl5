@@ -909,7 +909,7 @@ S_pad_check_dup(pTHX_ PADNAME *name, U32 flags, const HV *ourstash)
                     PL_parser->in_my == KEY_sigvar ? "my"    :
                     PL_parser->in_my == KEY_field  ? "field" :
                                                      "state" ),
-                Perl_Symbol_Table_Title_lc (Padname_Symbol_Table (pn)),
+                Padname_Symbol_Table_Title_lc (pn),
                 PNfARG(pn),
                 (COP_SEQ_RANGE_HIGH(pn) == PERL_PADSEQ_INTRO
                     ? "scope" : "statement"));
@@ -1096,9 +1096,7 @@ S_unavailable(pTHX_ PADNAME *name)
     /* diag_listed_as: Variable "%s" is not available */
     Perl_ck_warner(aTHX_ packWARN(WARN_CLOSURE),
                         "%s \"%" PNf "\" is not available",
-                         Padname_Is_Symbol_Table_Code (name)
-                                         ? "Subroutine"
-                                         : "Variable",
+                         Padname_Symbol_Table_Title_ucfirst (name),
                          PNfARG(name));
 }
 
