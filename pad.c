@@ -655,12 +655,19 @@ Perl_pad_add_name_pvn(pTHX_ const char *namepv, STRLEN namelen,
     /* if it's not a simple scalar, replace with an AV or HV */
     assert(SvTYPE(PL_curpad[offset]) == SVt_NULL);
     assert(SvREFCNT(PL_curpad[offset]) == 1);
-    if (namelen != 0 && *namepv == Perl_Symbol_Table_Array)
-        sv_upgrade(PL_curpad[offset], SVt_PVAV);
-    else if (namelen != 0 && *namepv == Perl_Symbol_Table_Hash)
-        sv_upgrade(PL_curpad[offset], SVt_PVHV);
-    else if (namelen != 0 && *namepv == Perl_Symbol_Table_Code)
-        sv_upgrade(PL_curpad[offset], SVt_PVCV);
+    if (namelen != 0) {
+        switch (*namepv) {
+            case Perl_Symbol_Table_Array:
+                sv_upgrade(PL_curpad[offset], SVt_PVAV);
+                break;
+            case Perl_Symbol_Table_Hash:
+                sv_upgrade(PL_curpad[offset], SVt_PVHV);
+                break;
+            case Perl_Symbol_Table_Code:
+                sv_upgrade(PL_curpad[offset], SVt_PVCV);
+                break;
+        }
+    }
     assert(SvPADMY(PL_curpad[offset]));
     DEBUG_Xv(PerlIO_printf(Perl_debug_log,
                            "Pad addname: %ld \"" Padname_Symbol_Printf_Format "\" new lex=0x%" UVxf "\n",
@@ -1254,14 +1261,21 @@ S_pad_findlex(pTHX_ const char *namepv, STRLEN namelen, U32 flags, const CV* cv,
                     }
                 }
                 if (!*out_capture) {
-                    if (namelen != 0 && *namepv == Perl_Symbol_Table_Array)
-                        *out_capture = newSV_type_mortal(SVt_PVAV);
-                    else if (namelen != 0 && *namepv == Perl_Symbol_Table_Hash)
-                        *out_capture = newSV_type_mortal(SVt_PVHV);
-                    else if (namelen != 0 && *namepv == Perl_Symbol_Table_Code)
-                        *out_capture = newSV_type_mortal(SVt_PVCV);
-                    else
-                        *out_capture = newSV_type_mortal(SVt_NULL);
+                    if (namelen != 0) {
+                        switch (*namepv) {
+                            case Perl_Symbol_Table_Array:
+                                *out_capture = newSV_type_mortal(SVt_PVAV);
+                                break;
+                            case Perl_Symbol_Table_Hash:
+                                *out_capture = newSV_type_mortal(SVt_PVHV);
+                                break;
+                            case Perl_Symbol_Table_Code:
+                                *out_capture = newSV_type_mortal(SVt_PVCV);
+                                break;
+                            default:
+                                *out_capture = newSV_type_mortal(SVt_NULL);
+                        }
+                    }
                 }
             }
 
