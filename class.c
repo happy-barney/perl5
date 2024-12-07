@@ -699,7 +699,7 @@ Perl_class_seal_stash(pTHX_ HV *stash)
 
         for(SSize_t i = 0; fieldnames && i <= PadnamelistMAX(fieldnames); i++) {
             PADNAME *pn = PadnamelistARRAY(fieldnames)[i];
-            char sigil = Padname_Symbol_Table (pn);
+            perl_symbol_table_id sigil = Padname_Symbol_Table (pn);
             PADOFFSET fieldix = PadnameFIELDINFO(pn)->fieldix;
 
             /* Extract the OP_{NEXT,DB}STATE op from the defop so we can
@@ -1238,7 +1238,7 @@ Perl_class_set_field_defop(pTHX_ PADNAME *pn, OPCODE defmode, OP *defop)
 
     forbid_outofblock_ops(defop, "field initialiser expression");
 
-    char sigil = Padname_Symbol_Table (pn);
+    perl_symbol_table_id sigil = Padname_Symbol_Table (pn);
     switch(sigil) {
         case Perl_Symbol_Table_Scalar:
             defop = op_contextualize(defop, G_SCALAR);

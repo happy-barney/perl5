@@ -415,8 +415,15 @@ For example, C<'&'> can be:
 
 Expand as a title of symbol table, for example C<subroutine> or C<variable>.
 
+
+=for apidoc Ay | | perl_symbol_table_id
+
+Typedef how symbol table id is represented
+
 =cut
 */
+
+typedef char perl_symbol_table_id;
 
 enum Perl_Symbol_Table {
     Perl_Symbol_Table_Array  = '@',

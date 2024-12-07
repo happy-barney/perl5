@@ -2025,7 +2025,7 @@ S_cv_clone_pad(pTHX_ CV *proto, CV *cv, CV *outside, HV *cloned,
                     SvREFCNT_inc_simple_void_NN(sv);
             }
             if (!sv) {
-                const char sigil = Padname_Symbol_Table (namesv);
+                const perl_symbol_table_id sigil = Padname_Symbol_Table (namesv);
                 if (sigil == Perl_Symbol_Table_Code)
                     /* If there are state subs, we need to clone them, too.
                        But they may need to close over variables we have
@@ -2458,7 +2458,7 @@ Perl_pad_push(pTHX_ PADLIST *padlist, int depth)
         for ( ;ix > 0; ix--) {
             SV *sv;
             if (names_fill >= ix && PadnameLEN(names[ix])) {
-                const char sigil = Padname_Symbol_Table (names[ix]);
+                const perl_symbol_table_id sigil = Padname_Symbol_Table (names[ix]);
                 if (PadnameOUTER(names[ix])
                         || PadnameIsSTATE(names[ix])
                         || sigil == Perl_Symbol_Table_Code)
@@ -2567,7 +2567,7 @@ Perl_padlist_dup(pTHX_ PADLIST *srcpad, CLONE_PARAMS *param)
                     pad1a[ix] = NULL;
                 } else if (names_fill >= ix && names[ix] &&
                            PadnameLEN(names[ix])) {
-                    const char sigil = Padname_Symbol_Table (names[ix]);
+                    const perl_symbol_table_id sigil = Padname_Symbol_Table (names[ix]);
                     if (PadnameOUTER(names[ix])
                         || PadnameIsSTATE(names[ix])
                         || sigil == Perl_Symbol_Table_Code)
