@@ -358,6 +358,12 @@ Extract symbol table identifier from valid symbol (see L</Padname_Is_Symbol>).
     Padname_Symbol_Table ("$self") == Perl_Symbol_Table_Scalar
 
 
+=for apidoc      Am|char|Perl_Sigil_To_Symbol_Table|char
+Converts sigil to symbol table
+
+    Perl_Sigil_To_Symbol_Table ('$') == Perl_Symbol_Table_Scalar
+
+
 =for apidoc      Ay||Perl_Symbol_Table
 =for apidoc_item Perl_Symbol_Table_Array
 =for apidoc_item Perl_Symbol_Table_Code
@@ -427,6 +433,9 @@ enum Perl_Symbol_Table {
 
 #define Padname_Symbol_Table(Pn)                                        \
     (PadnamePV (Pn)[0])
+
+#define Perl_Sigil_To_Symbol_Table(Sigil)                               \
+    (Sigil)
 
 #define PadlistARRAY(pl)	(pl)->xpadl_arr.xpadlarr_alloc
 #define PadlistMAX(pl)		(pl)->xpadl_max
