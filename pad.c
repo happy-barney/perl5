@@ -577,7 +577,7 @@ S_pad_alloc_name(pTHX_ PADNAME *name, U32 flags, HV *typestash,
     }
 
     padnamelist_store(PL_comppad_name, offset, name);
-    if (Padname_Symbol_Name_Length (name) > 0)
+    if (! Padname_Symbol_Is_Anonymous (name))
         PadnamelistMAXNAMED(PL_comppad_name) = offset;
     return offset;
 }
@@ -1538,7 +1538,7 @@ Perl_pad_leavemy(pTHX)
                 (unsigned long)COP_SEQ_RANGE_HIGH(sv))
             );
             if (!PadnameIsSTATE(sv) && !PadnameIsOUR(sv)
-             && Padname_Is_Symbol_Table_Code (sv) && Padname_Symbol_Name_Length (sv) > 0) {
+             && Padname_Is_Symbol_Table_Code (sv) && ! Padname_Symbol_Is_Anonymous (sv)) {
                 OP *kid = newOP(OP_INTROCV, 0);
                 kid->op_targ = off;
                 o = op_prepend_elem(OP_LINESEQ, kid, o);
@@ -2031,7 +2031,7 @@ S_cv_clone_pad(pTHX_ CV *proto, CV *cv, CV *outside, HV *cloned,
                         sv = newSV_type(SVt_PVCV);
                         CvLEXICAL_on(sv);
                     }
-                    else if (Padname_Symbol_Name_Length (namesv) > 0 && !PadnameIsOUR(namesv))
+                    else if (! Padname_Symbol_Is_Anonymous (namesv) && ! PadnameIsOUR(namesv))
                     {
                         /* my sub */
                         /* Just provide a stub, but name it.  It will be

@@ -332,6 +332,10 @@ Whether PADNAME represents symbol for given symbol table.
     }
 
 
+=for apidoc Am|bool|Padname_Symbol_Is_Anonymous|PADNAME * pn
+Whether valid PADNAME represents anonymous symbol (has zero length name).
+
+
 =for apidoc Am|char *|Padname_Symbol_Name|PADNAME * pn
 Extract symbol name from valid symbol (see L</Padname_Is_Symbol>).
 For backward compatibility its index C<-1> is valid index for read.
@@ -411,6 +415,9 @@ enum Perl_Symbol_Table {
 
 #define Padname_Is_Symbol_Table_Scalar(Pn)                              \
     Padname_Is_Symbol_Table (Pn, Perl_Symbol_Table_Scalar)
+
+#define Padname_Symbol_Is_Anonymous(Pn)                                 \
+    (Padname_Symbol_Name_Length (Pn) == 0)
 
 #define Padname_Symbol_Name(Pn)                                         \
     (PadnamePV (Pn) + 1)
