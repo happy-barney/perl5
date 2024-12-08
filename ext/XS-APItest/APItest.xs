@@ -1259,7 +1259,7 @@ static OP *THX_parse_keyword_with_vars(pTHX)
             croak("unexpected '%c'; expecting an identifier", (int)c);
         }
 
-        varname = newSVpvs("$");
+        varname = newSVpvs("");
         if (lex_bufutf8()) {
             SvUTF8_on(varname);
         }
@@ -1272,7 +1272,7 @@ static OP *THX_parse_keyword_with_vars(pTHX)
             lex_read_unichar(0);
         }
 
-        padoff = pad_add_name_sv(varname, padadd_NO_DUP_CHECK, NULL, NULL);
+        padoff = pad_add_symbol_sv (Perl_Symbol_Table_Scalar, varname, padadd_NO_DUP_CHECK, NULL, NULL);
 
         {
             OP *my_var = newOP(OP_PADSV, OPf_MOD | (OPpLVAL_INTRO << 8));
@@ -4674,7 +4674,7 @@ lexical_import(SV *name, CV *cv)
         SAVESPTR(PL_comppad_name); PL_comppad_name = PadlistNAMES(pl);
         SAVESPTR(PL_comppad);      PL_comppad      = PadlistARRAY(pl)[1];
         SAVESPTR(PL_curpad);       PL_curpad       = PadARRAY(PL_comppad);
-        off = pad_add_name_sv(sv_2mortal(newSVpvf("&%" SVf,name)),
+        off = pad_add_symbol_sv (Perl_Symbol_Table_Code, sv_2mortal(newSVpvf("%" SVf,name)),
                               padadd_STATE, 0, 0);
         SvREFCNT_dec(PL_curpad[off]);
         PL_curpad[off] = SvREFCNT_inc(cv);
