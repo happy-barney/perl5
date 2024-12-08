@@ -2483,6 +2483,12 @@ Adp	|PADOFFSET|pad_add_symbol_pvn					\
 				|U32 flags				\
 				|NULLOK HV *typestash			\
 				|NULLOK HV *ourstash
+Adp	|PADOFFSET|pad_add_symbol_sv					\
+				|perl_symbol_table_id symbol_table	\
+				|NN SV *name				\
+				|U32 flags				\
+				|NULLOK HV *typestash			\
+				|NULLOK HV *ourstash
 p	|void	|pad_add_weakref|NN CV *func
 Adpx	|PADOFFSET|pad_alloc	|I32 optype				\
 				|U32 tmptype

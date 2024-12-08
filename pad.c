@@ -588,6 +588,7 @@ S_pad_alloc_name(pTHX_ PADNAME *name, U32 flags, HV *typestash,
 =for apidoc_item pad_add_name_sv
 =for apidoc_item pad_add_symbol_pv
 =for apidoc_item pad_add_symbol_pvn
+=for apidoc_item pad_add_symbol_sv
 
 These each allocate a place in the currently-compiling pad for a named lexical
 variable.  They store the name and other metadata in the name part of the
@@ -727,6 +728,23 @@ Perl_pad_add_name_sv(pTHX_ SV *name, U32 flags, HV *typestash, HV *ourstash)
     PERL_ARGS_ASSERT_PAD_ADD_NAME_SV;
     namepv = SvPVutf8(name, namelen);
     return pad_add_symbol_pvn (*namepv, namepv + 1, namelen - 1, flags, typestash, ourstash);
+}
+
+PADOFFSET
+Perl_pad_add_symbol_sv (
+    pTHX_
+    perl_symbol_table_id symbol_table,
+    SV *                 name,
+    U32                  flags,
+    HV *                 typestash,
+    HV *                 ourstash
+)
+{
+    char *namepv;
+    STRLEN namelen;
+    PERL_ARGS_ASSERT_PAD_ADD_SYMBOL_SV;
+    namepv = SvPVutf8(name, namelen);
+    return pad_add_symbol_pvn (symbol_table, namepv, namelen, flags, typestash, ourstash);
 }
 
 /*
