@@ -55,7 +55,7 @@ sub bb() {
 	ok pad_scalar (PAD_FINDMY_FOO, "foo") == \pad_scalar(PAD_FINDMY_SV, "counter");
 	if(pad_scalar (PAD_FINDMY_SV,  "counter") % 3 == 0) {
 	    return pad_scalar (PAD_FINDMY_SV,  "counter")++;
-	} elsif(pad_scalar (PAD_FINDMY_SV,  "counter") % 3 == 0) {
+	} elsif(pad_scalar (PAD_FINDMY_SV,  "counter") % 3 == 1) {
 	    return pad_scalar (PAD_FINDMY_PVN, "counter")++;
 	} else {
 	    return pad_scalar (PAD_FINDMY_PV,  "counter")++;
