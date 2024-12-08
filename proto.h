@@ -3458,6 +3458,11 @@ Perl_pad_find_my_symbol_pvn(pTHX_ perl_symbol_table_id find_symbol_table, const 
         assert(namepv)
 
 PERL_CALLCONV PADOFFSET
+Perl_pad_find_my_symbol_sv(pTHX_ perl_symbol_table_id find_symbol_table, SV *name, U32 flags);
+#define PERL_ARGS_ASSERT_PAD_FIND_MY_SYMBOL_SV  \
+        assert(name)
+
+PERL_CALLCONV PADOFFSET
 Perl_pad_findmy_pv(pTHX_ const char *name, U32 flags);
 #define PERL_ARGS_ASSERT_PAD_FINDMY_PV          \
         assert(name)

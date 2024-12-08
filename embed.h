@@ -514,6 +514,7 @@
 # define pad_alloc(a,b)                         Perl_pad_alloc(aTHX_ a,b)
 # define pad_find_my_symbol_pv(a,b,c)           Perl_pad_find_my_symbol_pv(aTHX_ a,b,c)
 # define pad_find_my_symbol_pvn(a,b,c,d)        Perl_pad_find_my_symbol_pvn(aTHX_ a,b,c,d)
+# define pad_find_my_symbol_sv(a,b,c)           Perl_pad_find_my_symbol_sv(aTHX_ a,b,c)
 # define pad_findmy_pv(a,b)                     Perl_pad_findmy_pv(aTHX_ a,b)
 # define pad_findmy_pvn(a,b,c)                  Perl_pad_findmy_pvn(aTHX_ a,b,c)
 # define pad_findmy_sv(a,b)                     Perl_pad_findmy_sv(aTHX_ a,b)

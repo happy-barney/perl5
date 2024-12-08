@@ -1038,6 +1038,7 @@ C<flags> is reserved and must be zero.
 =for apidoc pad_find_my_symbol_pv
 =for apidoc_item pad_find_my_symbol_pvn
 =for apidoc_item pad_find_my_symbol_pvs
+=for apidoc_item pad_find_my_symbol_sv
 
 Similar to C<pad_findmy_pv> but with explicit symbol table parameter.
 
@@ -1051,6 +1052,10 @@ Difference:
 
     pad_findmy_pvs ("$self", 0);
     pad_find_my_symbol_pvs (Perl_Symbol_Scalar, "self", 0);
+
+    // sv (string) means SV * with context "string"
+    pad_findmy_sv (sv ("$self"), 0);
+    pad_find_my_symbol_pvs (Perl_Symbol_Scalar, sv ("self"), 0);
 
 =cut
 */
@@ -1145,6 +1150,21 @@ Perl_pad_findmy_sv(pTHX_ SV *name, U32 flags)
     PERL_ARGS_ASSERT_PAD_FINDMY_SV;
     namepv = SvPVutf8(name, namelen);
     return pad_find_my_symbol_pvn (*namepv, namepv + 1, namelen - 1, flags);
+}
+
+PADOFFSET
+Perl_pad_find_my_symbol_sv(
+    pTHX_
+    perl_symbol_table_id find_symbol_table,
+    SV *                 name,
+    U32                  flags
+)
+{
+    char *namepv;
+    STRLEN namelen;
+    PERL_ARGS_ASSERT_PAD_FIND_MY_SYMBOL_SV;
+    namepv = SvPVutf8(name, namelen);
+    return pad_find_my_symbol_pvn (find_symbol_table, namepv, namelen, flags);
 }
 
 /*

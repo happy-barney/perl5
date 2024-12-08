@@ -2510,6 +2510,10 @@ Adp	|PADOFFSET|pad_find_my_symbol_pvn				\
 				|NN const char *namepv			\
 				|STRLEN namelen 			\
 				|U32 flags
+Adp	|PADOFFSET|pad_find_my_symbol_sv				\
+				|perl_symbol_table_id find_symbol_table \
+				|NN SV *name				\
+				|U32 flags
 dp	|void	|pad_fixup_inner_anons					\
 				|NN PADLIST *padlist			\
 				|NN CV *old_cv				\

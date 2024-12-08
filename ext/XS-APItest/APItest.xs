@@ -794,6 +794,7 @@ enum Pad_Find_Method {
     PAD_FIND_MY_SYMBOL_FOO,
     PAD_FIND_MY_SYMBOL_PV,
     PAD_FIND_MY_SYMBOL_PVN,
+    PAD_FIND_MY_SYMBOL_SV,
 };
 
 STATIC OP *
@@ -851,6 +852,9 @@ THX_ck_entersub_pad_scalar(pTHX_ OP *entersubop, GV *namegv, SV *ckobj)
             padoff = pad_find_my_symbol_pvn (Perl_Symbol_Table_Scalar, namepv, namelen, SvUTF8(a1));
             break;
         }
+        case PAD_FIND_MY_SYMBOL_SV: {
+            padoff = pad_find_my_symbol_sv (Perl_Symbol_Table_Scalar, a1, 0);
+        } break;
         default: croak("bad type value for pad_scalar()");
     }
     op_free(entersubop);
@@ -4388,6 +4392,7 @@ BOOT:
     EXPORT_ENUM (stash, PAD_FIND_MY_SYMBOL_FOO);
     EXPORT_ENUM (stash, PAD_FIND_MY_SYMBOL_PV);
     EXPORT_ENUM (stash, PAD_FIND_MY_SYMBOL_PVN);
+    EXPORT_ENUM (stash, PAD_FIND_MY_SYMBOL_SV);
 }
 
 BOOT:
