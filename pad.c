@@ -1035,11 +1035,35 @@ C<flags> is reserved and must be zero.
 
 =for apidoc Amnh||NOT_IN_PAD
 
+=for apidoc pad_find_my_symbol_pvn
+
+Similar to C<pad_findmy_pvn> but with explicit symbol table parameter.
+
+Difference:
+
+    pad_findmy_pvn ("$self", 5, 0);
+
+    pad_find_my_symbol_pvn (Perl_Symbol_Scalar, "self", 5);
+
 =cut
 */
 
 PADOFFSET
 Perl_pad_findmy_pvn(pTHX_ const char *namepv, STRLEN namelen, U32 flags)
+{
+    PERL_ARGS_ASSERT_PAD_FINDMY_PVN;
+
+    return pad_find_my_symbol_pvn (*namepv, namepv + 1, namelen - 1, flags);
+}
+
+PADOFFSET
+Perl_pad_find_my_symbol_pvn(
+    pTHX_
+    perl_symbol_table_id find_symbol_table,
+    const char *         namepv,
+    STRLEN               namelen,
+    U32                  flags
+)
 {
     PADNAME *out_pn;
     int out_flags;
@@ -1047,24 +1071,24 @@ Perl_pad_findmy_pvn(pTHX_ const char *namepv, STRLEN namelen, U32 flags)
     const PADNAMELIST *namelist;
     PADNAME **name_p;
 
-    PERL_ARGS_ASSERT_PAD_FINDMY_PVN;
+    PERL_ARGS_ASSERT_PAD_FIND_MY_SYMBOL_PVN;
 
     if (flags)
-        Perl_croak(aTHX_ "panic: pad_findmy_pvn illegal flag bits 0x%" UVxf,
+        Perl_croak(aTHX_ "panic: pad_find_my_symbol_pvn illegal flag bits 0x%" UVxf,
                    (UV)flags);
 
     /* compilation errors can zero PL_compcv */
     if (!PL_compcv)
         return NOT_IN_PAD;
 
-    offset = pad_findlex (*namepv, namepv + 1, namelen - 1, flags,
+    offset = pad_findlex (find_symbol_table, namepv, namelen, flags,
                 PL_compcv, PL_cop_seqmax, 1, NULL, &out_pn, &out_flags);
     if (offset != NOT_IN_PAD)
         return offset;
 
     /* Skip the ‘our’ hack for subroutines, as the warning does not apply.
      */
-    if (*namepv == Perl_Symbol_Table_Code) return NOT_IN_PAD;
+    if (find_symbol_table == Perl_Symbol_Table_Code) return NOT_IN_PAD;
 
     /* look for an our that's being introduced; this allows
      *    our $foo = 0 unless defined $foo;
@@ -1074,11 +1098,12 @@ Perl_pad_findmy_pvn(pTHX_ const char *namepv, STRLEN namelen, U32 flags)
     name_p = PadnamelistARRAY(namelist);
     for (offset = PadnamelistMAXNAMED(namelist); offset > 0; offset--) {
         const PADNAME * const name = name_p[offset];
-        if (name && PadnameLEN(name) == namelen
+        if (Padname_Is_Symbol (name)
+            && Padname_Symbol_Name_Length (name) == namelen
             && !PadnameOUTER(name)
             && (PadnameIsOUR(name))
-            && (  PadnamePV(name) == namepv
-               || memEQ(PadnamePV(name), namepv, namelen)  )
+            && (  Padname_Symbol_Name (name) == namepv
+               || memEQ(Padname_Symbol_Name (name), namepv, namelen)  )
             && COP_SEQ_RANGE_LOW(name) == PERL_PADSEQ_INTRO
         )
             return offset;

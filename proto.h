@@ -3448,6 +3448,11 @@ Perl_pad_block_start(pTHX_ int full)
 #define PERL_ARGS_ASSERT_PAD_BLOCK_START
 
 PERL_CALLCONV PADOFFSET
+Perl_pad_find_my_symbol_pvn(pTHX_ perl_symbol_table_id find_symbol_table, const char *namepv, STRLEN namelen, U32 flags);
+#define PERL_ARGS_ASSERT_PAD_FIND_MY_SYMBOL_PVN \
+        assert(namepv)
+
+PERL_CALLCONV PADOFFSET
 Perl_pad_findmy_pv(pTHX_ const char *name, U32 flags);
 #define PERL_ARGS_ASSERT_PAD_FINDMY_PV          \
         assert(name)
