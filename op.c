@@ -809,7 +809,7 @@ Perl_allocmy(pTHX_ const char *const name, const STRLEN len, const U32 flags)
     else if(PL_parser->in_my == KEY_field)
         addflags |= padadd_FIELD;
 
-    off = pad_add_name_pvn(name, len, addflags,
+    off = pad_add_symbol_pvn (*name, name + 1, len - 1, addflags,
                     PL_parser->in_my_stash,
                     (is_our
                         /* $_ is always in main::, even with our */
@@ -8622,7 +8622,7 @@ S_newONCEOP(pTHX_ OP *initop, OP *padop)
     /* Store the initializedness of state vars in a separate
        pad entry.  */
     condop->op_targ =
-      pad_add_name_pvn("$",1,padadd_NO_DUP_CHECK|padadd_STATE,0,0);
+      pad_add_symbol_pvn (Perl_Symbol_Table_Scalar, "", 0, padadd_NO_DUP_CHECK|padadd_STATE,0,0);
     /* hijacking PADSTALE for uninitialized state variables */
     SvPADSTALE_on(PAD_SVl(condop->op_targ));
 
@@ -9390,10 +9390,10 @@ Perl_newRANGE(pTHX_ I32 flags, OP *left, OP *right)
     right->op_next = flop;
 
     range->op_targ =
-        pad_add_name_pvn("$", 1, padadd_NO_DUP_CHECK|padadd_STATE, 0, 0);
+        pad_add_symbol_pvn (Perl_Symbol_Table_Scalar, "", 0, padadd_NO_DUP_CHECK|padadd_STATE, 0, 0);
     sv_upgrade(PAD_SV(range->op_targ), SVt_PVNV);
     flip->op_targ =
-        pad_add_name_pvn("$", 1, padadd_NO_DUP_CHECK|padadd_STATE, 0, 0);;
+        pad_add_symbol_pvn (Perl_Symbol_Table_Scalar, "", 0, padadd_NO_DUP_CHECK|padadd_STATE, 0, 0);
     sv_upgrade(PAD_SV(flip->op_targ), SVt_PVNV);
     SvPADTMP_on(PAD_SV(flip->op_targ));
 

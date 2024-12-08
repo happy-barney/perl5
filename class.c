@@ -994,7 +994,14 @@ apply_field_attribute_reader(pTHX_ PADNAME *pn, SV *value)
     padix = pad_add_name_pvs("$self", 0, NULL, NULL);
     assert(padix == PADIX_SELF);
 
-    padix = pad_add_name_pvn(PadnamePV(pn), PadnameLEN(pn), 0, NULL, NULL);
+    padix = pad_add_symbol_pvn (
+        /* symbol_table = */ Padname_Symbol_Table (pn),
+        /* namepv       = */ Padname_Symbol_Name (pn),
+        /* namelen      = */ Padname_Symbol_Name_Length (pn),
+        /* flags        = */ 0,
+        /* typestash    = */ NULL,
+        /* ourstash     = */ NULL
+    );
     intro_my();
 
     OP *methstartop;

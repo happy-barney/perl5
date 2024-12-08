@@ -701,7 +701,7 @@ Perl_pad_add_name_pv(pTHX_ const char *name,
                      const U32 flags, HV *typestash, HV *ourstash)
 {
     PERL_ARGS_ASSERT_PAD_ADD_NAME_PV;
-    return pad_add_name_pvn(name, strlen(name), flags, typestash, ourstash);
+    return pad_add_symbol_pvn (*name, name + 1, strlen(name) - 1, flags, typestash, ourstash);
 }
 
 PADOFFSET
@@ -711,7 +711,7 @@ Perl_pad_add_name_sv(pTHX_ SV *name, U32 flags, HV *typestash, HV *ourstash)
     STRLEN namelen;
     PERL_ARGS_ASSERT_PAD_ADD_NAME_SV;
     namepv = SvPVutf8(name, namelen);
-    return pad_add_name_pvn(namepv, namelen, flags, typestash, ourstash);
+    return pad_add_symbol_pvn (*namepv, namepv + 1, namelen - 1, flags, typestash, ourstash);
 }
 
 /*
