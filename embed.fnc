@@ -2501,6 +2501,10 @@ Adp	|PADOFFSET|pad_findmy_pvn					\
 				|U32 flags
 Adp	|PADOFFSET|pad_findmy_sv|NN SV *name				\
 				|U32 flags
+Adp	|PADOFFSET|pad_find_my_symbol_pv				\
+				|perl_symbol_table_id find_symbol_table \
+				|NN const char *name			\
+				|U32 flags
 Adp	|PADOFFSET|pad_find_my_symbol_pvn				\
 				|perl_symbol_table_id find_symbol_table \
 				|NN const char *namepv			\

@@ -1035,15 +1035,18 @@ C<flags> is reserved and must be zero.
 
 =for apidoc Amnh||NOT_IN_PAD
 
-=for apidoc pad_find_my_symbol_pvn
+=for apidoc pad_find_my_symbol_pv
+=for apidoc_item pad_find_my_symbol_pvn
 
-Similar to C<pad_findmy_pvn> but with explicit symbol table parameter.
+Similar to C<pad_findmy_pv> but with explicit symbol table parameter.
 
 Difference:
 
-    pad_findmy_pvn ("$self", 5, 0);
+    pad_findmy_pv ("$self", 0);
+    pad_find_my_symbol_pv (Perl_Symbol_Scalar, "self", 0);
 
-    pad_find_my_symbol_pvn (Perl_Symbol_Scalar, "self", 5);
+    pad_findmy_pvn ("$self", 5, 0);
+    pad_find_my_symbol_pvn (Perl_Symbol_Scalar, "self", 5, 0);
 
 =cut
 */
@@ -1116,6 +1119,18 @@ Perl_pad_findmy_pv(pTHX_ const char *name, U32 flags)
 {
     PERL_ARGS_ASSERT_PAD_FINDMY_PV;
     return pad_find_my_symbol_pvn (*name, name + 1, strlen(name) - 1, flags);
+}
+
+PADOFFSET
+Perl_pad_find_my_symbol_pv(
+    pTHX_
+    perl_symbol_table_id find_symbol_table,
+    const char *         name,
+    U32                  flags
+)
+{
+    PERL_ARGS_ASSERT_PAD_FIND_MY_SYMBOL_PV;
+    return pad_find_my_symbol_pvn (find_symbol_table, name, strlen (name), flags);
 }
 
 PADOFFSET
