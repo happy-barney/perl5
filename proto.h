@@ -3413,6 +3413,12 @@ Perl_pad_add_name_sv(pTHX_ SV *name, U32 flags, HV *typestash, HV *ourstash);
         assert(name); assert(!typestash || SvTYPE(typestash) == SVt_PVHV); \
         assert(!ourstash || SvTYPE(ourstash) == SVt_PVHV)
 
+PERL_CALLCONV PADOFFSET
+Perl_pad_add_symbol_pvn(pTHX_ perl_symbol_table_id symbol_table, const char *namepv, STRLEN namelen, U32 flags, HV *typestash, HV *ourstash);
+#define PERL_ARGS_ASSERT_PAD_ADD_SYMBOL_PVN     \
+        assert(namepv); assert(!typestash || SvTYPE(typestash) == SVt_PVHV); \
+        assert(!ourstash || SvTYPE(ourstash) == SVt_PVHV)
+
 PERL_CALLCONV void
 Perl_pad_add_weakref(pTHX_ CV *func)
         __attribute__visibility__("hidden");

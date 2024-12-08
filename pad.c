@@ -586,6 +586,7 @@ S_pad_alloc_name(pTHX_ PADNAME *name, U32 flags, HV *typestash,
 =for apidoc      pad_add_name_pv
 =for apidoc_item pad_add_name_pvn
 =for apidoc_item pad_add_name_sv
+=for apidoc_item pad_add_symbol_pvn
 
 These each allocate a place in the currently-compiling pad for a named lexical
 variable.  They store the name and other metadata in the name part of the
@@ -616,6 +617,8 @@ In C<pad_add_name_pvn>, C<namelen> gives the length of the input name in bytes,
 which means it may contain embedded NUL characters.  Again, it must be encoded
 in UTF-8.
 
+C<pad_add_symbol_*> uses separated symbol table and symbol name arguments.
+
 =cut
 */
 
@@ -623,16 +626,32 @@ PADOFFSET
 Perl_pad_add_name_pvn(pTHX_ const char *namepv, STRLEN namelen,
                 U32 flags, HV *typestash, HV *ourstash)
 {
+    PERL_ARGS_ASSERT_PAD_ADD_NAME_PVN;
+
+    return pad_add_symbol_pvn (*namepv, namepv + 1, namelen - 1, flags, typestash, ourstash);
+}
+
+PADOFFSET
+Perl_pad_add_symbol_pvn(
+    pTHX_
+    perl_symbol_table_id symbol_table,
+    const char *namepv,
+    STRLEN namelen,
+    U32 flags,
+    HV *typestash,
+    HV *ourstash
+)
+{
     PADOFFSET offset;
     PADNAME *name;
 
-    PERL_ARGS_ASSERT_PAD_ADD_NAME_PVN;
+    PERL_ARGS_ASSERT_PAD_ADD_SYMBOL_PVN;
 
     if (flags & ~(padadd_OUR|padadd_STATE|padadd_NO_DUP_CHECK|padadd_FIELD))
         Perl_croak(aTHX_ "panic: pad_add_name_pvn illegal flag bits 0x%" UVxf,
                    (UV)flags);
 
-    name = new_padname_symbol_pvn (*namepv, namepv + 1, namelen - 1);
+    name = new_padname_symbol_pvn (symbol_table, namepv, namelen);
 
     if ((flags & (padadd_NO_DUP_CHECK)) == 0) {
         ENTER;
@@ -656,7 +675,7 @@ Perl_pad_add_name_pvn(pTHX_ const char *namepv, STRLEN namelen,
     assert(SvTYPE(PL_curpad[offset]) == SVt_NULL);
     assert(SvREFCNT(PL_curpad[offset]) == 1);
     if (namelen != 0) {
-        switch (*namepv) {
+        switch (symbol_table) {
             case Perl_Symbol_Table_Array:
                 sv_upgrade(PL_curpad[offset], SVt_PVAV);
                 break;

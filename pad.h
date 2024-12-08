@@ -141,7 +141,7 @@ typedef enum {
         padtidy_FORMAT		/* or a format */
 } padtidy_type;
 
-/* flags for pad_add_name_pvn. */
+/* flags for pad_add_name_pvn / pad_add_symbol_pvn. */
 
 #define padadd_OUR		0x01	   /* our declaration. */
 #define padadd_STATE		0x02	   /* state declaration. */
