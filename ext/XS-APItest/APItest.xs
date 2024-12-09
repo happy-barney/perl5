@@ -1195,9 +1195,15 @@ static OP *THX_parse_keyword_subsignature(pTHX)
             case OP_ARGELEM: {
                 PADOFFSET padix = kid->op_targ;
                 PADNAMELIST *names = PadlistNAMES(CvPADLIST(find_runcv(0)));
-                char *namepv = PadnamePV(padnamelist_fetch(names, padix));
+                PADNAME *pv = padnamelist_fetch(names, padix);
                 retop = op_append_list(OP_LIST, retop, newSVOP(OP_CONST, 0,
-                    newSVpvf(kid->op_flags & OPf_KIDS ? "argelem:%s:d" : "argelem:%s", namepv)));
+                    newSVpvf(
+                        kid->op_flags & OPf_KIDS
+                        ? "argelem:" Padname_Symbol_Printf_Format ":d"
+                        : "argelem:" Padname_Symbol_Printf_Format
+                        ,
+                        Padname_Symbol_Printf_Params (pv)
+                    )));
                 break;
             }
             default:

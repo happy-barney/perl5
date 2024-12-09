@@ -358,6 +358,14 @@ Extract symbol table identifier from valid symbol (see L</Padname_Is_Symbol>).
     Padname_Symbol_Table ("$self") == Perl_Symbol_Table_Scalar
 
 
+=for apidoc Am|const char *|Padname_Symbol_Printf_Format
+C<printf> format (as literal string) to output symbol name with its sigil
+
+
+=for apidoc Amu|args|Padname_Symbol_Printf_Params|PADNAME * pn
+C<printf> arguments required by L</Padname_Symbol_Printf_Format>
+
+
 =for apidoc      Am|const char const *|Padname_Symbol_Table_Title_lc|PADNAME * pn
 =for apidoc_item  m|const char const *|Padname_Symbol_Table_Title_ucfirst|PADNAME * pn
 
@@ -443,6 +451,13 @@ enum Perl_Symbol_Table {
 
 #define Padname_Symbol_Name_Length(Pn)                                  \
     ((STRLEN) ((PadnamePV (Pn)) ? (PadnameLEN (Pn) - 1) : 0))
+
+#define Padname_Symbol_Printf_Format                                    \
+    "%.*s"
+
+#define Padname_Symbol_Printf_Params(Pn)                                \
+    (int) PadnameLEN (Pn),                                              \
+    PadnamePV (Pn)
 
 #define Padname_Symbol_Table(Pn)                                        \
     (PadnamePV (Pn)[0])

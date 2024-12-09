@@ -663,8 +663,8 @@ Perl_pad_add_name_pvn(pTHX_ const char *namepv, STRLEN namelen,
         sv_upgrade(PL_curpad[offset], SVt_PVCV);
     assert(SvPADMY(PL_curpad[offset]));
     DEBUG_Xv(PerlIO_printf(Perl_debug_log,
-                           "Pad addname: %ld \"%s\" new lex=0x%" UVxf "\n",
-                           (long)offset, PadnamePV(name),
+                           "Pad addname: %ld \"" Padname_Symbol_Printf_Format "\" new lex=0x%" UVxf "\n",
+                           (long)offset, Padname_Symbol_Printf_Params (name),
                            PTR2UV(PL_curpad[offset])));
 
     return offset;
@@ -1323,10 +1323,9 @@ S_pad_findlex(pTHX_ const char *namepv, STRLEN namelen, U32 flags, const CV* cv,
                               );
 
         DEBUG_Xv(PerlIO_printf(Perl_debug_log,
-                               "Pad addname: %ld \"%.*s\" FAKE\n",
+                               "Pad addname: %ld \"" Padname_Symbol_Printf_Format "\" FAKE\n",
                                (long)new_offset,
-                               (int) PadnameLEN(new_name),
-                               PadnamePV(new_name)));
+                               Padname_Symbol_Printf_Params (new_name)));
         PARENT_FAKELEX_FLAGS_set(new_name, *out_flags);
 
         PARENT_PAD_INDEX_set(new_name, 0);
@@ -1477,8 +1476,8 @@ Perl_intro_my(pTHX)
             COP_SEQ_RANGE_HIGH_set(sv, PERL_PADSEQ_INTRO); /* Don't know scope end yet. */
             COP_SEQ_RANGE_LOW_set(sv, PL_cop_seqmax);
             DEBUG_Xv(PerlIO_printf(Perl_debug_log,
-                "Pad intromy: %ld \"%s\", (%lu,%lu)\n",
-                (long)i, PadnamePV(sv),
+                "Pad intromy: %ld \"" Padname_Symbol_Printf_Format "\", (%lu,%lu)\n",
+                (long)i, Padname_Symbol_Printf_Params(sv),
                 (unsigned long)COP_SEQ_RANGE_LOW(sv),
                 (unsigned long)COP_SEQ_RANGE_HIGH(sv))
             );
@@ -1530,8 +1529,8 @@ Perl_pad_leavemy(pTHX)
         {
             COP_SEQ_RANGE_HIGH_set(sv, PL_cop_seqmax);
             DEBUG_Xv(PerlIO_printf(Perl_debug_log,
-                "Pad leavemy: %ld \"%s\", (%lu,%lu)\n",
-                (long)off, PadnamePV(sv),
+                "Pad leavemy: %ld \"" Padname_Symbol_Printf_Format "\", (%lu,%lu)\n",
+                (long)off, Padname_Symbol_Printf_Params (sv),
                 (unsigned long)COP_SEQ_RANGE_LOW(sv),
                 (unsigned long)COP_SEQ_RANGE_HIGH(sv))
             );
@@ -1831,24 +1830,24 @@ Perl_do_dump_pad(pTHX_ I32 level, PerlIO *file, PADLIST *padlist, int full)
         if (namesv) {
             if (PadnameOUTER(namesv))
                 Perl_dump_indent(aTHX_ level+1, file,
-                    "%2d. 0x%" UVxf "<%lu> FAKE \"%s\" flags=0x%lx index=%lu\n",
+                    "%2d. 0x%" UVxf "<%lu> FAKE \"" Padname_Symbol_Printf_Format "\" flags=0x%lx index=%lu\n",
                     (int) ix,
                     PTR2UV(ppad[ix]),
                     (unsigned long) (ppad[ix] ? SvREFCNT(ppad[ix]) : 0),
-                    PadnamePV(namesv),
+                    Padname_Symbol_Printf_Params (namesv),
                     (unsigned long)PARENT_FAKELEX_FLAGS(namesv),
                     (unsigned long)PARENT_PAD_INDEX(namesv)
 
                 );
             else
                 Perl_dump_indent(aTHX_ level+1, file,
-                    "%2d. 0x%" UVxf "<%lu> (%lu,%lu) \"%s\"\n",
+                    "%2d. 0x%" UVxf "<%lu> (%lu,%lu) \"" Padname_Symbol_Printf_Format "\"\n",
                     (int) ix,
                     PTR2UV(ppad[ix]),
                     (unsigned long) (ppad[ix] ? SvREFCNT(ppad[ix]) : 0),
                     (unsigned long)COP_SEQ_RANGE_LOW(namesv),
                     (unsigned long)COP_SEQ_RANGE_HIGH(namesv),
-                    PadnamePV(namesv)
+                    Padname_Symbol_Printf_Params (namesv)
                 );
         }
         else if (full) {
