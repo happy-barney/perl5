@@ -2796,19 +2796,43 @@ Perl_newPADNAMEpvn(const char *s, STRLEN len)
     char *alloc2; /* for Newxz */
     PADNAME *pn;
     PERL_ARGS_ASSERT_NEWPADNAMEPVN;
+
+    if (len > 0)
+        return new_padname_symbol_pvn (*s, s + 1, len - 1);
+
+    /* when called from padname_dup 'len' can be zero (-Dusethreads) */
+
     Newxz(alloc2,
-          STRUCT_OFFSET(struct padname_with_str, xpadn_str[0]) + len + 1,
+          STRUCT_OFFSET(struct padname_with_str, xpadn_str[0]) + 1,
           char);
     alloc = (struct padname_with_str *)alloc2;
     pn = (PADNAME *)alloc;
     PadnameREFCNT(pn) = 1;
     PadnamePV(pn) = alloc->xpadn_str;
-    Copy(s, PadnamePV(pn), len, char);
-    *(PadnamePV(pn) + len) = '\0';
+    *(PadnamePV(pn)) = '\0';
     PadnameLEN(pn) = len;
     return pn;
 }
 
+/*
+=for apidoc new_padname_symbol_pvn
+
+    // allocate padname for "$foo"
+    PADNAME *name = new_padname_symbol (Perl_Symbol_Table_Scalar, "foo", 3);
+
+Constructs a new pad name.  C<name> must be a UTF-8 string.  Do not
+use this for pad names that point to outer lexicals.  See
+C<L</newPADNAMEouter>>.
+
+=cut
+*/
+
+PADNAME *
+Perl_new_padname_symbol_pvn(
+    perl_symbol_table_id symbol_table,
+    const char *         name,
+    STRLEN               name_len
+)
 /*
 =for apidoc newPADNAMEouter
 
@@ -2821,6 +2845,27 @@ C<PADNAMEf_OUTER> flag already set.
 
 =cut
 */
+
+{
+    struct padname_with_str *alloc;
+    char *alloc2; /* for Newxz */
+    PADNAME *pn;
+    STRLEN len = name_len + sizeof (symbol_table);
+    PERL_ARGS_ASSERT_NEW_PADNAME_SYMBOL_PVN;
+
+    Newxz(alloc2,
+          STRUCT_OFFSET(struct padname_with_str, xpadn_str[0]) + len + 1,
+          char);
+    alloc = (struct padname_with_str *)alloc2;
+    pn = (PADNAME *)alloc;
+    PadnameREFCNT(pn) = 1;
+    PadnamePV(pn) = alloc->xpadn_str;
+    Padname_Symbol_Table (pn) = symbol_table;
+    Copy(name, Padname_Symbol_Name (pn), name_len, char);
+    *(PadnamePV(pn) + len) = '\0';
+    PadnameLEN(pn) = len;
+    return pn;
+}
 
 PADNAME *
 Perl_newPADNAMEouter(PADNAME *outer)

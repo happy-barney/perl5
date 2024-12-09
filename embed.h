@@ -479,6 +479,7 @@
 # define newWHILEOP(a,b,c,d,e,f,g)              Perl_newWHILEOP(aTHX_ a,b,c,d,e,f,g)
 # define newXS(a,b,c)                           Perl_newXS(aTHX_ a,b,c)
 # define newXS_flags(a,b,c,d,e)                 Perl_newXS_flags(aTHX_ a,b,c,d,e)
+# define new_padname_symbol_pvn                 Perl_new_padname_symbol_pvn
 # define new_stackinfo(a,b)                     Perl_new_stackinfo(aTHX_ a,b)
 # define new_stackinfo_flags(a,b,c)             Perl_new_stackinfo_flags(aTHX_ a,b,c)
 # define new_version(a)                         Perl_new_version(aTHX_ a)

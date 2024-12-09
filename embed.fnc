@@ -2257,6 +2257,10 @@ ARTdpx	|PADNAME *|newPADNAMEouter					\
 				|NN PADNAME *outer
 ARTdpx	|PADNAME *|newPADNAMEpvn|NN const char *s			\
 				|STRLEN len
+ARTdpx	|PADNAME *|new_padname_symbol_pvn				\
+				|perl_symbol_table_id symbol_table	\
+				|NN const char *name			\
+				|STRLEN name_len
 ARdip	|OP *	|newPADxVOP	|I32 type				\
 				|I32 flags				\
 				|PADOFFSET padix

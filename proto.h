@@ -3193,6 +3193,12 @@ Perl_newXS_len_flags(pTHX_ const char *name, STRLEN len, XSUBADDR_t subaddr, con
 #define PERL_ARGS_ASSERT_NEWXS_LEN_FLAGS        \
         assert(subaddr)
 
+PERL_CALLCONV PADNAME *
+Perl_new_padname_symbol_pvn(perl_symbol_table_id symbol_table, const char *name, STRLEN name_len)
+        __attribute__warn_unused_result__;
+#define PERL_ARGS_ASSERT_NEW_PADNAME_SYMBOL_PVN \
+        assert(name)
+
 PERL_CALLCONV PERL_SI *
 Perl_new_stackinfo(pTHX_ I32 stitems, I32 cxitems)
         __attribute__warn_unused_result__;
