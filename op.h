@@ -702,8 +702,12 @@ least an C<UNOP>.
 #include "reentr.h"
 #endif
 
-#define NewOp(m,var,c,type)	\
-        (var = (type *) Perl_Slab_Alloc(aTHX_ c*sizeof(type)))
+#define NewOp(m,var,c,type)                                             \
+    NewOp_v542 (0, var, c, type)
+
+#define NewOp_v542(Var, Count, Type)                                    \
+    (Var = (Type *) Perl_Slab_Alloc (aTHX_ Count * sizeof (Type)))
+
 #define NewOpSz(m,var,size)	\
         (var = (OP *) Perl_Slab_Alloc(aTHX_ size))
 #define FreeOp(p) Perl_Slab_Free(aTHX_ p)
@@ -918,7 +922,7 @@ Reenable a member of the XOP which has been disabled.
 */
 
 struct custom_op {
-    U32		    xop_flags;    
+    U32		    xop_flags;
     const char	   *xop_name;
     const char	   *xop_desc;
     U32		    xop_class;

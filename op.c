@@ -1735,7 +1735,7 @@ Perl_alloc_LOGOP(pTHX_ I32 type, OP *first, OP* other)
 {
     LOGOP *logop;
     OP *kid = first;
-    NewOp(1101, logop, 1, LOGOP);
+    NewOp_v542 (logop, 1, LOGOP);
     OpTYPE_set(logop, type);
     logop->op_first = first;
     logop->op_other = other;
@@ -4395,7 +4395,7 @@ Perl_cmpchain_start(pTHX_ I32 type, OP *left, OP *right)
         right = newOP(OP_NULL, 0);
     scalar(left);
     scalar(right);
-    NewOp(0, bop, 1, BINOP);
+    NewOp_v542 (bop, 1, BINOP);
     op = (OP*)bop;
     ASSUME((PL_opargs[type] & OA_CLASS_MASK) == OA_BINOP);
     OpTYPE_set(op, type);
@@ -4418,14 +4418,14 @@ Perl_cmpchain_extend(pTHX_ I32 type, OP *ch, OP *right)
     if (!right)
         right = newOP(OP_NULL, 0);
     scalar(right);
-    NewOp(0, bop, 1, BINOP);
+    NewOp_v542 (bop, 1, BINOP);
     op = (OP*)bop;
     ASSUME((PL_opargs[type] & OA_CLASS_MASK) == OA_BINOP);
     OpTYPE_set(op, type);
     if (ch->op_type != OP_NULL) {
         UNOP *lch;
         OP *nch, *cleft, *cright;
-        NewOp(0, lch, 1, UNOP);
+        NewOp_v542 (lch, 1, UNOP);
         nch = (OP*)lch;
         OpTYPE_set(nch, OP_NULL);
         nch->op_flags = OPf_KIDS;
@@ -5716,7 +5716,7 @@ Perl_newLISTOP(pTHX_ I32 type, I32 flags, OP *first, OP *last)
     assert((PL_opargs[type] & OA_CLASS_MASK) == OA_LISTOP
         || type == OP_CUSTOM);
 
-    NewOp(1101, listop, 1, LISTOP);
+    NewOp_v542 (listop, 1, LISTOP);
     OpTYPE_set(listop, type);
     if (first || last)
         flags |= OPf_KIDS;
@@ -5809,7 +5809,7 @@ Perl_newOP(pTHX_ I32 type, I32 flags)
         || (PL_opargs[type] & OA_CLASS_MASK) == OA_FILESTATOP
         || (PL_opargs[type] & OA_CLASS_MASK) == OA_LOOPEXOP);
 
-    NewOp(1101, o, 1, OP);
+    NewOp_v542 (o, 1, OP);
     OpTYPE_set(o, type);
     o->op_flags = (U8)flags;
 
@@ -5863,7 +5863,7 @@ Perl_newUNOP(pTHX_ I32 type, I32 flags, OP *first)
     if (PL_opargs[type] & OA_MARK)
         first = op_force_list(first);
 
-    NewOp(1101, unop, 1, UNOP);
+    NewOp_v542 (unop, 1, UNOP);
     OpTYPE_set(unop, type);
     unop->op_first = first;
     unop->op_flags = (U8)(flags | OPf_KIDS);
@@ -5896,7 +5896,7 @@ Perl_newUNOP_AUX(pTHX_ I32 type, I32 flags, OP *first, UNOP_AUX_item *aux)
     assert((PL_opargs[type] & OA_CLASS_MASK) == OA_UNOP_AUX
         || type == OP_CUSTOM);
 
-    NewOp(1101, unop, 1, UNOP_AUX);
+    NewOp_v542 (unop, 1, UNOP_AUX);
     unop->op_type = (OPCODE)type;
     unop->op_ppaddr = PL_ppaddr[type];
     unop->op_first = first;
@@ -5934,7 +5934,7 @@ S_newMETHOP_internal(pTHX_ I32 type, I32 flags, OP* dynamic_meth, SV* const_meth
     assert((PL_opargs[type] & OA_CLASS_MASK) == OA_METHOP
         || type == OP_CUSTOM);
 
-    NewOp(1101, methop, 1, METHOP);
+    NewOp_v542 (methop, 1, METHOP);
     if (dynamic_meth) {
         if (PL_opargs[type] & OA_MARK) dynamic_meth = op_force_list(dynamic_meth);
         methop->op_flags = (U8)(flags | OPf_KIDS);
@@ -6031,7 +6031,7 @@ Perl_newBINOP(pTHX_ I32 type, I32 flags, OP *first, OP *last)
         return first;
     }
 
-    NewOp(1101, binop, 1, BINOP);
+    NewOp_v542 (binop, 1, BINOP);
 
     OpTYPE_set(binop, type);
     binop->op_first = first;
@@ -6074,7 +6074,7 @@ Perl_newBINOP(pTHX_ I32 type, I32 flags, OP *first, OP *last)
                                ? 2  /* Otherwise, minimum of 2 hex digits */\
                                : NUM_HEX_CHARS(num)))))))
 
-/* To make evident, Configure with `-DDEBUGGING`, build, run 
+/* To make evident, Configure with `-DDEBUGGING`, build, run
  *  `./perl -Ilib -Dy t/op/tr.t`
  */
 void
@@ -7489,7 +7489,7 @@ Perl_newPMOP(pTHX_ I32 type, I32 flags)
     assert((PL_opargs[type] & OA_CLASS_MASK) == OA_PMOP
         || type == OP_CUSTOM);
 
-    NewOp(1101, pmop, 1, PMOP);
+    NewOp_v542 (pmop, 1, PMOP);
     OpTYPE_set(pmop, type);
     pmop->op_flags = (U8)flags;
     pmop->op_private = (U8)(0 | (flags >> 8));
@@ -7980,7 +7980,7 @@ Perl_newSVOP(pTHX_ I32 type, I32 flags, SV *sv)
         || type == OP_RUNCV
         || type == OP_CUSTOM);
 
-    NewOp(1101, svop, 1, SVOP);
+    NewOp_v542 (svop, 1, SVOP);
     OpTYPE_set(svop, type);
     svop->op_sv = sv;
     svop->op_next = (OP*)svop;
@@ -8035,7 +8035,7 @@ Perl_newPADOP(pTHX_ I32 type, I32 flags, SV *sv)
         || (PL_opargs[type] & OA_CLASS_MASK) == OA_FILESTATOP
         || type == OP_CUSTOM);
 
-    NewOp(1101, padop, 1, PADOP);
+    NewOp_v542 (padop, 1, PADOP);
     OpTYPE_set(padop, type);
     padop->op_padix =
         pad_alloc(type, isGV(sv) ? SVf_READONLY : SVs_PADTMP);
@@ -8102,7 +8102,7 @@ Perl_newPVOP(pTHX_ I32 type, I32 flags, char *pv)
         || type == OP_CUSTOM
         || (PL_opargs[type] & OA_CLASS_MASK) == OA_LOOPEXOP);
 
-    NewOp(1101, pvop, 1, PVOP);
+    NewOp_v542 (pvop, 1, PVOP);
     OpTYPE_set(pvop, type);
     pvop->op_pv = pv;
     pvop->op_next = (OP*)pvop;
@@ -8903,7 +8903,7 @@ Perl_newSTATEOP(pTHX_ I32 flags, char *label, OP *o)
 
     flags &= ~SVf_UTF8;
 
-    NewOp(1101, cop, 1, COP);
+    NewOp_v542 (cop, 1, COP);
     if (PERLDB_LINE && CopLINE(PL_curcop) && PL_curstash != PL_debstash) {
         OpTYPE_set(cop, OP_DBSTATE);
     }
@@ -9617,7 +9617,7 @@ Perl_newWHILEOP(pTHX_ I32 flags, I32 debuggable, LOOP *loop,
         o = listop;
 
     if (!loop) {
-        NewOp(1101,loop,1,LOOP);
+        NewOp_v542 (loop,1,LOOP);
         OpTYPE_set(loop, OP_ENTERLOOP);
         loop->op_private = 0;
         loop->op_next = (OP*)loop;
@@ -9931,7 +9931,7 @@ Perl_newFOROP(pTHX_ I32 flags, OP *sv, OP *expr, OP *block, OP *cont)
     {
         /* no space; allocate new op */
         LOOP *tmp;
-        NewOp(1234,tmp,1,LOOP);
+        NewOp_v542 (tmp,1,LOOP);
         Copy(loop,tmp,1,LISTOP);
         assert(loop->op_last->op_sibparent == (OP*)loop);
         OpLASTSIB_set(loop->op_last, (OP*)tmp); /*point back to new parent */

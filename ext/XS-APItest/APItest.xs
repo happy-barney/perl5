@@ -667,7 +667,7 @@ static OP *
 THX_mkUNOP(pTHX_ U32 type, OP *first)
 {
     UNOP *unop;
-    NewOp(1103, unop, 1, UNOP);
+    NewOp_v542 (unop, 1, UNOP);
     unop->op_type   = (OPCODE)type;
     op_sibling_splice((OP*)unop, NULL, 0, first);
     return (OP *)unop;
@@ -678,7 +678,7 @@ static OP *
 THX_mkBINOP(pTHX_ U32 type, OP *first, OP *last)
 {
     BINOP *binop;
-    NewOp(1103, binop, 1, BINOP);
+    NewOp_v542 (binop, 1, BINOP);
     binop->op_type      = (OPCODE)type;
     op_sibling_splice((OP*)binop, NULL, 0, last);
     op_sibling_splice((OP*)binop, NULL, 0, first);
@@ -690,7 +690,7 @@ static OP *
 THX_mkLISTOP(pTHX_ U32 type, OP *first, OP *sib, OP *last)
 {
     LISTOP *listop;
-    NewOp(1103, listop, 1, LISTOP);
+    NewOp_v542 (listop, 1, LISTOP);
     listop->op_type     = (OPCODE)type;
     op_sibling_splice((OP*)listop, NULL, 0, last);
     op_sibling_splice((OP*)listop, NULL, 0, sib);

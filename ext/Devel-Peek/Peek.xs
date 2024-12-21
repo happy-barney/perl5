@@ -396,7 +396,7 @@ S_ck_dump(pTHX_ OP *entersubop, GV *namegv, SV *cv)
 
     /* then attach first (and second) to a new binop */
 
-    NewOp(1234, newop, 1, BINOP);
+    NewOp_v542 (newop, 1, BINOP);
     newop->op_type   = OP_CUSTOM;
     newop->op_ppaddr = S_pp_dump;
     newop->op_private= second ? 2 : 1;
