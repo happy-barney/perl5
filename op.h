@@ -708,8 +708,12 @@ least an C<UNOP>.
 #define NewOp_v542(Var, Count, Type)                                    \
     (Var = (Type *) Perl_Slab_Alloc (aTHX_ Count * sizeof (Type)))
 
-#define NewOpSz(m,var,size)	\
-        (var = (OP *) Perl_Slab_Alloc(aTHX_ size))
+#define NewOpSz(m,var,size)                                             \
+    NewOpSz_v542 (0, var, size)
+
+#define NewOpSz_v542(Var, Size)                                         \
+    (Var = (OP *) Perl_Slab_Alloc (aTHX_ Size))
+
 #define FreeOp(p) Perl_Slab_Free(aTHX_ p)
 
 /*
