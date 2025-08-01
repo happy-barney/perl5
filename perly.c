@@ -97,9 +97,9 @@ do {						\
 #  define YYDSYMPRINTF(Title, Token, Value)			\
 do {								\
     if (yydebug) {						\
-        YYFPRINTF (Perl_debug_log, "%s ", Title);		\
-        yysymprint (aTHX_ Perl_debug_log,  Token, Value);	\
-        YYFPRINTF (Perl_debug_log, "\n");			\
+        YYFPRINTF (stderr, "%s ", Title);		\
+        yysymprint (aTHX_ stderr,  Token, Value);	\
+        YYFPRINTF (stderr, "\n");			\
     }								\
 } while (0)
 
@@ -139,36 +139,36 @@ yy_stack_print (pTHX_ const yy_parser *parser)
     if (min <= parser->stack)
         min = parser->stack + 1;
 
-    YYFPRINTF(Perl_debug_log, "\nindex:");
+    YYFPRINTF(stderr, "\nindex:");
     for (ps = min; ps <= parser->ps; ps++)
-        YYFPRINTF(Perl_debug_log, " %8d", (int)(ps - parser->stack));
+        YYFPRINTF(stderr, " %8d", (int)(ps - parser->stack));
 
-    YYFPRINTF(Perl_debug_log, "\nstate:");
+    YYFPRINTF(stderr, "\nstate:");
     for (ps = min; ps <= parser->ps; ps++)
-        YYFPRINTF(Perl_debug_log, " %8d", ps->state);
+        YYFPRINTF(stderr, " %8d", ps->state);
 
-    YYFPRINTF(Perl_debug_log, "\ntoken:");
+    YYFPRINTF(stderr, "\ntoken:");
     for (ps = min; ps <= parser->ps; ps++)
-        YYFPRINTF(Perl_debug_log, " %8.8s", ps->name);
+        YYFPRINTF(stderr, " %8.8s", ps->name);
 
-    YYFPRINTF(Perl_debug_log, "\nvalue:");
+    YYFPRINTF(stderr, "\nvalue:");
     for (ps = min; ps <= parser->ps; ps++) {
         switch (yy_type_tab[yystos[ps->state]]) {
         case toketype_opval:
-            YYFPRINTF(Perl_debug_log, " %8.8s",
+            YYFPRINTF(stderr, " %8.8s",
                   ps->val.opval
                     ? PL_op_name[ps->val.opval->op_type]
                     : "(Nullop)"
             );
             break;
         case toketype_ival:
-            YYFPRINTF(Perl_debug_log, " %8" IVdf, (IV)ps->val.ival);
+            YYFPRINTF(stderr, " %8" IVdf, (IV)ps->val.ival);
             break;
         default:
-            YYFPRINTF(Perl_debug_log, " %8" UVxf, (UV)ps->val.ival);
+            YYFPRINTF(stderr, " %8" UVxf, (UV)ps->val.ival);
         }
     }
-    YYFPRINTF(Perl_debug_log, "\n\n");
+    YYFPRINTF(stderr, "\n\n");
 }
 
 #  define YY_STACK_PRINT(parser)	\
@@ -187,18 +187,18 @@ yy_reduce_print (pTHX_ int yyrule)
 {
     int yyi;
     const unsigned int yylineno = yyrline[yyrule];
-    YYFPRINTF (Perl_debug_log, "Reducing stack by rule %d (line %u), ",
+    YYFPRINTF (stderr, "Reducing stack by rule %d (line %u), ",
                           yyrule - 1, yylineno);
     /* Print the symbols being reduced, and their result.  */
 #if PERL_BISON_VERSION >= 30000 /* 3.0+ */
     for (yyi = 0; yyi < yyr2[yyrule]; yyi++)
-        YYFPRINTF (Perl_debug_log, "%s ",
+        YYFPRINTF (stderr, "%s ",
             yytname [yystos[(PL_parser->ps)[yyi + 1 - yyr2[yyrule]].state]]);
 #else
     for (yyi = yyprhs[yyrule]; 0 <= yyrhs[yyi]; yyi++)
-        YYFPRINTF (Perl_debug_log, "%s ", yytname [yyrhs[yyi]]);
+        YYFPRINTF (stderr, "%s ", yytname [yyrhs[yyi]]);
 #endif
-    YYFPRINTF (Perl_debug_log, "-> %s\n", yytname [yyr1[yyrule]]);
+    YYFPRINTF (stderr, "-> %s\n", yytname [yyr1[yyrule]]);
 }
 
 #  define YY_REDUCE_PRINT(Rule)		\
@@ -229,7 +229,7 @@ S_clear_yystack(pTHX_ void *arg)
     if (!parser->stack)
         return;
 
-    YYDPRINTF ((Perl_debug_log, "clearing the parse stack\n"));
+    YYDPRINTF ((stderr, "clearing the parse stack\n"));
 
     for (i=0; i< parser->yylen; i++) {
         SvREFCNT_dec(ps[-i].compcv);
@@ -248,7 +248,7 @@ S_clear_yystack(pTHX_ void *arg)
                 PAD_SET_CUR_NOSAVE(CvPADLIST(PL_compcv), 1);
                 PL_comppad_name = PadlistNAMES(CvPADLIST(PL_compcv));
             }
-            YYDPRINTF ((Perl_debug_log, "(freeing op)\n"));
+            YYDPRINTF ((stderr, "(freeing op)\n"));
             op_free(ps->val.opval);
         }
         SvREFCNT_dec(ps->compcv);
@@ -283,7 +283,7 @@ Perl_yyparse (pTHX_ int gramtype)
           action routines: ie $$.  */
     YYSTYPE yyval;
 
-    YYDPRINTF ((Perl_debug_log, "Starting parse\n"));
+    YYDPRINTF ((stderr, "Starting parse\n"));
 
     parser = PL_parser;
 
@@ -316,7 +316,7 @@ Perl_yyparse (pTHX_ int gramtype)
 
             yystate = ps->state;
 
-            YYDPRINTF ((Perl_debug_log, "Entering state %d\n", yystate));
+            YYDPRINTF ((stderr, "Entering state %d\n", yystate));
 
             parser->yylen = 0;
 
@@ -333,7 +333,7 @@ Perl_yyparse (pTHX_ int gramtype)
                 ps = parser->ps = parser->stack + pos;
                 parser->stack_max1 = parser->stack + newsize - 1;
 
-                YYDPRINTF((Perl_debug_log,
+                YYDPRINTF((stderr,
                                 "parser stack size increased to %lu frames\n",
                                 (unsigned long int)newsize));
             }
@@ -354,11 +354,11 @@ Perl_yyparse (pTHX_ int gramtype)
              * lookahead symbol. */
 
             if (parser->yychar == YYEMPTY) {
-                YYDPRINTF ((Perl_debug_log, "Reading a token:\n"));
+                YYDPRINTF ((stderr, "Reading a token:\n"));
                 parser->yychar = yylex();
                 assert(parser->yychar >= 0);
                 if (parser->yychar == YYEOF) {
-                    YYDPRINTF ((Perl_debug_log, "Now at end of input.\n"));
+                    YYDPRINTF ((stderr, "Now at end of input.\n"));
                 }
                 /* perly.tab is shipped based on an ASCII system, so need
                  * to index it with characters translated to ASCII.
@@ -404,7 +404,7 @@ Perl_yyparse (pTHX_ int gramtype)
                 YYACCEPT;
 
             /* Shift the lookahead token.  */
-            YYDPRINTF ((Perl_debug_log, "Shifting token %s, ", yytname[yytoken]));
+            YYDPRINTF ((stderr, "Shifting token %s, ", yytname[yytoken]));
 
             /* Discard the token being shifted unless it is eof.  */
             if (parser->yychar != YYEOF)
@@ -510,7 +510,7 @@ Perl_yyparse (pTHX_ int gramtype)
                     if (yy_type_tab[yystos[ps->state]] == toketype_opval
                             && ps->val.opval)
                     {
-                        YYDPRINTF ((Perl_debug_log, "(freeing op)\n"));
+                        YYDPRINTF ((stderr, "(freeing op)\n"));
                         if (ps->compcv != PL_compcv) {
                             PL_compcv = ps->compcv;
                             PAD_SET_CUR_NOSAVE(CvPADLIST(PL_compcv), 1);
@@ -557,7 +557,7 @@ Perl_yyparse (pTHX_ int gramtype)
             YYDSYMPRINTF ("Error: popping", yystos[ps->state], &ps->val);
             LEAVE_SCOPE(ps->savestack_ix);
             if (yy_type_tab[yystos[ps->state]] == toketype_opval && ps->val.opval) {
-                YYDPRINTF ((Perl_debug_log, "(freeing op)\n"));
+                YYDPRINTF ((stderr, "(freeing op)\n"));
                 if (ps->compcv != PL_compcv) {
                     PL_compcv = ps->compcv;
                     PAD_SET_CUR_NOSAVE(CvPADLIST(PL_compcv), 1);
@@ -574,7 +574,7 @@ Perl_yyparse (pTHX_ int gramtype)
         if (yyn == YYFINAL)
             YYACCEPT;
 
-        YYDPRINTF ((Perl_debug_log, "Shifting error token, "));
+        YYDPRINTF ((stderr, "Shifting error token, "));
 
         YYPUSHSTACK;
         ps->state   = yyn;
