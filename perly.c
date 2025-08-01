@@ -141,36 +141,36 @@ yy_stack_print (pTHX_ const yy_parser *parser)
     if (min <= parser->stack)
         min = parser->stack + 1;
 
-    PerlIO_printf(Perl_debug_log, "\nindex:");
+    YYFPRINTF(Perl_debug_log, "\nindex:");
     for (ps = min; ps <= parser->ps; ps++)
-        PerlIO_printf(Perl_debug_log, " %8d", (int)(ps - parser->stack));
+        YYFPRINTF(Perl_debug_log, " %8d", (int)(ps - parser->stack));
 
-    PerlIO_printf(Perl_debug_log, "\nstate:");
+    YYFPRINTF(Perl_debug_log, "\nstate:");
     for (ps = min; ps <= parser->ps; ps++)
-        PerlIO_printf(Perl_debug_log, " %8d", ps->state);
+        YYFPRINTF(Perl_debug_log, " %8d", ps->state);
 
-    PerlIO_printf(Perl_debug_log, "\ntoken:");
+    YYFPRINTF(Perl_debug_log, "\ntoken:");
     for (ps = min; ps <= parser->ps; ps++)
-        PerlIO_printf(Perl_debug_log, " %8.8s", ps->name);
+        YYFPRINTF(Perl_debug_log, " %8.8s", ps->name);
 
-    PerlIO_printf(Perl_debug_log, "\nvalue:");
+    YYFPRINTF(Perl_debug_log, "\nvalue:");
     for (ps = min; ps <= parser->ps; ps++) {
         switch (yy_type_tab[yystos[ps->state]]) {
         case toketype_opval:
-            PerlIO_printf(Perl_debug_log, " %8.8s",
+            YYFPRINTF(Perl_debug_log, " %8.8s",
                   ps->val.opval
                     ? PL_op_name[ps->val.opval->op_type]
                     : "(Nullop)"
             );
             break;
         case toketype_ival:
-            PerlIO_printf(Perl_debug_log, " %8" IVdf, (IV)ps->val.ival);
+            YYFPRINTF(Perl_debug_log, " %8" IVdf, (IV)ps->val.ival);
             break;
         default:
-            PerlIO_printf(Perl_debug_log, " %8" UVxf, (UV)ps->val.ival);
+            YYFPRINTF(Perl_debug_log, " %8" UVxf, (UV)ps->val.ival);
         }
     }
-    PerlIO_printf(Perl_debug_log, "\n\n");
+    YYFPRINTF(Perl_debug_log, "\n\n");
 }
 
 #  define YY_STACK_PRINT(parser)	\
