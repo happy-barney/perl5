@@ -863,11 +863,11 @@ sigslurpelem: sigslurpsigil sigvar
                         }
         |     sigslurpsigil sigvar ASSIGNOP
                         {
-			    yyerror("A slurpy parameter may not have a default value");
+			    $$ = NULL; yyerror("A slurpy parameter may not have a default value");
                         }
         |     sigslurpsigil sigvar ASSIGNOP term
                         {
-			    yyerror("A slurpy parameter may not have a default value");
+			    $$ = NULL; yyerror("A slurpy parameter may not have a default value");
                         }
         ;
 
@@ -903,7 +903,7 @@ sigelem:        sigscalarelem
  * their side-effect on the parser structures. */
 siglist:
 	 	siglist[list] PERLY_COMMA
-	|	siglist[list] PERLY_COMMA sigelem[element]
+	|	siglist[list] PERLY_COMMA sigelem[element] { $$ = NULL; }
         |	sigelem[element]  %prec PREC_LOW
 	;
 
@@ -1206,9 +1206,9 @@ termrelop:	relopchain %prec PREC_LOW
 	|	term[lhs] NCRELOP term[rhs]
 			{ $$ = newBINOP($NCRELOP, 0, scalar($lhs), scalar($rhs)); }
 	|	termrelop NCRELOP
-			{ yyerror("syntax error"); YYERROR; }
+			{ $$ = NULL; yyerror("syntax error"); YYERROR; }
 	|	termrelop CHRELOP
-			{ yyerror("syntax error"); YYERROR; }
+			{ $$ = NULL; yyerror("syntax error"); YYERROR; }
 	|	term[lhs] PLUGIN_REL_OP[op] term[rhs]
 			{ $$ = build_infix_plugin($lhs, $rhs, $op); }
 	;
@@ -1224,9 +1224,9 @@ termeqop:	eqopchain %prec PREC_LOW
 	|	term[lhs] NCEQOP term[rhs]
 			{ $$ = newBINOP($NCEQOP, 0, scalar($lhs), scalar($rhs)); }
 	|	termeqop NCEQOP
-			{ yyerror("syntax error"); YYERROR; }
+			{ $$ = NULL; yyerror("syntax error"); YYERROR; }
 	|	termeqop CHEQOP
-			{ yyerror("syntax error"); YYERROR; }
+			{ $$ = NULL; yyerror("syntax error"); YYERROR; }
 	;
 
 eqopchain:	term[lhs] CHEQOP term[rhs]
