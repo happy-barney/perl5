@@ -64,6 +64,13 @@
     GV *gvval;
 }
 
+/*
+*/
+%destructor {
+	YYDPRINTF ((stderr, "(freeing op)\n"));
+	op_free ($$);
+} <opval>
+
 %token <ival> GRAMPROG GRAMEXPR GRAMBLOCK GRAMBARESTMT GRAMFULLSTMT GRAMSTMTSEQ GRAMSUBSIGNATURE
 
 /* Tokens emitted by toke.c for simple punctiation characters - &, {, }, etc... */
