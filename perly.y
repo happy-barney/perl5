@@ -863,11 +863,11 @@ sigslurpelem: sigslurpsigil sigvar
                         }
         |     sigslurpsigil sigvar ASSIGNOP
                         {
-			    $$ = NULL; yyerror("A slurpy parameter may not have a default value");
+			    $$ = NULL; (void) $2; yyerror("A slurpy parameter may not have a default value");
                         }
         |     sigslurpsigil sigvar ASSIGNOP term
                         {
-			    $$ = NULL; yyerror("A slurpy parameter may not have a default value");
+			    $$ = NULL; (void) $2; (void) $4; yyerror("A slurpy parameter may not have a default value");
                         }
         ;
 
@@ -903,7 +903,7 @@ sigelem:        sigscalarelem
  * their side-effect on the parser structures. */
 siglist:
 	 	siglist[list] PERLY_COMMA
-	|	siglist[list] PERLY_COMMA sigelem[element] { $$ = NULL; }
+	|	siglist[list] PERLY_COMMA sigelem[element] { (void) $1; (void) $3; $$ = NULL; }
         |	sigelem[element]  %prec PREC_LOW
 	;
 
@@ -931,6 +931,7 @@ subsigguts:
                         }
                 optsiglist
 			{
+				(void) $2;
 			    if (!FEATURE_SIGNATURES_IS_ENABLED && !CvIsMETHOD(PL_compcv))
 			        croak("Experimental "
                                     "subroutine signatures not enabled");
@@ -1206,9 +1207,9 @@ termrelop:	relopchain %prec PREC_LOW
 	|	term[lhs] NCRELOP term[rhs]
 			{ $$ = newBINOP($NCRELOP, 0, scalar($lhs), scalar($rhs)); }
 	|	termrelop NCRELOP
-			{ $$ = NULL; yyerror("syntax error"); YYERROR; }
+			{ $$ = NULL; (void) $1; yyerror("syntax error"); YYERROR; }
 	|	termrelop CHRELOP
-			{ $$ = NULL; yyerror("syntax error"); YYERROR; }
+			{ $$ = NULL; (void) $1; yyerror("syntax error"); YYERROR; }
 	|	term[lhs] PLUGIN_REL_OP[op] term[rhs]
 			{ $$ = build_infix_plugin($lhs, $rhs, $op); }
 	;
@@ -1224,9 +1225,9 @@ termeqop:	eqopchain %prec PREC_LOW
 	|	term[lhs] NCEQOP term[rhs]
 			{ $$ = newBINOP($NCEQOP, 0, scalar($lhs), scalar($rhs)); }
 	|	termeqop NCEQOP
-			{ $$ = NULL; yyerror("syntax error"); YYERROR; }
+			{ $$ = NULL; (void) $1; yyerror("syntax error"); YYERROR; }
 	|	termeqop CHEQOP
-			{ $$ = NULL; yyerror("syntax error"); YYERROR; }
+			{ $$ = NULL; (void) $1; yyerror("syntax error"); YYERROR; }
 	;
 
 eqopchain:	term[lhs] CHEQOP term[rhs]
