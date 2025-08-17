@@ -169,6 +169,9 @@ enum {
     LEX_FAKEEOF_MAX
 };
 
+int Perl_Perly_parse (pTHX_ int gramtype);
+int Perl_Perly_lex   (pTHX);
+
 /*
  * ex: set ts=8 sts=4 sw=4 et:
  */

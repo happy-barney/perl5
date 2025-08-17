@@ -99,6 +99,7 @@ PACKAGING				notes and best practice for packaging perl 5
 packsizetables.inc			The generated packprops array used in pp_pack.c
 pad.c					Scratchpad functions
 pad.h					Scratchpad headers
+parser.c				parser helper functions
 parser.h				parser object header
 patchlevel.h				The current patch level of perl
 peep.c					The peephole optimizer and optree finalizer

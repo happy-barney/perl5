@@ -263,7 +263,7 @@ S_clear_yystack(pTHX_ void *arg)
 `----------*/
 
 int
-Perl_yyparse (pTHX_ int gramtype)
+Perl_Perly_parse (pTHX_ int gramtype)
 {
     int yystate;
     int yyn;
@@ -354,7 +354,7 @@ Perl_yyparse (pTHX_ int gramtype)
 
             if (parser->yychar == PERL_PARSER_EMPTY) {
                 YYDPRINTF ((stderr, "Reading a token:\n"));
-                parser->yychar = yylex();
+                parser->yychar = Perl_Perly_lex (aTHX);
                 assert(parser->yychar >= 0);
                 if (parser->yychar == PERL_PARSER_EOF) {
                     YYDPRINTF ((stderr, "Now at end of input.\n"));
