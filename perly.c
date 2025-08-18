@@ -76,7 +76,6 @@ typedef signed char yysigned_char;
 
 # define YYSIZE_T size_t
 
-#define YYEOF		0
 #define YYTERROR	1
 
 #define YYACCEPT	goto yyacceptlab

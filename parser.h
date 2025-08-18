@@ -9,8 +9,6 @@
  * and lexer (perly.c, toke.c).
  */
 
-#define YYEMPTY		(-2)
-
 typedef struct {
     YYSTYPE val;    /* semantic value */
     short   state;
