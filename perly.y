@@ -194,7 +194,7 @@ grammar	:	GRAMPROG
 			  PL_eval_root = $block;
 			  $$ = 0;
 			  yyunlex();
-			  parser->yychar = yytoken = YYEOF;
+			  parser->yychar = yytoken = PERL_PARSER_EOF;
 			}
 	|	GRAMBARESTMT
 			{
@@ -207,7 +207,7 @@ grammar	:	GRAMPROG
 			  PL_eval_root = $barestmt;
 			  $$ = 0;
 			  yyunlex();
-			  parser->yychar = yytoken = YYEOF;
+			  parser->yychar = yytoken = PERL_PARSER_EOF;
 			}
 	|	GRAMFULLSTMT
 			{
@@ -220,7 +220,7 @@ grammar	:	GRAMPROG
 			  PL_eval_root = $fullstmt;
 			  $$ = 0;
 			  yyunlex();
-			  parser->yychar = yytoken = YYEOF;
+			  parser->yychar = yytoken = PERL_PARSER_EOF;
 			}
 	|	GRAMSTMTSEQ
 			{
@@ -743,7 +743,7 @@ nexpr
 
 /* Boolean expression */
 texpr	:	%empty /* NULL means true */
-			{ YYSTYPE tmplval;
+			{ PERL_PARSER_STYPE tmplval;
 			  (void)scan_num("1", &tmplval);
 			  $$ = tmplval.opval; }
 	|	expr

@@ -546,7 +546,7 @@ static struct debug_tokens {
 /* dump the returned token in rv, plus any optional arg in pl_yylval */
 
 STATIC int
-S_tokereport(pTHX_ I32 rv, const YYSTYPE* lvalp)
+S_tokereport(pTHX_ I32 rv, const PERL_PARSER_STYPE* lvalp)
 {
     PERL_ARGS_ASSERT_TOKEREPORT;
 
@@ -2217,7 +2217,7 @@ void
 Perl_yyunlex(pTHX)
 {
     int yyc = PL_parser->yychar;
-    if (yyc != YYEMPTY) {
+    if (yyc != PERL_PARSER_EMPTY) {
         if (yyc) {
             NEXTVAL_NEXTTOKE = PL_parser->yylval;
             if (yyc == PERLY_BRACE_OPEN || yyc == HASHBRACK || yyc == PERLY_BRACKET_OPEN) {
@@ -2230,7 +2230,7 @@ Perl_yyunlex(pTHX)
             }
             force_next(yyc);
         }
-        PL_parser->yychar = YYEMPTY;
+        PL_parser->yychar = PERL_PARSER_EMPTY;
     }
 }
 
@@ -11923,7 +11923,7 @@ Perl_scan_str(pTHX_ char *start, int keep_bracketed_quoted, int keep_delims, int
 */
 
 char *
-Perl_scan_num(pTHX_ const char *start, YYSTYPE* lvalp)
+Perl_scan_num(pTHX_ const char *start, PERL_PARSER_STYPE* lvalp)
 {
     const char *s = start;	/* current position in buffer */
     char *d;			/* destination in temp buffer */
@@ -12948,7 +12948,7 @@ Perl_yyerror_pvn(pTHX_ const char *const s, STRLEN len, U32 flags)
         }
         else if (yychar > 255)
             sv_catpvs(where_sv, "next token ???");
-        else if (yychar == YYEMPTY) {
+        else if (yychar == PERL_PARSER_EMPTY) {
             if (PL_lex_state == LEX_NORMAL)
                 sv_catpvs(where_sv, "at end of line");
             else if (PL_lex_inpat)
@@ -13772,7 +13772,7 @@ Perl_parse_label(pTHX_ U32 flags)
         PL_parser->yychar = yylex();
         if (PL_parser->yychar == LABEL) {
             SV * const labelsv = cSVOPx(pl_yylval.opval)->op_sv;
-            PL_parser->yychar = YYEMPTY;
+            PL_parser->yychar = PERL_PARSER_EMPTY;
             cSVOPx(pl_yylval.opval)->op_sv = NULL;
             op_free(pl_yylval.opval);
             return labelsv;

@@ -107,7 +107,7 @@ do {								\
 `--------------------------------*/
 
 static void
-yysymprint(pTHX_ PerlIO * const yyoutput, int yytype, const YYSTYPE * const yyvaluep)
+yysymprint(pTHX_ PerlIO * const yyoutput, int yytype, const PERL_PARSER_STYPE * const yyvaluep)
 {
     PERL_UNUSED_CONTEXT;
     if (yytype < YYNTOKENS) {
@@ -280,7 +280,7 @@ Perl_yyparse (pTHX_ int gramtype)
 
     /* The variable used to return semantic value and location from the
           action routines: ie $$.  */
-    YYSTYPE yyval;
+    PERL_PARSER_STYPE yyval;
 
     YYDPRINTF ((stderr, "Starting parse\n"));
 
@@ -349,14 +349,14 @@ Perl_yyparse (pTHX_ int gramtype)
                 goto yydefault;
 
             /* Not known => get a lookahead token if don't already have
-             * one.  YYCHAR is either YYEMPTY or YYEOF or a valid
+             * one.  YYCHAR is either PERL_PARSER_EMPTY or PERL_PARSER_EOF or a valid
              * lookahead symbol. */
 
-            if (parser->yychar == YYEMPTY) {
+            if (parser->yychar == PERL_PARSER_EMPTY) {
                 YYDPRINTF ((stderr, "Reading a token:\n"));
                 parser->yychar = yylex();
                 assert(parser->yychar >= 0);
-                if (parser->yychar == YYEOF) {
+                if (parser->yychar == PERL_PARSER_EOF) {
                     YYDPRINTF ((stderr, "Now at end of input.\n"));
                 }
                 /* perly.tab is shipped based on an ASCII system, so need
@@ -406,8 +406,8 @@ Perl_yyparse (pTHX_ int gramtype)
             YYDPRINTF ((stderr, "Shifting token %s, ", yytname[yytoken]));
 
             /* Discard the token being shifted unless it is eof.  */
-            if (parser->yychar != YYEOF)
-                parser->yychar = YYEMPTY;
+            if (parser->yychar != PERL_PARSER_EOF)
+                parser->yychar = PERL_PARSER_EMPTY;
 
             YYPUSHSTACK;
             ps->state   = yyn;
@@ -498,7 +498,7 @@ Perl_yyparse (pTHX_ int gramtype)
                   error, discard it.  */
 
             /* Return failure if at end of input.  */
-            if (parser->yychar == YYEOF) {
+            if (parser->yychar == PERL_PARSER_EOF) {
                 /* Pop the error token.  */
                 SvREFCNT_dec(ps->compcv);
                 YYPOPSTACK;
@@ -523,7 +523,7 @@ Perl_yyparse (pTHX_ int gramtype)
             }
 
             YYDSYMPRINTF ("Error: discarding", yytoken, &parser->yylval);
-            parser->yychar = YYEMPTY;
+            parser->yychar = PERL_PARSER_EMPTY;
 
         }
 

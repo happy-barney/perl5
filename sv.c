@@ -14456,7 +14456,7 @@ Perl_parser_dup(pTHX_ const yy_parser *const proto, CLONE_PARAMS *const param)
     Copy(proto->tokenbuf, parser->tokenbuf, 256, char);
 
 
-    Copy(proto->nextval, parser->nextval, 5, YYSTYPE);
+    Copy(proto->nextval, parser->nextval, 5, PERL_PARSER_STYPE);
     Copy(proto->nexttype, parser->nexttype, 5,	I32);
     parser->nexttoke	= proto->nexttoke;
 

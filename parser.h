@@ -9,8 +9,18 @@
  * and lexer (perly.c, toke.c).
  */
 
+#if defined YYSTYPE_IS_DECLARED
+#   define PERL_PARSER_EMPTY YYEMPTY
+#   define PERL_PARSER_EOF   YYEOF
+#   define PERL_PARSER_STYPE YYSTYPE
+#endif
+
+#if ! defined PERL_PARSER_STYPE
+#   error "PERL_PARSER_STYPE not available"
+#endif
+
 typedef struct {
-    YYSTYPE val;    /* semantic value */
+    PERL_PARSER_STYPE val;    /* semantic value */
     short   state;
     I32     savestack_ix;	/* size of savestack at this state */
     CV	    *compcv; /* value of PL_compcv when this value was created */
@@ -38,7 +48,7 @@ typedef struct yy_parser {
     /* parser state */
 
     struct yy_parser *old_parser; /* previous value of PL_parser */
-    YYSTYPE	    yylval;	/* value of lookahead symbol, set by yylex() */
+    PERL_PARSER_STYPE	    yylval;	/* value of lookahead symbol, set by yylex() */
     int		    yychar;	/* The lookahead symbol.  */
 
     /* Number of tokens to shift before error messages enabled.  */
@@ -103,7 +113,7 @@ typedef struct yy_parser {
     PerlIO	*rsfp;		/* current source file pointer */
     AV		*rsfp_filters;	/* holds chain of active source filters */
 
-    YYSTYPE	nextval[5];	/* value of next token, if any */
+    PERL_PARSER_STYPE	nextval[5];	/* value of next token, if any */
     I32		nexttype[5];	/* type of next token */
     U8		nexttoke;
     U8		form_lex_state;	/* remember lex_state when parsing fmt */

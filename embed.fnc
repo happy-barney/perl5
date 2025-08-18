@@ -3045,7 +3045,7 @@ Adp	|NV	|scan_hex	|NN const char *start			\
 				|STRLEN len				\
 				|NN STRLEN *retlen
 Cp	|char * |scan_num	|NN const char *s			\
-				|NN YYSTYPE *lvalp
+				|NN PERL_PARSER_STYPE *lvalp
 Adp	|NV	|scan_oct	|NN const char *start			\
 				|STRLEN len				\
 				|NN STRLEN *retlen
@@ -6127,7 +6127,7 @@ S	|int	|yywarn 	|NN const char * const s		\
 Sf	|void	|printbuf	|NN const char * const fmt		\
 				|NN const char * const s
 S	|int	|tokereport	|I32 rv 				\
-				|NN const YYSTYPE *lvalp
+				|NN const PERL_PARSER_STYPE *lvalp
 # endif
 # if !defined(PERL_NO_UTF16_FILTER)
 S	|U8 *	|add_utf16_textfilter					\

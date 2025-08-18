@@ -4228,7 +4228,7 @@ Perl_scan_hex(pTHX_ const char *start, STRLEN len, STRLEN *retlen);
         assert(start); assert(retlen)
 
 PERL_CALLCONV char *
-Perl_scan_num(pTHX_ const char *s, YYSTYPE *lvalp);
+Perl_scan_num(pTHX_ const char *s, PERL_PARSER_STYPE *lvalp);
 #define PERL_ARGS_ASSERT_SCAN_NUM               \
         assert(s); assert(lvalp)
 
@@ -9540,7 +9540,7 @@ S_printbuf(pTHX_ const char * const fmt, const char * const s)
         assert(fmt); assert(s)
 
 STATIC int
-S_tokereport(pTHX_ I32 rv, const YYSTYPE *lvalp);
+S_tokereport(pTHX_ I32 rv, const PERL_PARSER_STYPE *lvalp);
 #   define PERL_ARGS_ASSERT_TOKEREPORT          \
         assert(lvalp)
 
