@@ -59,6 +59,10 @@ usage unless @ARGV==0 && $y_file =~ /\.y$/;
 
 die "$0: must be run on an ASCII system\n" unless ord 'A' == 65;
 
+# api.prefix
+my $yy = api_prefix ();
+my $YY = uc $yy;
+
 # check for correct version number. The constraints are:
 #  * must be >= 1.24 to avoid licensing issues.
 #  * it must generate the yystos[] table. Version 1.28 doesn't generate
@@ -139,7 +143,7 @@ while (<$tmph_fh>) {
     next if /YY_PERLYTMP_H/;
 
     print $h_fh "#ifdef PERL_CORE\n" if $. == 1;
-    if (!$endcore_done and /YYSTYPE_IS_DECLARED/) {
+    if (!$endcore_done and /${YY}STYPE_IS_DECLARED/) {
 	print $h_fh <<h;
 #ifdef PERL_IN_TOKE_C
 static bool
@@ -171,6 +175,17 @@ foreach ($act_fh, $tab_fh, $h_fh) {
 
 exit 0;
 
+sub api_prefix {
+    for my $line (y_file_lines ()) {
+        next
+            unless $line =~ m (^ [%] api [.] prefix \s* [{] (.*?) [}])x
+            ;
+
+        return $1;
+    }
+
+    return q (yy);
+}
 
 # extract the symbol kinds, tables and actions from the generated .c file
 
@@ -264,6 +279,17 @@ sub extract {
 # by the __DEFAULT__ comment  next to the appropriate union member in
 # perly.y
 
+sub file_lines {
+    my ($file) = @_;
+
+    open my $fh, '<', $file
+        or die "Can't open $file: $!\n"
+        ;
+
+    local $/;
+    return <$fh>;
+}
+
 sub make_type_tab {
     my ($y_file, $tablines) = @_;
     my %just_tokens;
@@ -341,3 +367,10 @@ sub my_system {
 	die sprintf "command '@_' exited with value %d\n", $? >> 8;
     }
 }
+
+sub y_file_lines {
+    return @{
+        state $lines = [ file_lines ($y_file) ];
+    }
+}
+
