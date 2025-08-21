@@ -24,7 +24,18 @@ Perl_yyparse (pTHX_ int gramtype)
 }
 
 int
-Perl_Perly_lex (pTHX)
+Perl_Perly_lex (pTHX_ PERL_PERLY_STYPE* lval)
 {
-    return Perl_yylex (aTHX);
+    int token = Perl_yylex (aTHX);
+
+    /* Idea here:
+     * - current code will send NULL as lval pointer
+     * - bison generated code will sent its own address
+     *   but toke.c will still use current approach
+     */
+    if (lval) {
+        *lval = PL_parser->yylval;
+    }
+
+    return token;
 }

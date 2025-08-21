@@ -354,7 +354,7 @@ Perl_Perly_parse (pTHX_ int gramtype)
 
             if (parser->yychar == PERL_PARSER_EMPTY) {
                 YYDPRINTF ((stderr, "Reading a token:\n"));
-                parser->yychar = Perl_Perly_lex (aTHX);
+                parser->yychar = Perl_Perly_lex (aTHX_ NULL);
                 assert(parser->yychar >= 0);
                 if (parser->yychar == PERL_PARSER_EOF) {
                     YYDPRINTF ((stderr, "Now at end of input.\n"));

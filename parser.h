@@ -170,7 +170,7 @@ enum {
 };
 
 int Perl_Perly_parse (pTHX_ int gramtype);
-int Perl_Perly_lex   (pTHX);
+int Perl_Perly_lex   (pTHX_ PERL_PERLY_STYPE *lval);
 
 /*
  * ex: set ts=8 sts=4 sw=4 et:
