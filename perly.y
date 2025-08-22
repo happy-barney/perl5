@@ -34,6 +34,8 @@
 %define api.pure
 %define api.prefix {Perl_Bison_}
 
+%param { tTHX aTHX_Name }
+
 %start grammar
 %{
 /* defined by bison when using api.prefix */

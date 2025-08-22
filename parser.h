@@ -19,6 +19,13 @@
 #   error "PERL_PARSER_STYPE not available"
 #endif
 
+#if defined aTHX_Value
+#   define yyerror(a) Perl_yyerror (aTHX_Value, a)
+#else
+#   define yyerror(a) Perl_yyerror (NULL, a)
+#endif
+
+
 typedef struct {
     PERL_PARSER_STYPE val;    /* semantic value */
     short   state;
@@ -170,7 +177,7 @@ enum {
 };
 
 int Perl_Perly_parse (pTHX_ int gramtype);
-int Perl_Perly_lex   (pTHX_ PERL_PERLY_STYPE *lval);
+int Perl_Perly_lex   (PERL_PERLY_STYPE *lval, tTHX aTHX_Name);
 
 /*
  * ex: set ts=8 sts=4 sw=4 et:

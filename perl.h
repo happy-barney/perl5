@@ -220,15 +220,18 @@ Now a synonym for C<L</dTHXa>>.
 =cut
 */
 
+#define aTHX_Name my_perl
+
 #ifdef MULTIPLICITY
 #  define tTHX	PerlInterpreter*
-#  define pTHX  tTHX my_perl PERL_UNUSED_DECL
-#  define aTHX	my_perl
+#  define pTHX  tTHX aTHX_Name PERL_UNUSED_DECL
+#  define aTHX	aTHX_Name
 #  define aTHXa(a) aTHX = (tTHX)a
 #  define dTHXa(a)	pTHX = (tTHX)a
 #  define dTHX		pTHX = PERL_GET_THX
 #  define pTHX_		pTHX,
 #  define aTHX_		aTHX,
+#  define aTHX_Value    aTHX_Name
 #  define pTHX_1	2
 #  define pTHX_2	3
 #  define pTHX_3	4
@@ -713,9 +716,9 @@ code.
 #define dNOOP struct Perl___notused_struct
 
 #ifndef pTHX
-/* Don't bother defining tTHX ; using it outside
- * code guarded by MULTIPLICITY is an error.
+/* Bison's %param requires tTHX to be always known
  */
+#  define tTHX          void *
 #  define pTHX		void
 #  define pTHX_
 #  define aTHX
