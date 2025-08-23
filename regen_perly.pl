@@ -29,7 +29,7 @@
 # it may work elsewhere but no specific attempt has been made to make it
 # portable.
 
-use 5.006;
+use v5.10;
 sub usage { die "usage: $0 [ -b bison_executable ] [ file.y ]\n" }
 
 use warnings;
