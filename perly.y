@@ -32,8 +32,22 @@
 /*  Make the parser re-entrant. */
 
 %define api.pure
+%define api.prefix {Perl_Bison_}
 
 %start grammar
+%{
+/* defined by bison when using api.prefix */
+#   undef yylex
+
+#   include "EXTERN.h"
+#   define PERL_IN_PERLY_C
+#   include "perl.h"
+#   include "feature.h"
+#   include "keywords.h"
+
+#   undef yylex
+#   define yylex Perl_Bison_lex
+%}
 
 %code requires{
 /* code requires is generated into `perly.h` */
