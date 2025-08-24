@@ -37,7 +37,7 @@
 
 %code requires{
 /* code requires is generated into `perly.h` */
-#	define YYFPRINTF PerlIO_printf
+#	define YYFPRINTF(file, fmt, ...) PerlIO_printf(Perl_debug_log, fmt, ##__VA_ARGS__)
 }
 
 %union {
