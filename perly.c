@@ -88,8 +88,6 @@ typedef signed char yysigned_char;
 
 #  define yydebug (DEBUG_p_TEST)
 
-#  define YYFPRINTF PerlIO_printf
-
 #  define YYDPRINTF(Args)			\
 do {						\
     if (yydebug)				\

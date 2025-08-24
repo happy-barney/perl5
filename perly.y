@@ -35,6 +35,11 @@
 
 %start grammar
 
+%code requires{
+/* code requires is generated into `perly.h` */
+#	define YYFPRINTF PerlIO_printf
+}
+
 %union {
     I32	ival; /* __DEFAULT__ (marker for regen_perly.pl;
 				must always be 1st union member) */
