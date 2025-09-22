@@ -1603,6 +1603,44 @@ term[product]	:	termbinop
 			{ $$ = $myattrterm; }
 	|	KW_LOCAL term[operand]	%prec UNIOP
 			{ $$ = localize($operand,0); }
+	|	KW_LOCAL KW_SUB_named subname startanonsub proto subattrlist subbody
+		{
+			SvREFCNT_inc_simple_void(PL_compcv);
+
+			/* "rewrite" as
+			 * local *$subname = sub $proto $subname $subbody
+			 */
+			$$ = newASSIGNOP (
+				OPf_STACKED,
+				localize (newGVREF (0, scalar ($subname)), 0),
+				0,
+				newANONATTRSUB (
+					$startanonsub,
+					$proto,
+					$subattrlist,
+					$subbody
+				)
+			);
+		}
+	|	KW_LOCAL KW_SUB_named_sig subname startanonsub subattrlist sigsubbody
+		{
+			SvREFCNT_inc_simple_void(PL_compcv);
+
+			/* "rewrite" as
+			 * local *$subname = sub $subname $subbody
+			 */
+			$$ = newASSIGNOP (
+				OPf_STACKED,
+				localize (newGVREF (0, scalar ($subname)), 0),
+				0,
+				newANONATTRSUB (
+					$startanonsub,
+					NULL,
+					$subattrlist,
+					$sigsubbody
+				)
+			);
+		}
 	|	PERLY_PAREN_OPEN expr PERLY_PAREN_CLOSE
 			{ $$ = sawparens($expr); }
 	|	QWLIST
