@@ -829,6 +829,9 @@ formblock
 remember:	%empty	/* start a full lexical scope */
 			{ $$ = block_start(TRUE);
 			  parser->parsed_sub = 0; }
+remember
+	:	%empty	/* start a full lexical scope */
+		{ $$ = PERLY_ACTION_REMEMBER() }
 	;
 
 mblock	:	PERLY_BRACE_OPEN mremember stmtseq PERLY_BRACE_CLOSE
