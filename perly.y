@@ -834,10 +834,9 @@ remember
 		{ $$ = PERLY_ACTION_REMEMBER() }
 	;
 
-mblock	:	PERLY_BRACE_OPEN mremember stmtseq PERLY_BRACE_CLOSE
-			{ PERLY_ADJUST_COPLINE ($PERLY_BRACE_OPEN);
-			  $$ = block_end($mremember, $stmtseq);
-			}
+mblock
+	:	PERLY_BRACE_OPEN mremember stmtseq PERLY_BRACE_CLOSE
+		{ $$ = PERLY_ACTION_BLOCK ($PERLY_BRACE_OPEN, $mremember, $stmtseq); }
 	;
 
 mremember:	%empty	/* start a partial lexical scope */
