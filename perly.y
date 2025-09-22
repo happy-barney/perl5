@@ -811,10 +811,9 @@ sigsub_or_method_named
 	;
 
 /* An ordinary block */
-block	:	PERLY_BRACE_OPEN remember stmtseq PERLY_BRACE_CLOSE
-			{ PERLY_ADJUST_COPLINE ($PERLY_BRACE_OPEN);
-			  $$ = block_end($remember, $stmtseq);
-			}
+block
+	:	PERLY_BRACE_OPEN remember stmtseq PERLY_BRACE_CLOSE
+		{ $$ = PERLY_ACTION_BLOCK ($PERLY_BRACE_OPEN, $remember, $stmtseq); }
 	;
 
 empty
