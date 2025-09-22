@@ -310,9 +310,8 @@ bare_statement_class_definition
 		stmtseq
 		PERLY_BRACE_CLOSE
 		{
+			PERLY_ADJUST_COPLINE ($PERLY_BRACE_OPEN);
 			$$ = new_block_statement (block_end ($remember, $stmtseq), NULL);
-			if (parser->copline > (line_t)$PERLY_BRACE_OPEN)
-				parser->copline = (line_t)$PERLY_BRACE_OPEN;
 		}
 	;
 
@@ -567,9 +566,8 @@ bare_statement_package_definition
 		stmtseq
 		PERLY_BRACE_CLOSE
 		{
+			PERLY_ADJUST_COPLINE ($PERLY_BRACE_OPEN);
             $$ = new_block_statement (block_end ($remember, $stmtseq), NULL);
-			if (parser->copline > (line_t)$PERLY_BRACE_OPEN)
-				parser->copline = (line_t)$PERLY_BRACE_OPEN;
 		}
 	;
 
@@ -814,8 +812,7 @@ sigsub_or_method_named
 
 /* An ordinary block */
 block	:	PERLY_BRACE_OPEN remember stmtseq PERLY_BRACE_CLOSE
-			{ if (parser->copline > (line_t)$PERLY_BRACE_OPEN)
-			      parser->copline = (line_t)$PERLY_BRACE_OPEN;
+			{ PERLY_ADJUST_COPLINE ($PERLY_BRACE_OPEN);
 			  $$ = block_end($remember, $stmtseq);
 			}
 	;
@@ -826,8 +823,7 @@ empty
 
 /* format body */
 formblock:	PERLY_EQUAL_SIGN remember PERLY_SEMICOLON FORMRBRACK formstmtseq PERLY_SEMICOLON PERLY_DOT
-			{ if (parser->copline > (line_t)$PERLY_EQUAL_SIGN)
-			      parser->copline = (line_t)$PERLY_EQUAL_SIGN;
+			{ PERLY_ADJUST_COPLINE ($PERLY_EQUAL_SIGN);
 			  $$ = block_end($remember, $formstmtseq);
 			}
 	;
@@ -838,8 +834,7 @@ remember:	%empty	/* start a full lexical scope */
 	;
 
 mblock	:	PERLY_BRACE_OPEN mremember stmtseq PERLY_BRACE_CLOSE
-			{ if (parser->copline > (line_t)$PERLY_BRACE_OPEN)
-			      parser->copline = (line_t)$PERLY_BRACE_OPEN;
+			{ PERLY_ADJUST_COPLINE ($PERLY_BRACE_OPEN);
 			  $$ = block_end($mremember, $stmtseq);
 			}
 	;
@@ -1271,8 +1266,7 @@ subbody:	remember
 			}
 		PERLY_BRACE_OPEN stmtseq PERLY_BRACE_CLOSE
 			{
-			  if (parser->copline > (line_t)$PERLY_BRACE_OPEN)
-			      parser->copline = (line_t)$PERLY_BRACE_OPEN;
+			  PERLY_ADJUST_COPLINE ($PERLY_BRACE_OPEN);
 			  $$ = block_end($remember, $stmtseq);
 			}
 	;
@@ -1295,8 +1289,7 @@ sigsubbody:	remember
 			{ PL_parser->sig_seen = FALSE; }
 		stmtseq PERLY_BRACE_CLOSE
 			{
-			  if (parser->copline > (line_t)$PERLY_BRACE_OPEN)
-			      parser->copline = (line_t)$PERLY_BRACE_OPEN;
+			  PERLY_ADJUST_COPLINE ($PERLY_BRACE_OPEN);
 			  $$ = block_end($remember,
 				op_append_list(OP_LINESEQ, $optsubsignature, $stmtseq));
  			}
