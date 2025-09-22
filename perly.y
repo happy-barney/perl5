@@ -839,9 +839,13 @@ mblock
 		{ $$ = PERLY_ACTION_BLOCK ($PERLY_BRACE_OPEN, $mremember, $stmtseq); }
 	;
 
-mremember:	%empty	/* start a partial lexical scope */
+mremember
+	:	%empty	/* start a partial lexical scope */
+/*
 			{ $$ = block_start(FALSE);
 			  parser->parsed_sub = 0; }
+*/
+		{ $$ = PERLY_ACTION_REMEMBER(FALSE) }
 	;
 
 /* The parenthesized variable of a catch block */
