@@ -821,10 +821,9 @@ empty
 	;
 
 /* format body */
-formblock:	PERLY_EQUAL_SIGN remember PERLY_SEMICOLON FORMRBRACK formstmtseq PERLY_SEMICOLON PERLY_DOT
-			{ PERLY_ADJUST_COPLINE ($PERLY_EQUAL_SIGN);
-			  $$ = block_end($remember, $formstmtseq);
-			}
+formblock
+	:	PERLY_EQUAL_SIGN remember PERLY_SEMICOLON FORMRBRACK formstmtseq PERLY_SEMICOLON PERLY_DOT
+		{ $$ = PERLY_ACTION_FORMBLOCK ($PERLY_EQUAL_SIGN, $remember, $formstmtseq); }
 	;
 
 remember:	%empty	/* start a full lexical scope */
