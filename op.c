@@ -6100,7 +6100,7 @@ Perl_newBINOP(pTHX_ I32 type, I32 flags, OP *first, OP *last)
                                ? 2  /* Otherwise, minimum of 2 hex digits */\
                                : NUM_HEX_CHARS(num)))))))
 
-/* To make evident, Configure with `-DDEBUGGING`, build, run 
+/* To make evident, Configure with `-DDEBUGGING`, build, run
  *  `./perl -Ilib -Dy t/op/tr.t`
  */
 void
@@ -8241,6 +8241,21 @@ Perl_package(pTHX_ OP *o)
     PL_parser->copline = NOLINE;
 
     op_free(o);
+}
+
+void
+Perl_package_544 (pTHX_ OP *package_name, OP *version)
+{
+    /*
+     * Aggregates Perl_package and conditional Perl_package_version calls.
+     * Available since: Perl v5.44
+     */
+
+    PERL_ARGS_ASSERT_PACKAGE_544;
+
+    package (package_name);
+    if (version)
+        package_version (version);
 }
 
 void
@@ -16846,7 +16861,7 @@ Perl_subsignature_append_positional(pTHX_ PADOFFSET padix, OPCODE defmode, OP *d
     signature->next_argix++;
 
     if(!padix && !defexpr)
-        /* This param has no var and no defaulting expression. There's 
+        /* This param has no var and no defaulting expression. There's
          * nothing else for us to do here.
          */
         return;

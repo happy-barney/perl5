@@ -3353,6 +3353,12 @@ Perl_package(pTHX_ OP *o)
         assert(o)
 
 PERL_CALLCONV void
+Perl_package_544(pTHX_ OP *package_name, OP *version)
+        __attribute__visibility__("hidden");
+#define PERL_ARGS_ASSERT_PACKAGE_544            \
+        assert(package_name)
+
+PERL_CALLCONV void
 Perl_package_version(pTHX_ OP *v)
         __attribute__visibility__("hidden");
 #define PERL_ARGS_ASSERT_PACKAGE_VERSION        \

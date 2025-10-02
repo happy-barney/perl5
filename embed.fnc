@@ -2487,6 +2487,9 @@ ARdpx	|OP *	|op_wrap_finally|NN OP *block				\
 : Used in perly.y
 p	|void	|package	|NN OP *o
 : Used in perly.y
+p	|void	|package_544	|NN OP *package_name			\
+				|NULLOK OP *version
+: Used in perly.y
 p	|void	|package_version|NN OP *v
 Adp	|void	|packlist	|NN SV *cat				\
 				|NN const char *pat			\
