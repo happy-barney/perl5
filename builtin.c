@@ -86,11 +86,44 @@ XS(XS_builtin_nan)
 #endif
 }
 
+XS(XS_builtin_cmp_less_than);
+XS(XS_builtin_cmp_less_than)
+{
+    dXSARGS;
+    if (items)
+        croak_xs_usage(cv, "");
+    EXTEND(SP, 1);
+    XSRETURN_NV (-1);
+}
+
+XS(XS_builtin_cmp_greater_than);
+XS(XS_builtin_cmp_greater_than)
+{
+    dXSARGS;
+    if (items)
+        croak_xs_usage(cv, "");
+    EXTEND (SP, 1);
+    XSRETURN_NV (1);
+}
+
+XS(XS_builtin_cmp_equals);
+XS(XS_builtin_cmp_equals)
+{
+    dXSARGS;
+    if (items)
+        croak_xs_usage(cv, "");
+    EXTEND (SP, 1);
+    XSRETURN_NV (0);
+}
+
 enum {
     BUILTIN_CONST_FALSE,
     BUILTIN_CONST_TRUE,
     BUILTIN_CONST_INF,
     BUILTIN_CONST_NAN,
+    BUILTIN_CONST_CMP_LESS_THAN,
+    BUILTIN_CONST_CMP_GREATER_THAN,
+    BUILTIN_CONST_CMP_EQUALS,
 };
 
 static OP *ck_builtin_const(pTHX_ OP *entersubop, GV *namegv, SV *ckobj)
@@ -121,6 +154,9 @@ static OP *ck_builtin_const(pTHX_ OP *entersubop, GV *namegv, SV *ckobj)
 #else
         case BUILTIN_CONST_NAN:   return entersubop;
 #endif
+        case BUILTIN_CONST_CMP_EQUALS:       constval = newSVnv(0); break;
+        case BUILTIN_CONST_CMP_GREATER_THAN: constval = newSVnv(1); break;
+        case BUILTIN_CONST_CMP_LESS_THAN:    constval = newSVnv(-1); break;
         default:
             DIE(aTHX_ "panic: unrecognised builtin_const value %" IVdf,
                       builtin->ckval);
@@ -590,6 +626,9 @@ static const struct BuiltinFuncDescriptor builtins[] = {
     { "false", SHORTVER(5,39), STABLE, &XS_builtin_false,  &ck_builtin_const, BUILTIN_CONST_FALSE },
     { "inf",        NO_BUNDLE, EXPERIMENTAL,  &XS_builtin_inf,    &ck_builtin_const, BUILTIN_CONST_INF   },
     { "nan",        NO_BUNDLE, EXPERIMENTAL,  &XS_builtin_nan,    &ck_builtin_const, BUILTIN_CONST_NAN   },
+    { "CMP_EQUALS",       NO_BUNDLE, STABLE, &XS_builtin_cmp_equals,       &ck_builtin_const, BUILTIN_CONST_CMP_EQUALS },
+    { "CMP_GREATER_THAN", NO_BUNDLE, STABLE, &XS_builtin_cmp_greater_than, &ck_builtin_const, BUILTIN_CONST_CMP_GREATER_THAN },
+    { "CMP_LESS_THAN",    NO_BUNDLE, STABLE, &XS_builtin_cmp_less_than,    &ck_builtin_const, BUILTIN_CONST_CMP_LESS_THAN },
 
     /* unary functions */
     { "is_bool",         NO_BUNDLE, EXPERIMENTAL,  &XS_builtin_func1_scalar, &ck_builtin_func1, OP_IS_BOOL    },
