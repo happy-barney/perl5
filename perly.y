@@ -931,18 +931,18 @@ sideff	:	error
 			{ $$ = NULL; }
 	|	expr[body]
 			{ $$ = $body; }
-	|	expr[body] KW_IF condition
+	|	sideff[body] KW_IF condition
 			{ $$ = newLOGOP(OP_AND, 0, $condition, $body); }
-	|	expr[body] KW_UNLESS condition
+	|	sideff[body] KW_UNLESS condition
 			{ $$ = newLOGOP(OP_OR, 0, $condition, $body); }
-	|	expr[body] KW_WHILE condition
+	|	sideff[body] KW_WHILE condition
 			{ $$ = newLOOPOP(OPf_PARENS, 1, scalar($condition), $body); }
-	|	expr[body] KW_UNTIL iexpr
+	|	sideff[body] KW_UNTIL iexpr
 			{ $$ = newLOOPOP(OPf_PARENS, 1, $iexpr, $body); }
-	|	expr[body] KW_FOR condition
+	|	sideff[body] KW_FOR condition
 			{ $$ = newFOROP(0, NULL, $condition, $body, NULL);
 			  parser->copline = (line_t)$KW_FOR; }
-	|	expr[body] KW_WHEN condition
+	|	sideff[body] KW_WHEN condition
 			{ $$ = newWHENOP($condition, op_scope($body)); }
 	;
 

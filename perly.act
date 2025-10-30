@@ -750,38 +750,38 @@ case 2: /* @1: %empty  */
 
     break;
 
-  case 107: /* sideff: expr KW_IF condition  */
+  case 107: /* sideff: sideff KW_IF condition  */
 #line 935 "perly.y"
                         { (yyval.opval) = newLOGOP(OP_AND, 0, (ps[0].val.opval), (ps[-2].val.opval)); }
 
     break;
 
-  case 108: /* sideff: expr KW_UNLESS condition  */
+  case 108: /* sideff: sideff KW_UNLESS condition  */
 #line 937 "perly.y"
                         { (yyval.opval) = newLOGOP(OP_OR, 0, (ps[0].val.opval), (ps[-2].val.opval)); }
 
     break;
 
-  case 109: /* sideff: expr KW_WHILE condition  */
+  case 109: /* sideff: sideff KW_WHILE condition  */
 #line 939 "perly.y"
                         { (yyval.opval) = newLOOPOP(OPf_PARENS, 1, scalar((ps[0].val.opval)), (ps[-2].val.opval)); }
 
     break;
 
-  case 110: /* sideff: expr KW_UNTIL iexpr  */
+  case 110: /* sideff: sideff KW_UNTIL iexpr  */
 #line 941 "perly.y"
                         { (yyval.opval) = newLOOPOP(OPf_PARENS, 1, (ps[0].val.opval), (ps[-2].val.opval)); }
 
     break;
 
-  case 111: /* sideff: expr KW_FOR condition  */
+  case 111: /* sideff: sideff KW_FOR condition  */
 #line 943 "perly.y"
                         { (yyval.opval) = newFOROP(0, NULL, (ps[0].val.opval), (ps[-2].val.opval), NULL);
 			  parser->copline = (line_t)(ps[-1].val.ival); }
 
     break;
 
-  case 112: /* sideff: expr KW_WHEN condition  */
+  case 112: /* sideff: sideff KW_WHEN condition  */
 #line 946 "perly.y"
                         { (yyval.opval) = newWHENOP((ps[0].val.opval), op_scope((ps[-2].val.opval))); }
 
@@ -2289,6 +2289,6 @@ case 2: /* @1: %empty  */
     
 
 /* Generated from:
- * 518d99fb6b32e38f3b668033ccd9846a65b84d5b9381db7009114282219cbe63 perly.y
+ * 37086fd050aeeb86a35241dd320f30f2ed226a348d0db6bbe1a0bd6a403a6260 perly.y
  * f13e9c08cea6302f0c1d1f467405bd0e0880d0ea92d0669901017a7f7e94ab28 regen_perly.pl
  * ex: set ro ft=c: */
