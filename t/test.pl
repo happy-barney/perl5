@@ -38,6 +38,7 @@ $::IS_EBCDIC = ord 'A' == 193;
 # This is 'our' to enable harness to account for TODO-ed tests in
 # overall grade of PASS or FAIL
 our $TODO = 0;
+our $TODO_FAIL_ON_SUCCESS = 0;
 our $NO_ENDING = 0;
 our $Tests_Are_Passing = 1;
 
@@ -309,40 +310,54 @@ sub BAIL_OUT {
 }
 
 sub _ok {
-    my ($pass, $where, $name, @mess) = @_;
-    # Do not try to microoptimize by factoring out the "not ".
-    # VMS will avenge.
-    my $out;
-    if ($name) {
-        # escape out '#' or it will interfere with '# skip' and such
-        $name =~ s/#/\\#/g;
-	$out = $pass ? "ok $test - $name" : "not ok $test - $name";
-    } else {
-	$out = $pass ? "ok $test - [$where]" : "not ok $test - [$where]";
-    }
+	my ($real_pass, $where, $name, @mess) = @_;
 
-    if ($TODO) {
-	$out = $out . " # TODO $TODO";
-    } else {
+    # 2025-12: Is this comment still valid? If sy, why it is so?
+	# Do not try to microoptimize by factoring out the "not ".
+	# VMS will avenge.
+	my $out;
+	if ($name) {
+		# escape out '#' or it will interfere with '# skip' and such
+		$name =~ s/#/\\#/g;
+		$out = $real_pass ? "ok $test - $name" : "not ok $test - $name";
+	} else {
+		$out = $real_pass ? "ok $test - [$where]" : "not ok $test - [$where]";
+	}
+
+	my $pass = $real_pass;
+
+	if ($TODO) {
+		$out = $out . " # TODO $TODO";
+		$pass = $TODO_FAIL_ON_SUCCESS
+			? ! $pass
+			: 1
+			;
+	}
 	$Tests_Are_Passing = 0 unless $pass;
-    }
 
-    _print "$out\n";
+	_print "$out\n";
 
-    if ($pass) {
-	note @mess; # Ensure that the message is properly escaped.
-    }
-    else {
-	my $msg = "# Failed test $test - ";
-	$msg.= "$name " if $name;
-	$msg .= "$where\n";
-	_diag $msg;
-	_diag @mess;
-    }
+	if ($pass) {
+		note @mess; # Ensure that the message is properly escaped.
+	} else {
+		my $msg = $TODO
+			? "# Failed TODO test $test - "
+			: "# Failed test $test - "
+			;
+		$msg .= "$name " if $name;
+		$msg .= "$where\n";
 
-    $test = $test + 1; # don't use ++
+		_diag $msg;
+		_diag q (TODO test succeeded)
+			if $TODO
+			&& $real_pass
+			;
+		_diag @mess;
+	}
 
-    return $pass;
+	$test = $test + 1; # don't use ++
+
+	return $pass;
 }
 
 sub _where {
