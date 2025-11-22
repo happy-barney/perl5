@@ -43,10 +43,9 @@ assume q ([for-over] `our` cursor is visible in continue block)
 	};
 
 assume q ([for-over] `our` cursor is not visible after `for` loop)
-	=> throws => qr (^Variable "\$cursor_our_after" is not imported)
+	=> expect => qr (^Global symbol "\$cursor_our_after" requires explicit package name)
 	=> eval   => q {
-		use warnings FATAL => q (all);
-
+#line 1023 "file"
 		for our $cursor_our_after (qw (Foo)) {
 		}
 
@@ -87,7 +86,7 @@ assume q ([for-over] `my` cursor is not visible after `for` loop)
 		for my $cursor_my_after (q (Foo)) {
 		}
 
-		$cursor_my_after;
+		result $cursor_my_after;
 	};
 
 assume q ([for-over] `my` multi-cursors are visible in `continue` block)
@@ -110,16 +109,14 @@ assume q ([for-over] `my` multi-cursors are not visible after `for` loop)
 		use warnings FATAL => q (all);
 
 		for my ($cursor_my_multi_1, $cursor_my_multi_2) (qw (Foo Bar)) {
-		} continue {
 		}
 
-		$cursor_my_multi_1;
+		result $cursor_my_multi_1, $cursor_my_multi_2;
 	};
 
 assume q ([for-over] `refaliasing` global cursor preserves it's original value)
 	=> expect => q (/Foo.Foo=42)
 	=> eval   => q {
-		use warnings FATAL => q (all);
 		use experimental qw (refaliasing);
 
 		my $cursor_refalias = 42;
@@ -136,7 +133,6 @@ assume q ([for-over] `refaliasing` global cursor preserves it's original value)
 assume q ([for-over] `declared_refs` is visible in continue block)
 	=> expect => q (/Foo.Foo)
 	=> eval   => q {
-		use warnings FATAL => q (all);
 		use experimental qw (declared_refs);
 
 		for my \ $cursor_refs (\ qw (Foo)) {
@@ -151,13 +147,12 @@ assume q ([for-over] `declared_refs` is visible in continue block)
 assume q ([for-over] `declared_refs` is not visible after loop)
 	=> throws => qr (^Global symbol "\$cursor_refs_after" requires explicit package name)
 	=> eval   => q {
-		use warnings FATAL => q (all);
 		use experimental qw (declared_refs);
 
 		for my \ $cursor_refs_after (\ qw (Foo)) {
 		}
 
-		$cursor_refs_after;
+		result $cursor_refs_after;
 	};
 
 done_testing;
