@@ -20,12 +20,12 @@ assume q ([for-over] global cursor is visible in `continue` block and its origin
 		my $cursor_global = 42;
 
 		for $cursor_global (qw (Foo)) {
-			$result .= q (/) . $cursor_global;
+			result q (/), $cursor_global;
 		} continue {
-			$result .= q (.) . $cursor_global;
+			result q (.), $cursor_global;
 		}
 
-		$result .= q (=) . ($cursor_global // q ([undef]));
+		result q (=), $cursor_global;
 	};
 
 assume q ([for-over] `our` cursor is visible in continue block)
@@ -34,12 +34,12 @@ assume q ([for-over] `our` cursor is visible in continue block)
 		use warnings FATAL => q (all);
 
 		for our $cursor_our_continue (qw (Foo)) {
-			$result .= q (/) . $cursor_our_continue;
+			result q (/), $cursor_our_continue;
 		} continue {
-			$result .= q (.) . $cursor_our_continue;
+			result q (.), $cursor_our_continue;
 		}
 
-		$result;
+		result;
 	};
 
 assume q ([for-over] `our` cursor is not visible after `for` loop)
@@ -50,7 +50,7 @@ assume q ([for-over] `our` cursor is not visible after `for` loop)
 		for our $cursor_our_after (qw (Foo)) {
 		}
 
-		$result .= $cursor_our_after;
+		result $cursor_our_after;
 	};
 
 assume q ([for-over] `our` cursor redeclares already declared global variable)
@@ -70,12 +70,12 @@ assume q ([for-over] `my` cursor is visible in `continue` block)
 		use warnings FATAL => q (all);
 
 		for my $cursor_my (q (Foo)) {
-			$result .= q (/) . $cursor_my;
+			result q (/), $cursor_my;
 		} continue {
-			$result .= q (.) . $cursor_my;
+			result q (.), $cursor_my;
 		}
 
-		$result;
+		result;
 	};
 
 assume q ([for-over] `my` cursor is not visible after `for` loop)
@@ -96,12 +96,12 @@ assume q ([for-over] `my` multi-cursors are visible in `continue` block)
 		use warnings FATAL => q (all);
 
 		for my ($cursor_multi_1, $cursor_multi_2) (qw (Foo Bar)) {
-			$result .= q (/) . $cursor_multi_1 . $cursor_multi_2;
+			result q (/), $cursor_multi_1, $cursor_multi_2;
 		} continue {
-			$result .= q (.) . $cursor_multi_1 . $cursor_multi_2;
+			result q (.), $cursor_multi_1, $cursor_multi_2;
 		}
 
-		$result;
+		result;
 	};
 
 assume q ([for-over] `my` multi-cursors are not visible after `for` loop)
@@ -125,12 +125,12 @@ assume q ([for-over] `refaliasing` global cursor preserves it's original value)
 		my $cursor_refalias = 42;
 
 		for \ $cursor_refalias (\ qw (Foo)) {
-			$result .= q (/) . $cursor_refalias;
+			result q (/), $cursor_refalias;
 		} continue {
-			$result .= q (.) . $cursor_refalias;
+			result q (.), $cursor_refalias;
 		}
 
-		$result . q (=) . $cursor_refalias;
+		result q (=), $cursor_refalias;
 	};
 
 assume q ([for-over] `declared_refs` is visible in continue block)
@@ -140,12 +140,12 @@ assume q ([for-over] `declared_refs` is visible in continue block)
 		use experimental qw (declared_refs);
 
 		for my \ $cursor_refs (\ qw (Foo)) {
-			$result .= q (/) . $cursor_refs;
+			result q (/), $cursor_refs;
 		} continue {
-			$result .= q (.) . $cursor_refs;
+			result q (.), $cursor_refs;
 		}
 
-		$result;
+		result;
 	};
 
 assume q ([for-over] `declared_refs` is not visible after loop)

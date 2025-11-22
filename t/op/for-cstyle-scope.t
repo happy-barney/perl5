@@ -18,7 +18,7 @@ assume q ([for-control] modifies global variable)
 
 		for ($control_global = 1; $control_global < 3; ++$control_global) { }
 
-		$control_global // q (undef);
+		result $control_global;
 	};
 
 assume q ([for-control] `my` variable is restricted into `for`'s lexical scope)
@@ -31,7 +31,7 @@ assume q ([for-control] `my` variable is restricted into `for`'s lexical scope)
 
 		for (my $control_my = 1; $control_my < 3; ++$control_my) { }
 
-		$control_my;
+		result $control_my;
 	};
 
 assume q ([for-control] `our` variable declared inside `for` scope isn't visible outside)
@@ -42,7 +42,7 @@ assume q ([for-control] `our` variable declared inside `for` scope isn't visible
 
 		for (our $control_our = 1; $control_our < 3; ++$control_our) { }
 
-		$control_our;
+		result $control_our;
 	};
 
 assume q ([for-control] `our` variable inside `for` scope redeclares outer variable)
@@ -55,7 +55,7 @@ assume q ([for-control] `our` variable inside `for` scope redeclares outer varia
 
 		for (our $control_redeclared = 1; $control_redeclared < 3; ++$control_redeclared) { }
 
-		$control_redeclared;
+		result $control_redeclared;
 	};
 
 assume q ([for-control] `local` localizes variable )
@@ -68,7 +68,7 @@ assume q ([for-control] `local` localizes variable )
 
 		for (local $control_local = 1; $control_local < 3; ++$control_local) { }
 
-		$control_local;
+		result $control_local;
 	};
 
 done_testing;
