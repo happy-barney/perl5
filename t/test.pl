@@ -118,9 +118,9 @@ sub assume {
 
 	my $code = qq {
 		do {
-			use strict;
-			use warnings;
+			use $];
 			my sub result { \$result .= \$_ // q ([undef]) for \@_; \$result }
+			my sub dot_pair { my \$i = 0; map { (q (.)) x !! (\$i++ % 2), \$_ } \@_ }
 			\$result = do { $args{eval}; };
 		};
 		1;
@@ -192,6 +192,7 @@ sub done_testing {
 
     _print "1..$n\n";
     $planned = $n;
+	$Tests_Are_Passing ? exit 0 : exit 1;
 }
 
 
