@@ -2252,6 +2252,8 @@ S_postderef(pTHX_ int const funny, char const next)
         PL_bufptr+=2;
     }
     else {
+        if (DEBUG_T_TEST)
+            PerlIO_printf(Perl_debug_log, "S_postderef: %d %c\n", funny, next);
         if (PERLY_SNAIL == funny && PL_lex_state == LEX_INTERPNORMAL
          && !PL_lex_brackets)
             PL_lex_dojoin = 2;
@@ -4572,7 +4574,63 @@ S_is_existing_identifier(pTHX_ char *s, Size_t len, char sigil, bool is_utf8)
 
 /* This is the one truly awful dwimmer necessary to conflate C and sed. */
 
-static int
+STATIC bool
+S_skip_whitespaces (
+    pTHX_
+    char ** head
+) {
+    if (! head)
+        return FALSE;
+
+    if (! *head)
+        return FALSE;
+
+    if (! isSPACE (**head))
+        return FALSE;
+
+    while (isSPACE (**head))
+        (*head)++;
+
+    return TRUE;
+}
+
+STATIC bool
+S_skip_comment (
+    pTHX_
+    char ** head
+) {
+   if (! head)
+        return FALSE;
+
+    if (! *head)
+        return FALSE;
+
+    if (**head != '#')
+        return FALSE;
+
+    while (**head != '\n')
+        (*head)++;
+
+    return TRUE;
+}
+
+STATIC char *
+S_next_significant (
+    pTHX_
+    char * head
+) {
+    while (1) {
+        if (S_skip_whitespaces (aTHX_ &head))
+            continue;
+
+        if (S_skip_comment (aTHX_ &head))
+            continue;
+
+        return head;
+    }
+}
+
+STATIC int
 S_intuit_more(pTHX_ char *s, char *e,
               U8 caller_context,    /* Who's calling us? basically an enum */
               char * caller_s,      /* If non-NULL, the name of the identifier
@@ -4611,12 +4669,19 @@ S_intuit_more(pTHX_ char *s, char *e,
         }
 
         /* Any post deref construct implies more to the expression */
-        if (   FEATURE_POSTDEREF_QQ_IS_ENABLED
-            && (   (s[2] == '$' && (    s[3] == '*'
+        if (FEATURE_POSTDEREF_QQ_IS_ENABLED) {
+            if (s[2] == '$' && (    s[3] == '*'
                                     || (s[3] == '#' && s[4] == '*')))
-                || (s[2] == '@' && memCHRs("*[{", s[3])) ))
-        {
-            return TRUE;
+                return TRUE;
+
+            if (s[2] == '@') {
+                char * next = S_next_significant (aTHX_ s +3);
+                if (DEBUG_p_TEST || DEBUG_T_TEST)
+                    PerlIO_printf(Perl_debug_log, "next significant: %c\n", *next);
+
+                if (memCHRs ("*[{", * next))
+                    return TRUE;
+            }
         }
     }
 
