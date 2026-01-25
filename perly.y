@@ -796,7 +796,7 @@ empty
 	;
 
 /* format body */
-formblock:	PERLY_EQUAL_SIGN remember PERLY_SEMICOLON FORMRBRACK formstmtseq PERLY_SEMICOLON PERLY_DOT
+formblock:	PERLY_EQUAL_SIGN remember implicit_semicolon FORMRBRACK formstmtseq PERLY_SEMICOLON PERLY_DOT
 			{ if (parser->copline > (line_t)$PERLY_EQUAL_SIGN)
 			      parser->copline = (line_t)$PERLY_EQUAL_SIGN;
 			  $$ = block_end($remember, $formstmtseq);

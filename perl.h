@@ -91,6 +91,8 @@ functions with no normal arguments, and used by L</C<comma_pDEPTH>> itself.
 =cut
  */
 
+#include "perl-debugging.h"
+
 #ifdef DEBUGGING
 #  define debug_pDEPTH U32 depth
 #  define comma_pDEPTH ,debug_pDEPTH

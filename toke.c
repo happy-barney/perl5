@@ -619,7 +619,7 @@ S_tokereport(pTHX_ I32 rv, const YYSTYPE* lvalp)
                 sv_catpvs(report, "(opval=null)");
             break;
         }
-        PerlIO_printf(Perl_debug_log, "### %s\n\n", SvPV_nolen_const(report));
+        DEBUG_T_OUTPUT ("%s\n\n", SvPV_nolen_const(report));
     };
     return (int)rv;
 }
@@ -635,7 +635,7 @@ S_printbuf(pTHX_ const char *const fmt, const char *const s)
     SV* const tmp = newSVpvs("");
 
     GCC_DIAG_IGNORE_STMT(-Wformat-nonliteral); /* fmt checked by caller */
-    PerlIO_printf(Perl_debug_log, fmt, pv_display(tmp, s, strlen(s), 0, 60));
+    DEBUG_T_OUTPUT (fmt, pv_display(tmp, s, strlen(s), 0, 60));
     GCC_DIAG_RESTORE_STMT;
     SvREFCNT_dec(tmp);
 }
@@ -6219,9 +6219,7 @@ yyl_interpcasemod(pTHX_ char *s)
         return yylex();
     }
     else {
-        DEBUG_T({
-            PerlIO_printf(Perl_debug_log, "### Saw case modifier\n");
-        });
+        DEBUG_T_OUTPUT ("Saw case modifier\n");
         s = PL_bufptr + 1;
         if (s[1] == '\\' && s[2] == 'E') {
             PL_bufptr = s + 3;
@@ -6463,19 +6461,13 @@ yyl_hyphen(pTHX_ char *s)
         if (ftst) {
             PL_last_uni = PL_oldbufptr;
             PL_last_lop_op = (OPCODE)ftst;
-            DEBUG_T( {
-                PerlIO_printf(Perl_debug_log, "### Saw file test %c\n", (int)tmp);
-            } );
+            DEBUG_T_OUTPUT ("Saw file test %c\n", (int)tmp);
             FTST(ftst);
         }
         else {
             /* Assume it was a minus followed by a one-letter named
              * subroutine call (or a -bareword), then. */
-            DEBUG_T( {
-                PerlIO_printf(Perl_debug_log,
-                    "### '-%c' looked like a file test but was not\n",
-                    (int) tmp);
-            } );
+            DEBUG_T_OUTPUT ("'-%c' looked like a file test but was not\n", (int) tmp);
             s = --PL_bufptr;
         }
     }
@@ -9752,9 +9744,7 @@ yyl_try(pTHX_ char *s)
                          ? "Format not terminated"
                          : "Missing right curly or square bracket"));
             }
-            DEBUG_T({
-                PerlIO_printf(Perl_debug_log, "### Tokener got EOF\n");
-            });
+            DEBUG_T_OUTPUT ("Tokener got EOF\n");
             TOKEN(0);
         }
         if (s++ < PL_bufend)
@@ -10319,10 +10309,8 @@ Perl_yylex(pTHX)
     case LEX_INTERPSTART:
         if (PL_bufptr == PL_bufend)
             return REPORT(sublex_done());
-        DEBUG_T({
-            if(*PL_bufptr != '(')
-                PerlIO_printf(Perl_debug_log, "### Interpolated variable\n");
-        });
+        if(*PL_bufptr != '(')
+            DEBUG_T_OUTPUT ("Interpolated variable\n");
         PL_expect = XTERM;
         /* for /@a/, we leave the joining for the regex engine to do
          * (unless we're within \Q etc) */
@@ -10553,8 +10541,7 @@ S_pending_ident(pTHX)
     /* All routes through this function want to know if there is a colon.  */
     const char *const has_colon = (const char*) memchr (PL_tokenbuf, ':', tokenbuf_len);
 
-    DEBUG_T({ PerlIO_printf(Perl_debug_log,
-          "### Pending identifier '%s'\n", PL_tokenbuf); });
+    DEBUG_T_OUTPUT ("Pending identifier '%s'\n", PL_tokenbuf);
     assert(tokenbuf_len >= 2);
 
     /* if we're in a my(), we can't allow dynamics here.
