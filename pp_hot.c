@@ -31,6 +31,8 @@
  * performance.
  */
 
+#define DEBUG_MODULE "pp_hot"
+
 #include "EXTERN.h"
 #define PERL_IN_PP_HOT_C
 #include "perl.h"
@@ -1833,7 +1835,7 @@ PP(pp_defined)
     }
 
     if (is_dor) {
-        if(defined) 
+        if(defined)
             return NORMAL;
         if(op_type == OP_DOR)
             rpp_popfree_1_NN();
@@ -1978,7 +1980,7 @@ PP(pp_add)
             UV result;
             UV buv;
             bool buvok = SvIsUV(svr); /* svr is always IOK here */
-        
+
             if (buvok)
                 buv = SvUVX(svr);
             else {
@@ -2346,6 +2348,8 @@ PP(pp_padav)
     dTARGET;
     U8 gimme;
 
+    DEBUG_T_OUTPUT ("SvTYPE: %d\n", SvTYPE (TARG));
+
     assert(SvTYPE(TARG) == SVt_PVAV);
     if (UNLIKELY( PL_op->op_private & OPpLVAL_INTRO ))
         if (LIKELY( !(PL_op->op_private & OPpPAD_STATE) ))
@@ -2456,7 +2460,7 @@ PP(pp_rv2av)
     }
     else if (UNLIKELY(SvTYPE(sv) != type)) {
             GV *gv;
-        
+
             if (!isGV_with_GP(sv)) {
                 gv = Perl_softref2xv(aTHX_ sv, is_pp_rv2av ? an_array : a_hash,
                                      type);
@@ -3196,7 +3200,7 @@ PP(pp_aassign)
                 /* we have firstlelem to reuse, it's not needed any more */
 #ifdef PERL_RC_STACK
                 if (lelem == lastrelem + 1) {
-                    /* the lelem slot we want to use is the 
+                    /* the lelem slot we want to use is the
                      * one keeping hash alive. Mortalise the hash
                      * so it doesn't leak */
                     assert(lastrelem[1] == (SV*)hash);
@@ -4360,7 +4364,7 @@ Perl_do_readline(pTHX)
             *PL_stack_sp++ = NULL;
             rpp_replace_at(PL_stack_sp - 1, sv);
         }
-        else 
+        else
             rpp_push_1(sv);
 
         if (type == OP_GLOB) {
@@ -5328,7 +5332,7 @@ There are three possible sources of taint
     * the source string
     * the pattern (both compile- and run-time, RXf_TAINTED / RXf_TAINTED_SEEN)
     * the replacement string (or expression under /e)
-    
+
 There are four destinations of taint and they are affected by the sources
 according to the rules below:
 
@@ -5537,7 +5541,7 @@ PP(pp_subst)
         c = NULL;
         doutf8 = FALSE;
     }
-    
+
     if (c
 #ifdef PERL_ANY_COW
         && !was_cow

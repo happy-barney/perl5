@@ -9938,6 +9938,21 @@ END_EXTERN_C
 #  include "embed.h"
 #  undef PERL_DO_UNDEFS
 
+#define DEBUG_OUTPUT(Flag, ...)                                         \
+    DEBUG_OUTPUT_TRANS (DEBUG_ ## Flag, # Flag, __VA_ARGS__)
+
+#define DEBUG_OUTPUT_TRANS(Macro, Str_Flag, ...)                        \
+    DEBUG_OUTPUT_IMPL (Macro, Str_Flag, __VA_ARGS__)
+
+#define DEBUG_OUTPUT_IMPL(Macro, Str_Flag, ...)                         \
+    Macro ({                                                            \
+        PerlIO_printf (Perl_debug_log, "[" Str_Flag ": %8s:%5d] ", DEBUG_MODULE, __LINE__); \
+        PerlIO_printf (Perl_debug_log, __VA_ARGS__);                    \
+    })
+
+#define DEBUG_T_OUTPUT(...) DEBUG_OUTPUT (T, __VA_ARGS__)
+#define DEBUG_p_OUTPUT(...) DEBUG_OUTPUT (p, __VA_ARGS__)
+
 #endif /* Include guard */
 
 /*

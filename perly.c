@@ -5,7 +5,7 @@
  *
  *    You may distribute under the terms of either the GNU General Public
  *    License or the Artistic License, as specified in the README file.
- * 
+ *
  *    Note that this file was originally generated as an output from
  *    GNU bison version 1.875, but now the code is statically maintained
  *    and edited; the bits that are dependent on perly.y are now
@@ -20,6 +20,8 @@
  *	Software Foundation in version 1.24 of Bison.
  *
  */
+
+#define DEBUG_MODULE "perly"
 
 #include "EXTERN.h"
 #define PERL_IN_PERLY_C
@@ -99,9 +101,9 @@ do {						\
 #  define YYDSYMPRINTF(Title, Token, Value)			\
 do {								\
     if (yydebug) {						\
-        YYFPRINTF (Perl_debug_log, "%s ", Title);		\
+        DEBUG_p_OUTPUT ("%s ", Title);                          \
         yysymprint (aTHX_ Perl_debug_log,  Token, Value);	\
-        YYFPRINTF (Perl_debug_log, "\n");			\
+        DEBUG_p_OUTPUT ("\n");                                  \
     }								\
 } while (0)
 
@@ -211,7 +213,7 @@ yy_reduce_print (pTHX_ int yyrule)
 {
     int yyi;
     const unsigned int yylineno = yyrline[yyrule];
-    YYFPRINTF (Perl_debug_log, "Reducing stack by rule %d (line %u), ",
+    DEBUG_p_OUTPUT ("Reducing stack by rule %d (line %u), ",
                           yyrule - 1, yylineno);
     /* Print the symbols being reduced, and their result.  */
 #if PERL_BISON_VERSION >= 30000 /* 3.0+ */
@@ -253,7 +255,7 @@ S_clear_yystack(pTHX_ void *arg)
     if (!parser->stack)
         return;
 
-    YYDPRINTF ((Perl_debug_log, "clearing the parse stack\n"));
+    DEBUG_p_OUTPUT ("clearing the parse stack\n");
 
     for (i=0; i< parser->yylen; i++) {
         SvREFCNT_dec(ps[-i].compcv);
@@ -342,7 +344,7 @@ Perl_yyparse (pTHX_ int gramtype)
 
             yystate = ps->state;
 
-            YYDPRINTF ((Perl_debug_log, "Entering state %d\n", yystate));
+            DEBUG_p_OUTPUT ("Entering state %d\n", yystate);
 
             parser->yylen = 0;
 
@@ -380,11 +382,11 @@ Perl_yyparse (pTHX_ int gramtype)
              * lookahead symbol. */
 
             if (parser->yychar == YYEMPTY) {
-                YYDPRINTF ((Perl_debug_log, "Reading a token:\n"));
+                DEBUG_p_OUTPUT ("Reading a token:\n");
                 parser->yychar = yylex();
                 assert(parser->yychar >= 0);
                 if (parser->yychar == YYEOF) {
-                    YYDPRINTF ((Perl_debug_log, "Now at end of input.\n"));
+                    DEBUG_p_OUTPUT ("Now at end of input.\n");
                 }
                 /* perly.tab is shipped based on an ASCII system, so need
                  * to index it with characters translated to ASCII.
@@ -430,7 +432,7 @@ Perl_yyparse (pTHX_ int gramtype)
                 YYACCEPT;
 
             /* Shift the lookahead token.  */
-            YYDPRINTF ((Perl_debug_log, "Shifting token %s, ", yytname[yytoken]));
+            DEBUG_p_OUTPUT ("Shifting token %s, ", yytname[yytoken]);
 
             /* Discard the token being shifted unless it is eof.  */
             if (parser->yychar != YYEOF)

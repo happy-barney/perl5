@@ -35,6 +35,8 @@ Individual members of C<PL_parser> have their own documentation.
 =cut
 */
 
+#define DEBUG_MODULE "toke"
+
 #include "EXTERN.h"
 #define PERL_IN_TOKE_C
 #include "perl.h"
@@ -619,7 +621,7 @@ S_tokereport(pTHX_ I32 rv, const YYSTYPE* lvalp)
                 sv_catpvs(report, "(opval=null)");
             break;
         }
-        DEBUG_T_OUTPUT ("%s\n\n", SvPV_nolen_const(report));
+        DEBUG_T_OUTPUT ("%s\n", SvPV_nolen_const(report));
     };
     return (int)rv;
 }
@@ -2212,7 +2214,7 @@ S_force_next(pTHX_ I32 type)
 
 #ifdef DEBUGGING
     if (DEBUG_T_TEST) {
-        PerlIO_printf(Perl_debug_log, "### forced token:\n");
+        DEBUG_T_OUTPUT ("forced token:\n");
         tokereport(type, &NEXTVAL_NEXTTOKE);
     }
 #endif
@@ -6483,7 +6485,7 @@ yyl_hyphen(pTHX_ char *s)
 
         if (memBEGINs(s, (STRLEN) (PL_bufend - s), "=>")) {
             s = force_word(PL_bufptr, BAREWORD, 0);
-            DEBUG_T( { printbuf("### Saw unary minus before =>, forcing word %s\n", s); } );
+            DEBUG_T( { printbuf("Saw unary minus before =>, forcing word %s\n", s); } );
             OPERATOR(PERLY_MINUS);              /* unary minus */
         }
         switch (tmp) {
@@ -7523,7 +7525,7 @@ yyl_sglquote(pTHX_ char *s)
 {
     s = S_scan_terminated(aTHX_ s, OP_CONST);
     COPLINE_SET_FROM_MULTI_END;
-    DEBUG_T( { printbuf("### Saw string before %s\n", s); } );
+    DEBUG_T( { printbuf("Saw string before %s\n", s); } );
     S_warn_expect_operator(aTHX_ "String", s, FALSE);
     TERM(sublex_start());
 }
@@ -7535,7 +7537,7 @@ yyl_dblquote(pTHX_ char *s)
     STRLEN len;
 
     s = S_scan_terminated(aTHX_ s, OP_CONST);
-    DEBUG_T( { printbuf("### Saw string before %s\n", s); } );
+    DEBUG_T( { printbuf("Saw string before %s\n", s); } );
     S_warn_expect_operator(aTHX_ "String", s, FALSE);
     /* FIXME. I think that this can be const if char *d is replaced by
        more localised variables.  */
@@ -7554,7 +7556,7 @@ static int
 yyl_backtick(pTHX_ char *s)
 {
     s = S_scan_terminated(aTHX_ s, OP_BACKTICK);
-    DEBUG_T( { printbuf("### Saw backtick string before %s\n", s); } );
+    DEBUG_T( { printbuf("Saw backtick string before %s\n", s); } );
     S_warn_expect_operator(aTHX_ "Backticks", s, FALSE);
     TERM(sublex_start());
 }
@@ -10151,7 +10153,7 @@ yyl_try(pTHX_ char *s)
     case '0': case '1': case '2': case '3': case '4':
     case '5': case '6': case '7': case '8': case '9':
         s = scan_num(s, &pl_yylval);
-        DEBUG_T( { printbuf("### Saw number in %s\n", s); } );
+        DEBUG_T( { printbuf("Saw number in %s\n", s); } );
         S_warn_expect_operator(aTHX_ "Number", s, FALSE);
         TERM(THING);
 
@@ -10324,7 +10326,7 @@ Perl_yylex(pTHX)
     }
     DEBUG_T( {
         SV* tmp = newSVpvs("");
-        PerlIO_printf(Perl_debug_log, "### %" LINE_Tf ":LEX_%s/X%s %s\n",
+        DEBUG_T_OUTPUT ("%" LINE_Tf ":LEX_%s/X%s %s\n",
             CopLINE(PL_curcop),
             lex_state_names[PL_lex_state],
             exp_name[PL_expect],
@@ -10374,8 +10376,10 @@ Perl_yylex(pTHX)
     case LEX_INTERPSTART:
         if (PL_bufptr == PL_bufend)
             return REPORT(sublex_done());
-        if(*PL_bufptr != '(')
-            DEBUG_T_OUTPUT ("Interpolated variable\n");
+        DEBUG_T({
+            if(*PL_bufptr != '(')
+                DEBUG_T_OUTPUT ("Interpolated variable\n");
+        });
         PL_expect = XTERM;
         /* for /@a/, we leave the joining for the regex engine to do
          * (unless we're within \Q etc) */
