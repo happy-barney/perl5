@@ -51,4 +51,33 @@
 
 #endif /* DEBUGGING */
 
+#   define WITH_DEBUG(Flag)                                             \
+	    WITH_DEBUG_TRANS_1(Flag, __COUNTER__, __LINE__)
+
+#   define WITH_DEBUG_TRANS_1(Flag, Counter, Line)                      \
+        WITH_DEBUG_TRANS_2 (                                            \
+            DEBUG_ ## Flag ## _Test,                                    \
+            WITH_DEBUG_ ## Line ## _ ## Counter                         \
+        )
+
+#   define WITH_DEBUG_TRANS_2(Macro, Prefix)                            \
+	    WITH_DEBUG_IMPL (Macro, Prefix)
+
+#   define WITH_DEBUG_IMPL(Macro, Prefix)                               \
+        if (1)                                                          \
+            if (Macro) goto Prefix ## _Body;                            \
+        } else Prefix ## _Body: if (0) { } else
+
+#else /* ! defined DEBUGGING */
+
+#   define DEBUG_OUTPUT(...)
+#   define WITH_DEBUG(...) if (0)
+
+#endif /* DEBUGGING */
+
+#define DEBUG_T_OUTPUT(...) DEBUG_OUTPUT (T, __VA_ARGS__)
+#define DEBUG_p_OUTPUT(...) DEBUG_OUTPUT (p, __VA_ARGS__)
+
+#define WITH_DEBUG_T        WITH_DEBUG (T)
+
 #endif /* H_PERL_DEBUGGING */
