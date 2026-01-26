@@ -9878,6 +9878,8 @@ END_EXTERN_C
   Perl_api_version_assert(sizeof(PerlInterpreter), NULL, PERL_API_VERSION_STRING)
 #endif
 
+#include "perl-parser.h"
+
 /*
 
    (KEEP THIS LAST IN perl.h!)
