@@ -6084,6 +6084,8 @@ regen/scope_types.pl			Regenerate scope_types.h
 regen/tidy_embed.pl			Program to clean up embed.fnc manually
 regen/unicode_constants.pl		generate unicode_constants.h
 regen/warnings.pl			Program to write warnings.h and lib/warnings.pm
+src/perl-parser/next-token.h		Macros wrapping work with next tokens using parser instance
+src/perl-parser/pl-next-token.h		Macros wrapping work with next tokens using context parser
 t/base/cond.t				See if conditionals work
 t/base/if.t				See if if works
 t/base/lex.t				See if lexical items work
