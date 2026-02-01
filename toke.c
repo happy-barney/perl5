@@ -925,7 +925,7 @@ Perl_lex_start(pTHX_ SV *line, PerlIO *rsfp, U32 flags)
 
     /* initialise lexer state */
 
-    parser->nexttoke = 0;
+    PERL_PARSER_NEXT_TOKEN_INIT (parser);
     parser->error_count = oparser ? oparser->error_count : 0;
     parser->copline = parser->preambling = NOLINE;
     parser->lex_state = LEX_NORMAL;
