@@ -26,4 +26,7 @@
 #define PL_NEXT_TOKEN_EXISTS                                            \
     PERL_PARSER_NEXT_TOKEN_EXISTS (PL_parser)
 
+#define PL_NEXT_TOKEN_LENGTH                                            \
+    PERL_PARSER_NEXT_TOKEN_LENGTH (PL_parser)
+
 #endif

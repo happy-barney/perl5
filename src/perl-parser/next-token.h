@@ -34,4 +34,7 @@
         (Parser)->nexttoke = 0;                                         \
     } STMT_END
 
+#define PERL_PARSER_NEXT_TOKEN_LENGTH(Parser)                           \
+    ( (Parser)->nexttoke )
+
 #endif

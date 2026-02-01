@@ -2216,7 +2216,7 @@ S_force_next(pTHX_ I32 type)
         tokereport(type, &NEXTVAL_NEXTTOKE);
     }
 #endif
-    assert(PL_nexttoke < C_ARRAY_LENGTH(PL_nexttype));
+    assert(PL_NEXT_TOKEN_LENGTH < C_ARRAY_LENGTH(PL_nexttype));
     PL_nexttype[PL_nexttoke] = type;
     PL_nexttoke++;
 }
