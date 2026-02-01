@@ -37,4 +37,7 @@
 #define PERL_PARSER_NEXT_TOKEN_LENGTH(Parser)                           \
     ( (Parser)->nexttoke )
 
+#define PERL_PARSER_NEXT_TOKEN_SIZE(Parser)                             \
+    ( C_ARRAY_LENGTH ( (Parser)->nexttype ) )
+
 #endif

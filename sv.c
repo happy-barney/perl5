@@ -15382,8 +15382,8 @@ Perl_parser_dup(pTHX_ const yy_parser *const proto, CLONE_PARAMS *const param)
     Copy(proto->tokenbuf, parser->tokenbuf, 256, char);
 
 
-    Copy(proto->nextval, parser->nextval, 5, YYSTYPE);
-    Copy(proto->nexttype, parser->nexttype, 5,	I32);
+    Copy(proto->nextval, parser->nextval, PL_NEXT_TOKEN_SIZE, YYSTYPE);
+    Copy(proto->nexttype, parser->nexttype, PL_NEXT_TOKEN_SIZE,	I32);
     parser->nexttoke	= proto->nexttoke;
 
     /* XXX should clone saved_curcop here, but we aren't passed
