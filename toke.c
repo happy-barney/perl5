@@ -256,7 +256,7 @@ static const char* const lex_state_names[] = {
 #define POSTDEREF(f) return (PL_bufptr = s, S_postderef(aTHX_ REPORT(f),s[1]))
 #define LOOPX(f) return (PL_bufptr = force_word(s, BAREWORD, CHECK_KEYWORD), \
                          pl_yylval.ival=f, \
-                         PL_expect = PL_nexttoke ? XOPERATOR : XTERM, \
+                         PL_expect = PL_NEXT_TOKEN_EXISTS ? XOPERATOR : XTERM, \
                          REPORT((int)LOOPEX))
 #define FTST(f)  return (pl_yylval.ival=f, PL_expect=XTERMORDORDOR, PL_bufptr=s, REPORT((int)UNIOP))
 #define FUN0(f)  return (pl_yylval.ival=f, PL_expect=XOPERATOR, PL_bufptr=s, REPORT((int)FUNC0))
@@ -2180,7 +2180,7 @@ S_lop(pTHX_ enum yytokentype t, I32 f, U8 x, char *s)
     PL_bufptr = s;
     PL_last_lop = PL_oldbufptr;
     PL_last_lop_op = (OPCODE)f;
-    if (PL_nexttoke)
+    if (PL_NEXT_TOKEN_EXISTS)
         goto lstop;
     PL_expect = x;
     if (*s == '(')
@@ -7636,7 +7636,7 @@ yyl_require(pTHX_ char *s, I32 orig_keyword)
     else
         pl_yylval.ival = 0;
 
-    PL_expect = PL_nexttoke ? XOPERATOR : XTERM;
+    PL_expect = PL_NEXT_TOKEN_EXISTS ? XOPERATOR : XTERM;
     PL_bufptr = s;
     PL_last_uni = PL_oldbufptr;
     PL_last_lop_op = OP_REQUIRE;
@@ -9578,12 +9578,12 @@ yyl_keylookup(pTHX_ char *s, GV *gv)
         } else if (result == KEYWORD_PLUGIN_STMT) {
             pl_yylval.opval = o;
             CLINE;
-            if (!PL_nexttoke) PL_expect = XSTATE;
+            if (! PL_NEXT_TOKEN_EXISTS) PL_expect = XSTATE;
             return REPORT(PLUGSTMT);
         } else if (result == KEYWORD_PLUGIN_EXPR) {
             pl_yylval.opval = o;
             CLINE;
-            if (!PL_nexttoke) PL_expect = XOPERATOR;
+            if (! PL_NEXT_TOKEN_EXISTS) PL_expect = XOPERATOR;
             return REPORT(PLUGEXPR);
         } else {
             croak("Bad plugin affecting keyword '%s'", PL_tokenbuf);
@@ -10278,7 +10278,7 @@ Perl_yylex(pTHX)
     } );
 
     /* when we've already built the next token, just pull it out of the queue */
-    if (PL_nexttoke) {
+    if (PL_NEXT_TOKEN_EXISTS) {
         PL_nexttoke--;
         pl_yylval = PL_nextval[PL_nexttoke];
         {
@@ -14748,7 +14748,7 @@ Perl_parse_label(pTHX_ U32 flags)
 
     if (flags & ~PARSE_OPTIONAL)
         croak("Parsing code internal error (%s)", "parse_label");
-    if (PL_nexttoke) {
+    if (PL_NEXT_TOKEN_EXISTS) {
         PL_parser->yychar = yylex();
         if (PL_parser->yychar == LABEL) {
             SV * const labelsv = cSVOPx(pl_yylval.opval)->op_sv;

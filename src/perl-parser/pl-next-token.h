@@ -23,4 +23,7 @@
 #ifndef H_PERL_PARSER_PL_NEXT_TOKEN
 #define H_PERL_PARSER_PL_NEXT_TOKEN
 
+#define PL_NEXT_TOKEN_EXISTS                                            \
+    PERL_PARSER_NEXT_TOKEN_EXISTS (PL_parser)
+
 #endif

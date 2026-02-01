@@ -26,6 +26,9 @@
 #ifndef H_PERL_PARSER_NEXT_TOKEN
 #define H_PERL_PARSER_NEXT_TOKEN
 
+#define PERL_PARSER_NEXT_TOKEN_EXISTS(Parser)                           \
+    ( (Parser)->nexttoke )
+
 #define PERL_PARSER_NEXT_TOKEN_INIT(Parser)                             \
     STMT_START {                                                        \
         (Parser)->nexttoke = 0;                                         \
