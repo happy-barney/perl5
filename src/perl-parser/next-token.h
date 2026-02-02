@@ -40,4 +40,19 @@
 #define PERL_PARSER_NEXT_TOKEN_SIZE(Parser)                             \
     ( C_ARRAY_LENGTH ( (Parser)->nexttype ) )
 
+#define PERL_PARSER_NEXT_TOKEN_TAIL(Parser)                             \
+    ( (Parser)->nexttoke - 1)
+
+#define PERL_PARSER_NEXT_TOKEN_TAIL_ADVANCE(Parser)                     \
+    STMT_START {                                                        \
+        assert (PERL_PARSER_NEXT_TOKEN_LENGTH (Parser) < PERL_PARSER_NEXT_TOKEN_SIZE (Parser)); \
+        ++(Parser)->nexttoke;                                           \
+    } STMT_END
+
+#define PERL_PARSER_NEXT_TOKEN_TAIL_TOKEN(Parser)                       \
+    ( (Parser)->nexttype[ PERL_PARSER_NEXT_TOKEN_TAIL (Parser) ] )
+
+#define PERL_PARSER_NEXT_TOKEN_TAIL_VALUE(Parser)                       \
+    ( (Parser)->nextval[ PERL_PARSER_NEXT_TOKEN_TAIL (Parser) ] )
+
 #endif

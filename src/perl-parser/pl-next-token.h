@@ -32,4 +32,16 @@
 #define PL_NEXT_TOKEN_SIZE                                              \
     PERL_PARSER_NEXT_TOKEN_SIZE (PL_parser)
 
+#define PL_NEXT_TOKEN_TAIL                                              \
+    PERL_PARSER_NEXT_TOKEN_TAIL (PL_parser)
+
+#define PL_NEXT_TOKEN_TAIL_ADVANCE                                      \
+    PERL_PARSER_NEXT_TOKEN_TAIL_ADVANCE (PL_parser)
+
+#define PL_NEXT_TOKEN_TAIL_TOKEN                                        \
+    PERL_PARSER_NEXT_TOKEN_TAIL_TOKEN (PL_parser)
+
+#define PL_NEXT_TOKEN_TAIL_VALUE                                        \
+    PERL_PARSER_NEXT_TOKEN_TAIL_VALUE (PL_parser)
+
 #endif
