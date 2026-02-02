@@ -6131,7 +6131,7 @@ Perl_newOP(pTHX_ I32 type, I32 flags)
     o->op_flags = (U8)flags;
 
     o->op_next = o;
-    o->op_private = (U8)(0 | (flags >> 8));
+    o->op_private = (U8)(0 | OP_DECODE_PRIVATE_FLAGS (flags));
     if (PL_opargs[type] & OA_RETSCALAR)
         scalar(o);
     if (PL_opargs[type] & OA_TARGET)
@@ -6184,7 +6184,7 @@ Perl_newUNOP(pTHX_ I32 type, I32 flags, OP *first)
     OpTYPE_set(unop, type);
     unop->op_first = first;
     unop->op_flags = (U8)(flags | OPf_KIDS);
-    unop->op_private = (U8)(1 | (flags >> 8));
+    unop->op_private = (U8)(1 | OP_DECODE_PRIVATE_FLAGS (flags));
 
     if (!OpHAS_SIBLING(first)) /* true unless weird syntax error */
         OpLASTSIB_set(first, (OP*)unop);
@@ -6220,7 +6220,7 @@ Perl_newUNOP_AUX(pTHX_ I32 type, I32 flags, OP *first, UNOP_AUX_item *aux)
     unop->op_ppaddr = PL_ppaddr[type];
     unop->op_first = first;
     unop->op_flags = (U8)(flags | (first ? OPf_KIDS : 0));
-    unop->op_private = (U8)((first ? 1 : 0) | (flags >> 8));
+    unop->op_private = (U8)((first ? 1 : 0) | OP_DECODE_PRIVATE_FLAGS (flags));
     unop->op_aux = aux;
 
     if (first && !OpHAS_SIBLING(first)) /* true unless weird syntax error */
@@ -6261,7 +6261,7 @@ S_newMETHOP_internal(pTHX_ I32 type, I32 flags, OP* dynamic_meth, SV* const_meth
         if (PL_opargs[type] & OA_MARK) dynamic_meth = op_force_list(dynamic_meth);
         methop->op_flags = (U8)(flags | OPf_KIDS);
         methop->op_u.op_first = dynamic_meth;
-        methop->op_private = (U8)(1 | (flags >> 8));
+        methop->op_private = (U8)(1 | OP_DECODE_PRIVATE_FLAGS (flags));
 
         if (!OpHAS_SIBLING(dynamic_meth))
             OpLASTSIB_set(dynamic_meth, (OP*)methop);
@@ -6270,7 +6270,7 @@ S_newMETHOP_internal(pTHX_ I32 type, I32 flags, OP* dynamic_meth, SV* const_meth
         assert(const_meth);
         methop->op_flags = (U8)(flags & ~OPf_KIDS);
         methop->op_u.op_meth_sv = const_meth;
-        methop->op_private = (U8)(0 | (flags >> 8));
+        methop->op_private = (U8)(0 | OP_DECODE_PRIVATE_FLAGS (flags));
         methop->op_next = (OP*)methop;
     }
 
@@ -6432,10 +6432,10 @@ Perl_newBINOP(pTHX_ I32 type, I32 flags, OP *first, OP *last)
     binop->op_flags = (U8)(flags | OPf_KIDS);
     if (!last) {
         last = first;
-        binop->op_private = (U8)(1 | (flags >> 8));
+        binop->op_private = (U8)(1 | OP_DECODE_PRIVATE_FLAGS (flags));
     }
     else {
-        binop->op_private = (U8)(2 | (flags >> 8));
+        binop->op_private = (U8)(2 | OP_DECODE_PRIVATE_FLAGS (flags));
         OpMORESIB_set(first, last);
     }
 
@@ -7972,7 +7972,7 @@ Perl_newPMOP(pTHX_ I32 type, I32 flags)
     NewOp(1101, pmop, 1, PMOP);
     OpTYPE_set(pmop, type);
     pmop->op_flags = (U8)flags;
-    pmop->op_private = (U8)(0 | (flags >> 8));
+    pmop->op_private = (U8)(0 | OP_DECODE_PRIVATE_FLAGS (flags));
     if (PL_opargs[type] & OA_RETSCALAR)
         scalar((OP *)pmop);
 
@@ -8467,7 +8467,7 @@ Perl_newSVOP(pTHX_ I32 type, I32 flags, SV *sv)
     svop->op_sv = sv;
     svop->op_next = (OP*)svop;
     svop->op_flags = (U8)flags;
-    svop->op_private = (U8)(0 | (flags >> 8));
+    svop->op_private = (U8)(0 | OP_DECODE_PRIVATE_FLAGS (flags));
     if (PL_opargs[type] & OA_RETSCALAR)
         scalar((OP*)svop);
     if (PL_opargs[type] & OA_TARGET)
@@ -9233,7 +9233,7 @@ Perl_newARGDEFELEMOP(pTHX_ I32 flags, OP *expr, I32 argindex)
 
     OP *o = (OP *)alloc_LOGOP(OP_ARGDEFELEM, expr, LINKLIST(expr));
     o->op_flags |= (U8)(flags);
-    o->op_private = 1 | (U8)(flags >> 8);
+    o->op_private = 1 | (U8)OP_DECODE_PRIVATE_FLAGS (flags);
 
     /* re-purpose op_targ to hold @_ index */
     o->op_targ = (PADOFFSET)(argindex);
@@ -9352,7 +9352,7 @@ Perl_newASSIGNOP(pTHX_ I32 flags, OP *left, I32 optype, OP *right)
         left = op_lvalue(left, OP_AASSIGN);
         curop = list(op_force_list(left));
         o = newBINOP(OP_AASSIGN, flags, list(op_force_list(right)), curop);
-        o->op_private = (U8)(0 | (flags >> 8));
+        o->op_private = (U8)(0 | OP_DECODE_PRIVATE_FLAGS (flags));
 
         if (OP_TYPE_IS_OR_WAS(left, OP_LIST))
         {
@@ -9934,7 +9934,7 @@ S_new_logop(pTHX_ I32 type, I32 flags, OP** firstp, OP** otherp)
 
     logop = alloc_LOGOP(type, first, LINKLIST(other));
     logop->op_flags |= (U8)flags;
-    logop->op_private = (U8)(1 | (flags >> 8));
+    logop->op_private = (U8)(1 | OP_DECODE_PRIVATE_FLAGS (flags));
 
     /* establish postfix order */
     logop->op_next = LINKLIST(first);
@@ -10011,7 +10011,7 @@ Perl_newCONDOP(pTHX_ I32 flags, OP *first, OP *trueop, OP *falseop)
     }
     logop = alloc_LOGOP(OP_COND_EXPR, first, LINKLIST(trueop));
     logop->op_flags |= (U8)flags;
-    logop->op_private = (U8)(1 | (flags >> 8));
+    logop->op_private = (U8)(1 | OP_DECODE_PRIVATE_FLAGS (flags));
     logop->op_next = LINKLIST(falseop);
 
     CHECKOP(OP_COND_EXPR, /* that's logop->op_type */
@@ -10119,7 +10119,7 @@ Perl_newRANGE(pTHX_ I32 flags, OP *left, OP *right)
     range = alloc_LOGOP(OP_RANGE, left, LINKLIST(right));
     range->op_flags = OPf_KIDS;
     leftstart = LINKLIST(left);
-    range->op_private = (U8)(1 | (flags >> 8));
+    range->op_private = (U8)(1 | OP_DECODE_PRIVATE_FLAGS (flags));
 
     /* make left and right siblings */
     op_sibling_splice((OP*)range, left, 0, right);
@@ -10382,7 +10382,7 @@ Perl_newWHILEOP(pTHX_ I32 flags, I32 debuggable, LOOP *loop,
         loop->op_nextop = o;
 
     o->op_flags |= flags;
-    o->op_private |= (flags >> 8);
+    o->op_private |= OP_DECODE_PRIVATE_FLAGS (flags);
     return o;
 }
 
@@ -11111,7 +11111,7 @@ Perl_newDEFEROP(pTHX_ I32 flags, OP *block)
 
     o = (OP *)alloc_LOGOP(OP_PUSHDEFER, block, start);
     o->op_flags |= OPf_WANT_VOID | (U8)(flags);
-    o->op_private = (U8)(flags >> 8);
+    o->op_private = (U8)OP_DECODE_PRIVATE_FLAGS (flags);
 
     /* Terminate the block */
     blockfirst = cUNOPx(block)->op_first;
