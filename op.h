@@ -86,6 +86,7 @@ typedef PERL_BITFIELD16 Optype;
 #define OP_GIMME_REVERSE(flags)	((flags) & G_WANT)
 
 #define OP_DECODE_PRIVATE_FLAGS(Flags) ( (U8) ((Flags) >> 8) )
+#define OP_ENCODE_PRIVATE_FLAGS(Flags) ( ((Flags) << 8) & 0xff00 )
 
 /*
 =for apidoc_section $callback

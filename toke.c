@@ -2347,10 +2347,11 @@ S_force_word(pTHX_ char *start, int token, U32 flags)
                 PL_expect = XOPERATOR;
             }
         }
-        NEXTVAL_NEXTTOKE.opval
-            = newSVOP(OP_CONST,0,
-                           S_newSV_maybe_utf8(aTHX_ PL_tokenbuf, len));
-        NEXTVAL_NEXTTOKE.opval->op_private |= OPpCONST_BARE;
+        NEXTVAL_NEXTTOKE.opval = newSVOP (
+            OP_CONST,
+            OP_ENCODE_PRIVATE_FLAGS (OPpCONST_BARE),
+            S_newSV_maybe_utf8 (aTHX_ PL_tokenbuf, len)
+        );
         force_next(token);
     }
     return s;
@@ -6119,9 +6120,11 @@ yyl_sub(pTHX_ char *s, const int key)
 
     if (key == KEY_format) {
         if (format_name) {
-            NEXTVAL_NEXTTOKE.opval
-                = newSVOP(OP_CONST,0, format_name);
-            NEXTVAL_NEXTTOKE.opval->op_private |= OPpCONST_BARE;
+            NEXTVAL_NEXTTOKE.opval = newSVOP (
+                OP_CONST,
+                OP_ENCODE_PRIVATE_FLAGS (OPpCONST_BARE),
+                format_name
+            );
             force_next(BAREWORD);
         }
         PREBLOCK(KW_FORMAT);
