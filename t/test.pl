@@ -116,6 +116,10 @@ sub assume {
 	# fresh_perl => args
 	# - when specified, `fresh_perl` is used instead of plain eval
 	#
+    # todo => message
+    # - when this parameter is set, the test will be marked as a todo (expected to fail)
+    # - when a test marked as todo unexpectedly passes, the `assume` will fail
+    #
 
 	my $code = qq {
 		do {
@@ -131,6 +135,14 @@ sub assume {
 		? _assume_with_fresh_perl ($code, $args{fresh_perl})
 		: _assume_with_eval       ($code)
 		;
+
+    local $TODO = $TODO;
+    local $TODO_FAIL_ON_SUCCESS = $TODO_FAIL_ON_SUCCESS;
+
+    if ($args{todo}) {
+        $TODO = $args{todo};
+        $TODO_FAIL_ON_SUCCESS = 1;
+    }
 
 	if (exists $args{throws}) {
 		if ($lives) {
