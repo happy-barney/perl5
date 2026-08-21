@@ -75,6 +75,8 @@ sub assume {
 	# eval => code
 	# - code to evaluate
 	# - code is evaluated with known and initialized variable: `my $result = q ()`
+	# - code provides handy `result` function, which concatenates its arguments and appends
+	#	them to `$result, translating `undef` values to `[undef]` string in the process
 	#
 	# expect => string / regex
 	# - when specified it expects evaluated code to not fail and validates result
@@ -85,16 +87,19 @@ sub assume {
 	# - when specified it expects evaluated code to fail and validates failure ($@)
 	# - accepts string (acting as `is`) or regex (acting as `like`)
 
-	my $got;
-	my $lives = eval qq {
+	my $code = qq {
 		do {
 			use strict;
 			use warnings;
 			my \$result = q ();
-			\$got = do {\n$args{eval}; };
+			my sub result { \$result .= \$_ // q ([undef]) for \@_; \$result }
+			\$got = do { $args{eval}; };
 		};
 		1;
 	};
+
+	my $got;
+	my $lives = eval $code;
 	my $error = $@;
 
 	if (exists $args{throws}) {
