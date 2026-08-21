@@ -48,6 +48,32 @@ sub is;
 sub like;
 
 # Use this instead of print to avoid interference while testing globals.
+sub _assume_with_eval {
+	my ($code) = @_;
+
+	my $result = q ();
+	$result = $@
+		unless my $lives = eval $code
+		;
+
+	return ($lives, $result);
+}
+
+sub _assume_with_fresh_perl {
+	my ($code, $arguments) = @_;
+
+	my $fresh_perl_code = qq {
+		my \$result = q ();
+		$code;
+		print \$result;
+	};
+
+	my $response = fresh_perl ($fresh_perl_code, $arguments);
+	my $lives    = ($? == 0);
+
+	return ($lives, $response);
+}
+
 sub _print {
     local($\, $", $,) = (undef, ' ', '');
     print STDOUT @_;
@@ -86,21 +112,25 @@ sub assume {
 	# throws => string / regex
 	# - when specified it expects evaluated code to fail and validates failure ($@)
 	# - accepts string (acting as `is`) or regex (acting as `like`)
+	#
+	# fresh_perl => args
+	# - when specified, `fresh_perl` is used instead of plain eval
+	#
 
 	my $code = qq {
 		do {
 			use strict;
 			use warnings;
-			my \$result = q ();
 			my sub result { \$result .= \$_ // q ([undef]) for \@_; \$result }
-			\$got = do { $args{eval}; };
+			\$result = do { $args{eval}; };
 		};
 		1;
 	};
 
-	my $got;
-	my $lives = eval $code;
-	my $error = $@;
+	my ($lives, $result) = $args{fresh_perl}
+		? _assume_with_fresh_perl ($code, $args{fresh_perl})
+		: _assume_with_eval       ($code)
+		;
 
 	if (exists $args{throws}) {
 		if ($lives) {
@@ -113,8 +143,8 @@ sub assume {
 		}
 
 		return ref $args{throws}
-			? like $@, $args{throws}, $message
-			: is   $@, $args{throws}, $message
+			? like $result, $args{throws}, $message
+			: is   $result, $args{throws}, $message
 			;
 	}
 
@@ -131,8 +161,8 @@ sub assume {
 	}
 
 	return ref $args{expect}
-		? like $got, $args{expect}, $message
-		: is   $got, $args{expect}, $message
+		? like $result, $args{expect}, $message
+		: is   $result, $args{expect}, $message
 		;
 }
 
