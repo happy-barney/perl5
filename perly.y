@@ -149,6 +149,7 @@
 %type <opval> sigelem siglist optsiglist subsigguts subsignature optsubsignature
 %type <opval> subbody optsubbody sigsubbody optsigsubbody
 %type <opval> formstmtseq formline formarg
+%type <opval> anonymous_sub_declaration anonymous_sigsub_declaration
 
 %nonassoc <ival> PREC_LOW
 %nonassoc LOOPEX
@@ -1559,6 +1560,22 @@ termunop : PERLY_MINUS term %prec UMINUS                       /* -$x */
 
     ;
 
+anonymous_sub_declaration
+	:	startanonsub proto subattrlist subbody
+		{
+			SvREFCNT_inc_simple_void(PL_compcv);
+			$$ = newANONATTRSUB($startanonsub, $proto, $subattrlist, $subbody);
+		}
+	;
+
+anonymous_sigsub_declaration
+	:	startanonsub subattrlist sigsubbody
+		{
+			SvREFCNT_inc_simple_void(PL_compcv);
+			$$ = newANONATTRSUB($startanonsub, NULL, $subattrlist, $sigsubbody);
+		}
+	;
+
 /* Constructors for anonymous data */
 anonymous
 	:	PERLY_BRACKET_OPEN optexpr PERLY_BRACKET_CLOSE
@@ -1575,6 +1592,12 @@ anonymous
 			  $$ = newANONATTRSUB($startanonsub, NULL, $subattrlist, $sigsubbody); }
 	|	KW_SUB_anon_sig startanonsub subattrlist             %prec PERLY_PAREN_OPEN
 			{ yyerror("Illegal declaration of anonymous subroutine"); YYERROR; }
+			/* <<< from branch
+	|	KW_SUB_anon     anonymous_sub_declaration %prec PERLY_PAREN_OPEN
+			{ $$ = $[anonymous_sub_declaration]; }
+	|	KW_SUB_anon_sig anonymous_sigsub_declaration %prec PERLY_PAREN_OPEN
+			{ $$ = $[anonymous_sigsub_declaration] ; }
+			/* >>> from branch */
 	|	KW_METHOD_anon startanonmethod subattrlist sigsubbody %prec PERLY_PAREN_OPEN
 			{
 			  SvREFCNT_inc_simple_void(PL_compcv);
@@ -1603,6 +1626,34 @@ term[product]	:	termbinop
 			{ $$ = $myattrterm; }
 	|	KW_LOCAL term[operand]	%prec UNIOP
 			{ $$ = localize($operand,0); }
+	|	KW_LOCAL KW_SUB_named subname anonymous_sub_declaration
+		{
+			SvREFCNT_inc_simple_void(PL_compcv);
+
+			/* "rewrite" as
+			 * local *$subname = sub $anonymous_sub_declaration
+			 */
+			$$ = newASSIGNOP (
+				OPf_STACKED,
+				localize (newGVREF (0, scalar ($[subname])), 0),
+				0,
+				$[anonymous_sub_declaration]
+			);
+		}
+	|	KW_LOCAL KW_SUB_named_sig subname anonymous_sigsub_declaration
+		{
+			SvREFCNT_inc_simple_void(PL_compcv);
+
+			/* "rewrite" as
+			 * local *$subname = sub $anonymous_sigsub_declaration
+			 */
+			$$ = newASSIGNOP (
+				OPf_STACKED,
+				localize (newGVREF (0, scalar ($[subname])), 0),
+				0,
+				$[anonymous_sigsub_declaration]
+			);
+		}
 	|	PERLY_PAREN_OPEN expr PERLY_PAREN_CLOSE
 			{ $$ = sawparens($expr); }
 	|	QWLIST
